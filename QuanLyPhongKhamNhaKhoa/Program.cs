@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuanLyPhongKhamNhaKhoa.User_Control;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,11 +18,13 @@ namespace QuanLyPhongKhamNhaKhoa
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            Test test = new Test();
+            test.ShowDialog();
 
-            LoginForm loginForm = new LoginForm();
+            /*LoginForm loginForm = new LoginForm();
             loginForm.ShowDialog();
 
-            Application.Run(new MainForm());
+            Application.Run(new MainForm());*/
         }
     }
 }

@@ -277,11 +277,11 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
                     Password = row["password"].ToString(),
                     Image = picture
                 };
-                return user; // Trả về đối tượng User đã tạo
+                return user;
             }
             else
             {
-                return null; // Trả về null nếu không có dữ liệu trong DataTable
+                return null;
             }
         }
     }
