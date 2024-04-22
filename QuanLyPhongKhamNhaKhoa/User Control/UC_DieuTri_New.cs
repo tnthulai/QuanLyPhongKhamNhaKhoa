@@ -25,8 +25,19 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         {
             
             LoadListViewCustom();
-            customlvDichVu.ItemCheckedChanged += CustomListViewDichVu_ItemCheckedChanged;
+            customlvDichVu.ItemCheckedChanged += customlvDichVu_ItemCheckedChanged;
+            LoadLVDichVuDaChon();
 
+        }
+
+        private void LoadLVDichVuDaChon()
+        {
+            lvDichVuDaChon.Columns.Clear();
+            lvDichVuDaChon.Columns.Add("", 20, HorizontalAlignment.Left);
+            lvDichVuDaChon.Columns.Add("Tên Dịch Vụ", 140, HorizontalAlignment.Left);
+            lvDichVuDaChon.Columns.Add("Giá", 60, HorizontalAlignment.Left);
+            lvDichVuDaChon.Columns.Add("Đơn Vị", 50, HorizontalAlignment.Left);
+            lvDichVuDaChon.Columns.Add("Số Lượng", 80, HorizontalAlignment.Left);
         }
 
         private void LoadListViewCustom()
@@ -58,12 +69,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
             
             
         }
-        private void CustomListViewDichVu_ItemCheckedChanged(object sender, ItemCheckedEventArgs e)
-        {
-            ListViewItem item = e.Item;
-            // Thêm dữ liệu từ item vào lvDichVuDaChon
-            lvDichVuDaChon.Items.Add((ListViewItem)item.Clone());
-        }
+       
 
         private DataTable GetData(String query)
         {
@@ -73,7 +79,49 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
             adapter.Fill(table);
             return table;
         }
-      
+
+        private void customlvDichVu_ItemCheckedChanged(object sender, CustomItemCheckedEventArgs e)
+        {
+            ListViewItem item = e.Item;
+
+            bool isChecked = e.IsChecked;
+
+            if (!isChecked)
+            {
+                // Xóa mục tương ứng từ lvDichVuDaChon
+                foreach (ListViewItem existingItem in lvDichVuDaChon.Items)
+                {
+                    if (existingItem.SubItems[1].Text == item.SubItems[1].Text)
+                    {
+                        lvDichVuDaChon.Items.Remove(existingItem);
+                        break;
+                    }
+                }
+            }
+
+            if (isChecked)
+            {
+                bool alreadyExists = false;
+                foreach (ListViewItem existingItem in lvDichVuDaChon.Items)
+                {
+                    if (existingItem.SubItems[1].Text == item.SubItems[1].Text)
+                    {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+
+                if (!alreadyExists)
+                {
+                    lvDichVuDaChon.Items.Add((ListViewItem)item.Clone());
+
+                }
+            }
+            
+
+
+
+        }
     }
 }
 

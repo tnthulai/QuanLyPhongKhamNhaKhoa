@@ -58,9 +58,7 @@
     <Compile Include="AccountInfoForm.Designer.cs">
       <DependentUpon>AccountInfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomListViewDichVu.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="CustomListViewDichVu.cs" />
     <Compile Include="Dao\AppointmentDao.cs" />
     <Compile Include="Dao\BillDao.cs" />
     <Compile Include="Dao\MedicineDao.cs" />

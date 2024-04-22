@@ -8,10 +8,22 @@ using System.Windows.Forms;
 
 namespace QuanLyPhongKhamNhaKhoa
 {
+    public class CustomItemCheckedEventArgs : EventArgs
+    {
+        public ListViewItem Item { get; }
+        public bool IsChecked { get; }
+
+        public CustomItemCheckedEventArgs(ListViewItem item, bool isChecked)
+        {
+            Item = item;
+            IsChecked = isChecked;
+        }
+    }
     public class CustomListViewDichVu : ListView
     {
 
-        public event EventHandler<ItemCheckedEventArgs> ItemCheckedChanged;
+
+        public event EventHandler<CustomItemCheckedEventArgs> ItemCheckedChanged;
 
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -20,8 +32,14 @@ namespace QuanLyPhongKhamNhaKhoa
 
             if (checkBox.Checked && ItemCheckedChanged != null)
             {
-                ItemCheckedChanged.Invoke(this, new ItemCheckedEventArgs(item));
+                ItemCheckedChanged.Invoke(this, new CustomItemCheckedEventArgs(item, true));
             }
+            else if (!checkBox.Checked)
+            {
+                // If the checkbox is unchecked, send an event to remove the corresponding item from lvDichVuDaChon
+                ItemCheckedChanged?.Invoke(this, new CustomItemCheckedEventArgs(item, false));
+            }
+
         }
 
         public void AddControlsToItem(ListViewItem item)
