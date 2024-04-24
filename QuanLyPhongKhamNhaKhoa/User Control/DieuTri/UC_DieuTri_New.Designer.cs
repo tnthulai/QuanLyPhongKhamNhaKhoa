@@ -48,15 +48,17 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
-            this.lvDichVuDaChon = new QuanLyPhongKhamNhaKhoa.CustomListViewDichVu();
-            this.customlvDichVu = new QuanLyPhongKhamNhaKhoa.CustomListViewDichVu();
+            this.pnDichVuDaChon = new System.Windows.Forms.FlowLayoutPanel();
+            this.pnListDichVu = new System.Windows.Forms.FlowLayoutPanel();
             this.label18 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lblTotalCost = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.guna2ImageButton1 = new Guna.UI2.WinForms.Guna2ImageButton();
             this.guna2ImageButton2 = new Guna.UI2.WinForms.Guna2ImageButton();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.guna2Panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -241,42 +243,35 @@
             // 
             this.guna2Panel1.BorderColor = System.Drawing.Color.SteelBlue;
             this.guna2Panel1.BorderThickness = 2;
-            this.guna2Panel1.Controls.Add(this.lvDichVuDaChon);
-            this.guna2Panel1.Controls.Add(this.customlvDichVu);
+            this.guna2Panel1.Controls.Add(this.label8);
+            this.guna2Panel1.Controls.Add(this.label7);
+            this.guna2Panel1.Controls.Add(this.label6);
+            this.guna2Panel1.Controls.Add(this.pnDichVuDaChon);
+            this.guna2Panel1.Controls.Add(this.pnListDichVu);
             this.guna2Panel1.Controls.Add(this.label18);
-            this.guna2Panel1.Controls.Add(this.label9);
+            this.guna2Panel1.Controls.Add(this.lblTotalCost);
             this.guna2Panel1.Controls.Add(this.label13);
             this.guna2Panel1.Location = new System.Drawing.Point(528, 58);
             this.guna2Panel1.Margin = new System.Windows.Forms.Padding(4);
             this.guna2Panel1.Name = "guna2Panel1";
-            this.guna2Panel1.Size = new System.Drawing.Size(508, 703);
+            this.guna2Panel1.Size = new System.Drawing.Size(526, 703);
             this.guna2Panel1.TabIndex = 109;
             // 
-            // lvDichVuDaChon
+            // pnDichVuDaChon
             // 
-            this.lvDichVuDaChon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lvDichVuDaChon.HideSelection = false;
-            this.lvDichVuDaChon.Location = new System.Drawing.Point(23, 399);
-            this.lvDichVuDaChon.Margin = new System.Windows.Forms.Padding(4);
-            this.lvDichVuDaChon.Name = "lvDichVuDaChon";
-            this.lvDichVuDaChon.Size = new System.Drawing.Size(466, 251);
-            this.lvDichVuDaChon.TabIndex = 112;
-            this.lvDichVuDaChon.UseCompatibleStateImageBehavior = false;
-            this.lvDichVuDaChon.View = System.Windows.Forms.View.Details;
-            this.lvDichVuDaChon.ItemCheckedChanged += new System.EventHandler<QuanLyPhongKhamNhaKhoa.CustomItemCheckedEventArgs>(this.customlvDichVu_ItemCheckedChanged);
+            this.pnDichVuDaChon.AutoScroll = true;
+            this.pnDichVuDaChon.Location = new System.Drawing.Point(34, 425);
+            this.pnDichVuDaChon.Name = "pnDichVuDaChon";
+            this.pnDichVuDaChon.Size = new System.Drawing.Size(466, 216);
+            this.pnDichVuDaChon.TabIndex = 113;
             // 
-            // customlvDichVu
+            // pnListDichVu
             // 
-            this.customlvDichVu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.customlvDichVu.HideSelection = false;
-            this.customlvDichVu.Location = new System.Drawing.Point(23, 79);
-            this.customlvDichVu.Margin = new System.Windows.Forms.Padding(4);
-            this.customlvDichVu.Name = "customlvDichVu";
-            this.customlvDichVu.Size = new System.Drawing.Size(466, 251);
-            this.customlvDichVu.TabIndex = 112;
-            this.customlvDichVu.UseCompatibleStateImageBehavior = false;
-            this.customlvDichVu.View = System.Windows.Forms.View.Details;
-            this.customlvDichVu.ItemCheckedChanged += new System.EventHandler<QuanLyPhongKhamNhaKhoa.CustomItemCheckedEventArgs>(this.customlvDichVu_ItemCheckedChanged);
+            this.pnListDichVu.AutoScroll = true;
+            this.pnListDichVu.Location = new System.Drawing.Point(34, 63);
+            this.pnListDichVu.Name = "pnListDichVu";
+            this.pnListDichVu.Size = new System.Drawing.Size(466, 246);
+            this.pnListDichVu.TabIndex = 112;
             // 
             // label18
             // 
@@ -289,16 +284,16 @@
             this.label18.TabIndex = 111;
             this.label18.Text = "Dịch Vụ";
             // 
-            // label9
+            // lblTotalCost
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label9.Location = new System.Drawing.Point(280, 654);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(116, 16);
-            this.label9.TabIndex = 83;
-            this.label9.Text = "Số tiền tạm tính:";
+            this.lblTotalCost.AutoSize = true;
+            this.lblTotalCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalCost.ForeColor = System.Drawing.Color.SteelBlue;
+            this.lblTotalCost.Location = new System.Drawing.Point(387, 662);
+            this.lblTotalCost.Name = "lblTotalCost";
+            this.lblTotalCost.Size = new System.Drawing.Size(47, 16);
+            this.lblTotalCost.TabIndex = 83;
+            this.lblTotalCost.Text = "0VND";
             // 
             // label13
             // 
@@ -343,19 +338,41 @@
             this.guna2ImageButton2.Size = new System.Drawing.Size(28, 21);
             this.guna2ImageButton2.TabIndex = 110;
             // 
-            // flowLayoutPanel2
+            // label6
             // 
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(1155, 152);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(422, 371);
-            this.flowLayoutPanel2.TabIndex = 112;
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(50, 399);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(70, 22);
+            this.label6.TabIndex = 114;
+            this.label6.Text = "Dịch vụ";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(215, 399);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(81, 22);
+            this.label7.TabIndex = 114;
+            this.label7.Text = "Số lượng";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(370, 399);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(96, 22);
+            this.label8.TabIndex = 114;
+            this.label8.Text = "Thành tiền";
             // 
             // UC_DieuTri_New
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.guna2ImageButton2);
             this.Controls.Add(this.guna2ImageButton1);
             this.Controls.Add(this.guna2Panel1);
@@ -378,7 +395,7 @@
             this.Controls.Add(this.label1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "UC_DieuTri_New";
-            this.Size = new System.Drawing.Size(1936, 812);
+            this.Size = new System.Drawing.Size(1564, 818);
             this.Load += new System.EventHandler(this.UC_DieuTri_New_Load);
             this.guna2Panel1.ResumeLayout(false);
             this.guna2Panel1.PerformLayout();
@@ -406,15 +423,17 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblTotalCost;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label18;
         private Guna.UI2.WinForms.Guna2Elipse guna2Elipse1;
         private Guna.UI2.WinForms.Guna2ImageButton guna2ImageButton1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
-        private CustomListViewDichVu customlvDichVu;
         private Guna.UI2.WinForms.Guna2ImageButton guna2ImageButton2;
-        private CustomListViewDichVu lvDichVuDaChon;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.FlowLayoutPanel pnListDichVu;
+        private System.Windows.Forms.FlowLayoutPanel pnDichVuDaChon;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
     }
 }

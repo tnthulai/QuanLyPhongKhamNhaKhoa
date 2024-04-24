@@ -40,7 +40,7 @@ namespace QuanLyPhongKhamNhaKhoa
             uC_NhanVien1.Visible = false;
             uC_NhanVien2.Visible = false;
             uC_LichHen1.Visible = false;
-            uC_DieuTri1.Visible = false;
+            uC_DieuTri_New1.Visible = false;
             
             picBoxNen.Visible = false;
             uC_TuyChonTaiKhoan1.Visible = false;
@@ -133,8 +133,8 @@ namespace QuanLyPhongKhamNhaKhoa
             Guna2Button clickedButton = (Guna2Button)sender;
             clickedButton.FillColor = Color.LightGray;
 
-            uC_DieuTri1.Visible = true;
-            uC_DieuTri1.BringToFront();
+            uC_DieuTri_New1.Visible = true;
+            uC_DieuTri_New1.BringToFront();
         }
 
         private void btnLichHen_Click(object sender, EventArgs e)

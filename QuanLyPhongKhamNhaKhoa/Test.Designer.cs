@@ -35,19 +35,19 @@
             // 
             this.uC_DieuTri_New1.BackColor = System.Drawing.Color.White;
             this.uC_DieuTri_New1.Location = new System.Drawing.Point(1, 2);
-            this.uC_DieuTri_New1.Margin = new System.Windows.Forms.Padding(2);
+            this.uC_DieuTri_New1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.uC_DieuTri_New1.Name = "uC_DieuTri_New1";
-            this.uC_DieuTri_New1.Size = new System.Drawing.Size(1286, 665);
+            this.uC_DieuTri_New1.Size = new System.Drawing.Size(1715, 818);
             this.uC_DieuTri_New1.TabIndex = 0;
             this.uC_DieuTri_New1.Load += new System.EventHandler(this.uC_DieuTri_New1_Load);
             // 
             // Test
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1286, 664);
+            this.ClientSize = new System.Drawing.Size(1715, 817);
             this.Controls.Add(this.uC_DieuTri_New1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Test";
             this.Text = "Test";
             this.Load += new System.EventHandler(this.Test_Load);

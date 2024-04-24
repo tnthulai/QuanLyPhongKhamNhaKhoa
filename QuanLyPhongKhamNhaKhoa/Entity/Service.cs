@@ -11,9 +11,11 @@ namespace QuanLyPhongKhamNhaKhoa.Entity
         private string serviceID;
         private string serviceName;
         private float cost;
+        private string unit;
 
         public string ServiceID { get { return serviceID; } set { serviceID = value; } }
         public string ServiceName { get { return serviceName; } set { serviceName = value; } }
         public float Cost { get { return cost; } set { cost = value; } }
+        public string Unit { get { return unit; } set { unit = value; } }
     }
 }
