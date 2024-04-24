@@ -50,12 +50,13 @@ namespace QuanLyPhongKhamNhaKhoa
             this.guna2Shapes3 = new Guna.UI2.WinForms.Guna2Shapes();
             this.picBoxNen = new Guna.UI2.WinForms.Guna2PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.uC_DieuTri_New1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_DieuTri_New();
             this.uC_TuyChonTaiKhoan1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_TuyChonTaiKhoan();
             this.uC_LichHen1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_LichHen();
             this.uC_BenhNhan1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_BenhNhan();
             this.uC_NhanVien2 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_NhanVien();
             this.uC_NhanVien1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_NhanVien();
-            this.uC_DieuTri_New1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_DieuTri_New();
+            this.uC_LichHenTest1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_LichHenTest();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxNen)).BeginInit();
@@ -356,6 +357,7 @@ namespace QuanLyPhongKhamNhaKhoa
             // 
             this.panel3.BackColor = System.Drawing.Color.White;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.uC_LichHenTest1);
             this.panel3.Controls.Add(this.uC_DieuTri_New1);
             this.panel3.Controls.Add(this.uC_TuyChonTaiKhoan1);
             this.panel3.Controls.Add(this.picBoxNen);
@@ -369,6 +371,16 @@ namespace QuanLyPhongKhamNhaKhoa
             this.panel3.Size = new System.Drawing.Size(1940, 816);
             this.panel3.TabIndex = 1;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
+            // 
+            // uC_DieuTri_New1
+            // 
+            this.uC_DieuTri_New1.BackColor = System.Drawing.Color.White;
+            this.uC_DieuTri_New1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uC_DieuTri_New1.Location = new System.Drawing.Point(0, 0);
+            this.uC_DieuTri_New1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.uC_DieuTri_New1.Name = "uC_DieuTri_New1";
+            this.uC_DieuTri_New1.Size = new System.Drawing.Size(1936, 812);
+            this.uC_DieuTri_New1.TabIndex = 5;
             // 
             // uC_TuyChonTaiKhoan1
             // 
@@ -420,15 +432,13 @@ namespace QuanLyPhongKhamNhaKhoa
             this.uC_NhanVien1.TabIndex = 0;
             this.uC_NhanVien1.Visible = false;
             // 
-            // uC_DieuTri_New1
+            // uC_LichHenTest1
             // 
-            this.uC_DieuTri_New1.BackColor = System.Drawing.Color.White;
-            this.uC_DieuTri_New1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uC_DieuTri_New1.Location = new System.Drawing.Point(0, 0);
-            this.uC_DieuTri_New1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.uC_DieuTri_New1.Name = "uC_DieuTri_New1";
-            this.uC_DieuTri_New1.Size = new System.Drawing.Size(1936, 812);
-            this.uC_DieuTri_New1.TabIndex = 5;
+            this.uC_LichHenTest1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uC_LichHenTest1.Location = new System.Drawing.Point(0, 0);
+            this.uC_LichHenTest1.Name = "uC_LichHenTest1";
+            this.uC_LichHenTest1.Size = new System.Drawing.Size(1936, 812);
+            this.uC_LichHenTest1.TabIndex = 6;
             // 
             // MainForm
             // 
@@ -487,5 +497,6 @@ namespace QuanLyPhongKhamNhaKhoa
         private User_Control.UC_NhanVien uC_NhanVien1;
         private User_Control.UC_TuyChonTaiKhoan uC_TuyChonTaiKhoan1;
         private User_Control.UC_DieuTri_New uC_DieuTri_New1;
+        private User_Control.UC_LichHenTest uC_LichHenTest1;
     }
 }

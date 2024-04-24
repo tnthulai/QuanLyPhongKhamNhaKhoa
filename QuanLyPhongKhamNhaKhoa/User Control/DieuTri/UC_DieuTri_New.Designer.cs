@@ -48,17 +48,17 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.pnDichVuDaChon = new System.Windows.Forms.FlowLayoutPanel();
             this.pnListDichVu = new System.Windows.Forms.FlowLayoutPanel();
             this.label18 = new System.Windows.Forms.Label();
             this.lblTotalCost = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
-            this.guna2ImageButton1 = new Guna.UI2.WinForms.Guna2ImageButton();
+            this.btnTimkiemMaDieuTri = new Guna.UI2.WinForms.Guna2ImageButton();
             this.guna2ImageButton2 = new Guna.UI2.WinForms.Guna2ImageButton();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.guna2Panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -257,6 +257,36 @@
             this.guna2Panel1.Size = new System.Drawing.Size(526, 703);
             this.guna2Panel1.TabIndex = 109;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(370, 399);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(96, 22);
+            this.label8.TabIndex = 114;
+            this.label8.Text = "Thành tiền";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(215, 399);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(81, 22);
+            this.label7.TabIndex = 114;
+            this.label7.Text = "Số lượng";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(50, 399);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(70, 22);
+            this.label6.TabIndex = 114;
+            this.label6.Text = "Dịch vụ";
+            // 
             // pnDichVuDaChon
             // 
             this.pnDichVuDaChon.AutoScroll = true;
@@ -310,19 +340,19 @@
             // 
             this.guna2Elipse1.TargetControl = this;
             // 
-            // guna2ImageButton1
+            // btnTimkiemMaDieuTri
             // 
-            this.guna2ImageButton1.BackColor = System.Drawing.Color.White;
-            this.guna2ImageButton1.CheckedState.ImageSize = new System.Drawing.Size(64, 64);
-            this.guna2ImageButton1.Image = ((System.Drawing.Image)(resources.GetObject("guna2ImageButton1.Image")));
-            this.guna2ImageButton1.ImageOffset = new System.Drawing.Point(0, 0);
-            this.guna2ImageButton1.ImageRotate = 0F;
-            this.guna2ImageButton1.ImageSize = new System.Drawing.Size(20, 20);
-            this.guna2ImageButton1.Location = new System.Drawing.Point(369, 73);
-            this.guna2ImageButton1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.guna2ImageButton1.Name = "guna2ImageButton1";
-            this.guna2ImageButton1.Size = new System.Drawing.Size(28, 21);
-            this.guna2ImageButton1.TabIndex = 110;
+            this.btnTimkiemMaDieuTri.BackColor = System.Drawing.Color.White;
+            this.btnTimkiemMaDieuTri.CheckedState.ImageSize = new System.Drawing.Size(64, 64);
+            this.btnTimkiemMaDieuTri.Image = ((System.Drawing.Image)(resources.GetObject("btnTimkiemMaDieuTri.Image")));
+            this.btnTimkiemMaDieuTri.ImageOffset = new System.Drawing.Point(0, 0);
+            this.btnTimkiemMaDieuTri.ImageRotate = 0F;
+            this.btnTimkiemMaDieuTri.ImageSize = new System.Drawing.Size(20, 20);
+            this.btnTimkiemMaDieuTri.Location = new System.Drawing.Point(369, 73);
+            this.btnTimkiemMaDieuTri.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnTimkiemMaDieuTri.Name = "btnTimkiemMaDieuTri";
+            this.btnTimkiemMaDieuTri.Size = new System.Drawing.Size(28, 21);
+            this.btnTimkiemMaDieuTri.TabIndex = 110;
             // 
             // guna2ImageButton2
             // 
@@ -338,43 +368,13 @@
             this.guna2ImageButton2.Size = new System.Drawing.Size(28, 21);
             this.guna2ImageButton2.TabIndex = 110;
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(50, 399);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(70, 22);
-            this.label6.TabIndex = 114;
-            this.label6.Text = "Dịch vụ";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(215, 399);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(81, 22);
-            this.label7.TabIndex = 114;
-            this.label7.Text = "Số lượng";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(370, 399);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(96, 22);
-            this.label8.TabIndex = 114;
-            this.label8.Text = "Thành tiền";
-            // 
             // UC_DieuTri_New
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.guna2ImageButton2);
-            this.Controls.Add(this.guna2ImageButton1);
+            this.Controls.Add(this.btnTimkiemMaDieuTri);
             this.Controls.Add(this.guna2Panel1);
             this.Controls.Add(this.textBox6);
             this.Controls.Add(this.btnLuu);
@@ -427,7 +427,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label18;
         private Guna.UI2.WinForms.Guna2Elipse guna2Elipse1;
-        private Guna.UI2.WinForms.Guna2ImageButton guna2ImageButton1;
+        private Guna.UI2.WinForms.Guna2ImageButton btnTimkiemMaDieuTri;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private Guna.UI2.WinForms.Guna2ImageButton guna2ImageButton2;
         private System.Windows.Forms.FlowLayoutPanel pnListDichVu;
