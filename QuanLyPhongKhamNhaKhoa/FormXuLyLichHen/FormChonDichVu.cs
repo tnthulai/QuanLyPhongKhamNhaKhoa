@@ -89,6 +89,7 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
         private void btnLuu_Click(object sender, EventArgs e)
         {
             this.listDichVuSelected(listService);
+            this.Close();
         }
 
         private void pBExit_Click(object sender, EventArgs e)

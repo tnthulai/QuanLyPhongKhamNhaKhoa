@@ -79,7 +79,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 MessageBox.Show("ERROR: " + ex.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
         public UC_LichHenTest()
         {
             InitializeComponent();
