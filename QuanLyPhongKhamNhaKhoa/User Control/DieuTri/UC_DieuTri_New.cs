@@ -33,18 +33,19 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 
         private void LoadPanelDichVu()
         {
-            SqlCommand cmd = new SqlCommand( "SELECT serviceName, cost, unit FROM Service",mydb.getConnection);
+            SqlCommand cmd = new SqlCommand( "SELECT serviceID, serviceName, cost, unit FROM Service",mydb.getConnection);
             DataTable dtService = serviceDao.getService(cmd);
 
             foreach (DataRow row in dtService.Rows)
             {
+                string id = row["serviceID"].ToString();
                 string serviceName = row["serviceName"].ToString();
                 string unit = row["unit"].ToString();
                 float cost;
 
                 if (float.TryParse(row["cost"].ToString(), out cost))
                 {
-                    UC_ItemDichVu uC_itemDichVu = new UC_ItemDichVu(serviceName, cost, unit);
+                    UC_ItemDichVu uC_itemDichVu = new UC_ItemDichVu(id,serviceName, cost, unit);
                     uC_itemDichVu.CheckBoxCheckedChanged += UC_ItemDichVu_CheckBoxCheckedChanged;
 
                     pnListDichVu.Controls.Add(uC_itemDichVu);

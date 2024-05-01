@@ -37,7 +37,7 @@
             // 
             this.nameService.AutoSize = true;
             this.nameService.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nameService.Location = new System.Drawing.Point(39, 17);
+            this.nameService.Location = new System.Drawing.Point(39, 14);
             this.nameService.Name = "nameService";
             this.nameService.Size = new System.Drawing.Size(106, 20);
             this.nameService.TabIndex = 0;
@@ -46,8 +46,8 @@
             // cost
             // 
             this.cost.AutoSize = true;
-            this.cost.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cost.Location = new System.Drawing.Point(255, 17);
+            this.cost.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cost.Location = new System.Drawing.Point(261, 14);
             this.cost.Name = "cost";
             this.cost.Size = new System.Drawing.Size(73, 20);
             this.cost.TabIndex = 1;
@@ -66,11 +66,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.checkBox);
             this.Controls.Add(this.cost);
             this.Controls.Add(this.nameService);
             this.Name = "UC_ItemDichVu";
-            this.Size = new System.Drawing.Size(440, 47);
+            this.Size = new System.Drawing.Size(465, 45);
             this.ResumeLayout(false);
             this.PerformLayout();
 

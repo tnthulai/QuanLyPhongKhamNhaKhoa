@@ -14,9 +14,10 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 {
     public partial class UC_ItemDichVu : UserControl
     {
-        public UC_ItemDichVu(string serviceName, float cost, string unit)
+        public UC_ItemDichVu(string id, string serviceName, float cost, string unit)
         {
             InitializeComponent();
+            ServiceId = id;
             ServiceName = serviceName;
             ServiceCost = cost;
             ServiceUnit = unit;
@@ -32,6 +33,8 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 CheckBoxCheckedChanged(this, EventArgs.Empty);
             }
         }
+
+        public string ServiceId { get; set; }
 
         public string ServiceName
         {
