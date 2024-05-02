@@ -175,7 +175,7 @@
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormChonDichVu";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormChonDichVu";
             this.Load += new System.EventHandler(this.FormChonDichVu_Load);
             this.panel1.ResumeLayout(false);

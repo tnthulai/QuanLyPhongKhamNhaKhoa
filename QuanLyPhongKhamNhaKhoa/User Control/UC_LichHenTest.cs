@@ -46,6 +46,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         {
             cbNhaSi.DropDownStyle = ComboBoxStyle.DropDownList;
             load();
+            
             InitializeCalendar();
         }
         public void load()
@@ -73,6 +74,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 cbNhaSi.SelectedIndex = 0;
                 selectedUserID = cbNhaSi.SelectedItem.ToString();
                 hienThiLichHen();
+                
             }
             catch (Exception ex)
             {
@@ -300,7 +302,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 
         private void btnDatLich_Click(object sender, EventArgs e)
         {
-            FormThemLichHen themLichHen = new FormThemLichHen();
+            FormThemLichHen themLichHen = new FormThemLichHen(this);
             themLichHen.fullNameNS = cbNhaSi.Text.Trim();
             var selectedUser = (dynamic)cbNhaSi.SelectedItem;
             selectedUserID = selectedUser.Value.ToString();

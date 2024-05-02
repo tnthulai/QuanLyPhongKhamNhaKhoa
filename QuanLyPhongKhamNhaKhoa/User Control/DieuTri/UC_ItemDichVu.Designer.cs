@@ -36,20 +36,22 @@
             // nameService
             // 
             this.nameService.AutoSize = true;
-            this.nameService.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nameService.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nameService.ForeColor = System.Drawing.Color.White;
             this.nameService.Location = new System.Drawing.Point(39, 14);
             this.nameService.Name = "nameService";
-            this.nameService.Size = new System.Drawing.Size(106, 20);
+            this.nameService.Size = new System.Drawing.Size(105, 18);
             this.nameService.TabIndex = 0;
             this.nameService.Text = "nameService";
             // 
             // cost
             // 
             this.cost.AutoSize = true;
-            this.cost.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cost.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cost.ForeColor = System.Drawing.Color.White;
             this.cost.Location = new System.Drawing.Point(261, 14);
             this.cost.Name = "cost";
-            this.cost.Size = new System.Drawing.Size(73, 20);
+            this.cost.Size = new System.Drawing.Size(73, 18);
             this.cost.TabIndex = 1;
             this.cost.Text = "cost/unit";
             // 

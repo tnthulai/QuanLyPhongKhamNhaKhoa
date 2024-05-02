@@ -18,17 +18,22 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
     public delegate void ListDichVuSelected(List<Service> list);
     public partial class FormThemLichHen : Form
     {
-        public FormThemLichHen()
+        private UC_LichHenTest uc_LichHenTest;
+
+        public FormThemLichHen(UC_LichHenTest uc_LichHenTest)
         {
             InitializeComponent();
+            this.uc_LichHenTest = uc_LichHenTest;
         }
-        
+
+       
+
         SQLConnectionData mydb = new SQLConnectionData();
         PatientsDao patientsDao = new PatientsDao();
         AppointmentDao appDao = new AppointmentDao();
         public string fullNameNS;
         public string userIDNS;
-        string patientsID;
+        string patientsID = null;
         string appointmentID;
         public List<Service> listService;
 
@@ -275,6 +280,7 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
                 foreach (Service service in listService)
                 {
                     UC_ItemDichVu uC_ItemDichVu = new UC_ItemDichVu(service.ServiceID, service.ServiceName, service.Cost, service.Unit);
+                    uC_ItemDichVu.checkBox.Checked = true;
                     panelDichVu.Controls.Add(uC_ItemDichVu);
 
                 }
@@ -283,19 +289,58 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
         }
         private void btnLuu_Click(object sender, EventArgs e)
         {
+            
+            themLichHen();
+            themLichHenDichVu();
 
+            // Sau khi thêm lịch hẹn, gọi phương thức UpdateCalendar trên form UC_LichHenTest
+            uc_LichHenTest.UpdateCalendar();
+            this.Close();
+        }
+        private void themLichHenDichVu()
+        {
+            foreach(Service service in listService)
+            {
+                SqlCommand command = new SqlCommand("INSERT INTO Appointment_Service (appointmentID, serviceID) VALUES(@appointmentID, @serviceID)", mydb.getConnection);
+                command.Parameters.Add("@appointmentID", SqlDbType.VarChar).Value = appointmentID;
+                command.Parameters.Add("@serviceID", SqlDbType.VarChar).Value = service.ServiceID;
+                mydb.openConnection();
+                command.ExecuteNonQuery();
+                mydb.closeConnection();
+            }
         }
         private void themLichHen()
         {
-            try
+            appointmentID = appDao.taoMaAppointment();
+            if (patientsID == null)
             {
-                appointmentID = appDao.taoMaAppointment();
+                SqlCommand command = new SqlCommand("SELECT patientsID FROM Patients WHERE persionalID=@persionalID");
+                command.Parameters.Add("@persionalID", SqlDbType.VarChar).Value = txtCCCD.Text.Trim();
+                DataTable table = patientsDao.getPatients(command);
+                if (table.Rows.Count > 0)
+                {
+                    patientsID = table.Rows[0]["patientsID"].ToString().Trim();
+                }
+            }
 
+            DateTime ngayHen = dateTPKLichHen.Value;
+            string time = cbTime.SelectedItem.ToString();
+            string[] parts = time.Split(new char[] { ' ', '-' }, StringSplitOptions.RemoveEmptyEntries);
 
+            int startTime = int.Parse(parts[0].Replace("h", ""));
+            int endTime = int.Parse(parts[1].Replace("h", ""));
+            string timestart = startTime.ToString("00") + ":00:00";
+            string timeend = endTime.ToString("00") + ":00:00";
 
-            }catch(Exception ex)
+            if (appDao.insertAppointment(appointmentID, patientsID, userIDNS, ngayHen, timestart, timeend, "BOOKED"))
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Thêm cuộc hẹn thành công!", "Add Appointment", MessageBoxButtons.OK, MessageBoxIcon.Information);/*
+                UC_LichHenTest uC_LichHenTest = new UC_LichHenTest();
+                uC_LichHenTest.UpdateCalendar();*/
+            }
+            else
+            {
+                throw new InvalidExistAppointment("Thêm cuộc hẹn thất bại!");
             }
         }
     }

@@ -22,7 +22,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         }
         SQLConnectionData mydb = new SQLConnectionData();
         ServiceDao serviceDao = new ServiceDao();
-      
+        String doctorID = "DENT5705";
 
         private void UC_DieuTri_New_Load(object sender, EventArgs e)
         {
@@ -33,7 +33,12 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 
         private void LoadPanelDichVu()
         {
-            SqlCommand cmd = new SqlCommand( "SELECT serviceID, serviceName, cost, unit FROM Service",mydb.getConnection);
+            SqlCommand cmd = new SqlCommand(@"SELECT s.serviceID, s.serviceName, s.cost, s.unit 
+                                            FROM Appointment a 
+                                            join Appointment_Service a_s on a.appointmentID = a_s.appointmentID 
+                                            join Service s on a_s.serviceID = s.serviceID
+                                            where a.userID = @doctorID", mydb.getConnection);
+            cmd.Parameters.Add("@doctorID", SqlDbType.VarChar).Value = doctorID;
             DataTable dtService = serviceDao.getService(cmd);
 
             foreach (DataRow row in dtService.Rows)
@@ -45,13 +50,32 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 
                 if (float.TryParse(row["cost"].ToString(), out cost))
                 {
-                    UC_ItemDichVu uC_itemDichVu = new UC_ItemDichVu(id,serviceName, cost, unit);
+                    UC_ItemDichVu uC_itemDichVu = new UC_ItemDichVu(id, serviceName, cost, unit);
                     uC_itemDichVu.CheckBoxCheckedChanged += UC_ItemDichVu_CheckBoxCheckedChanged;
 
                     pnListDichVu.Controls.Add(uC_itemDichVu);
                 }
             }
-        }
+
+                /*SqlCommand cmd = new SqlCommand( "SELECT serviceID, serviceName, cost, unit FROM Service",mydb.getConnection);
+                DataTable dtService = serviceDao.getService(cmd);
+
+                foreach (DataRow row in dtService.Rows)
+                {
+                    string id = row["serviceID"].ToString();
+                    string serviceName = row["serviceName"].ToString();
+                    string unit = row["unit"].ToString();
+                    float cost;
+
+                    if (float.TryParse(row["cost"].ToString(), out cost))
+                    {
+                        UC_ItemDichVu uC_itemDichVu = new UC_ItemDichVu(id,serviceName, cost, unit);
+                        uC_itemDichVu.CheckBoxCheckedChanged += UC_ItemDichVu_CheckBoxCheckedChanged;
+
+                        pnListDichVu.Controls.Add(uC_itemDichVu);
+                    }
+                }*/
+            }
 
         private void UC_ItemDichVu_CheckBoxCheckedChanged(object sender, EventArgs e)
         {
