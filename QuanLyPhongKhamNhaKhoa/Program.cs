@@ -20,10 +20,10 @@ namespace QuanLyPhongKhamNhaKhoa
 
             /*Test test = new Test();
             test.ShowDialog();
-
+            */
             LoginForm loginForm = new LoginForm();
-            loginForm.ShowDialog();*/
-
+            loginForm.ShowDialog();
+            
             Application.Run(new MainForm());
         }
     }

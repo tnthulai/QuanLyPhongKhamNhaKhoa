@@ -30,12 +30,12 @@ namespace QuanLyPhongKhamNhaKhoa
             SqlCommand command = new SqlCommand("SELECT * FROM Users WHERE userID = @User AND password = @Pass");
             command.Parameters.Add("@User", SqlDbType.VarChar).Value = txtTenDangNhap.Text.Trim();
             command.Parameters.Add("@Pass", SqlDbType.VarChar).Value = txtMatKhau.Text.Trim();
-            
+
             User user = userDao.getUser(command);
             if (user != null)
             {
+                CurrentUser.currentUser = user; // Lưu thông tin người dùng vào UserManager
                 MainForm mainForm = new MainForm();
-                mainForm.user = user;
                 this.Hide();
                 mainForm.ShowDialog();
             }

@@ -26,6 +26,13 @@ namespace QuanLyPhongKhamNhaKhoa.Entity
             this.endTime = endTime;
             this.status = status;
         }
+
+        public Appointment(string appointmentID, string patientsID)
+        {
+            this.AppointmentID = appointmentID;
+            this.PatientsID = patientsID;
+        }
+
         public string AppointmentID { get; set; }
         public string PatientsID { get; set; }
         public string UserID { get; set; }

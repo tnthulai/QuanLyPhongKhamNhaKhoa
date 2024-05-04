@@ -38,9 +38,10 @@
             this.nameService.AutoSize = true;
             this.nameService.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nameService.ForeColor = System.Drawing.Color.White;
-            this.nameService.Location = new System.Drawing.Point(39, 14);
+            this.nameService.Location = new System.Drawing.Point(29, 11);
+            this.nameService.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.nameService.Name = "nameService";
-            this.nameService.Size = new System.Drawing.Size(105, 18);
+            this.nameService.Size = new System.Drawing.Size(90, 15);
             this.nameService.TabIndex = 0;
             this.nameService.Text = "nameService";
             // 
@@ -49,40 +50,42 @@
             this.cost.AutoSize = true;
             this.cost.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cost.ForeColor = System.Drawing.Color.White;
-            this.cost.Location = new System.Drawing.Point(261, 14);
+            this.cost.Location = new System.Drawing.Point(196, 11);
+            this.cost.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.cost.Name = "cost";
-            this.cost.Size = new System.Drawing.Size(73, 18);
+            this.cost.Size = new System.Drawing.Size(61, 15);
             this.cost.TabIndex = 1;
             this.cost.Text = "cost/unit";
             // 
             // checkBox
             // 
             this.checkBox.AutoSize = true;
-            this.checkBox.Location = new System.Drawing.Point(15, 17);
+            this.checkBox.Location = new System.Drawing.Point(11, 14);
+            this.checkBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.checkBox.Name = "checkBox";
-            this.checkBox.Size = new System.Drawing.Size(18, 17);
+            this.checkBox.Size = new System.Drawing.Size(15, 14);
             this.checkBox.TabIndex = 2;
             this.checkBox.UseVisualStyleBackColor = true;
             // 
             // UC_ItemDichVu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.checkBox);
             this.Controls.Add(this.cost);
             this.Controls.Add(this.nameService);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "UC_ItemDichVu";
-            this.Size = new System.Drawing.Size(465, 45);
+            this.Size = new System.Drawing.Size(349, 37);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label nameService;
-        private System.Windows.Forms.Label cost;
         public System.Windows.Forms.CheckBox checkBox;
+        public System.Windows.Forms.Label cost;
+        public System.Windows.Forms.Label nameService;
     }
 }

@@ -63,8 +63,8 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
             DateTime date = DateTime.ParseExact(dateString, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime thoiGianHienTai = DateTime.Now;
 
-            if (thoiGianHienTai <= date)
-            {
+            /*if (thoiGianHienTai < date)
+            {*/
                 cbTime.Enabled = true;
                 panelDichVu.Controls.Clear();
                 List<int> hourTimeList = new List<int>();
@@ -91,26 +91,26 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
                         cbTime.Items.Add(temp);
                     }
                 }
-            }
-            else
-            {
-                cbTime.Enabled = false;
-                panelDichVu.Controls.Clear();
-                Label labelThongBao = new Label();
-                labelThongBao.Text = "Thời gian đặt lịch không hợp lệ.";
+            /* }
+             else
+             {
+                 cbTime.Enabled = false;
+                 panelDichVu.Controls.Clear();
+                 Label labelThongBao = new Label();
+                 labelThongBao.Text = "Thời gian đặt lịch không hợp lệ.";
 
-                panelDichVu.Controls.Add(labelThongBao);
-                labelThongBao.Location = new Point(10, 10);
-                labelThongBao.ForeColor = Color.Gold;
-                labelThongBao.Font = new Font(labelThongBao.Font.FontFamily, 13, FontStyle.Bold);
-                panelDichVu.Controls.Add(labelThongBao);
-                labelThongBao.AutoSize = true;
-                int x = (panelDichVu.Width - labelThongBao.Width) / 2;
-                int y = (panelDichVu.Height - labelThongBao.Height) / 2;
-                labelThongBao.Location = new Point(x, y);
-            }
+                 panelDichVu.Controls.Add(labelThongBao);
+                 labelThongBao.Location = new Point(10, 10);
+                 labelThongBao.ForeColor = Color.Gold;
+                 labelThongBao.Font = new Font(labelThongBao.Font.FontFamily, 13, FontStyle.Bold);
+                 panelDichVu.Controls.Add(labelThongBao);
+                 labelThongBao.AutoSize = true;
+                 int x = (panelDichVu.Width - labelThongBao.Width) / 2;
+                 int y = (panelDichVu.Height - labelThongBao.Height) / 2;
+                 labelThongBao.Location = new Point(x, y);
+             }*/
         }
-        
+
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();

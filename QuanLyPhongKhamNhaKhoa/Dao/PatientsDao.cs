@@ -30,6 +30,30 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
             } while (existPatients(result));
             return result;
         }
+        public string GetNameByID (string id)
+        {
+            string name = null;
+            try
+            {
+                mydb.openConnection();
+                SqlCommand command = new SqlCommand("SELECT fullName FROM Patients WHERE patientsID = @patientsID", mydb.getConnection);
+                command.Parameters.Add("@patientsID", SqlDbType.VarChar).Value = id;
+                mydb.openConnection();
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    name = result.ToString();
+                }
+
+                mydb.closeConnection();
+            }
+            catch (Exception ex)
+            {
+                
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return name;
+        }
         public bool existPersionalIDPatients(string persionalID)
         {
             try

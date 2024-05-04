@@ -72,6 +72,7 @@
     </Compile>
     <Compile Include="Entity\Appointment.cs" />
     <Compile Include="Entity\Bill.cs" />
+    <Compile Include="Entity\CurrentUser.cs" />
     <Compile Include="Entity\Medicine.cs" />
     <Compile Include="Entity\Medicine_Treatment.cs" />
     <Compile Include="Entity\Patients.cs" />

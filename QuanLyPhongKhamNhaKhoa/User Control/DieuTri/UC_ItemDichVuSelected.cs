@@ -43,7 +43,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control.DieuTri
 
 
         public event EventHandler TotalCostChanged;
-        private void numAmount_ValueChanged(object sender, EventArgs e)
+        public void numAmount_ValueChanged(object sender, EventArgs e)
         {
             float totalCost = float.Parse(numAmount.Value.ToString()) * ServiceCost;
             lblTotalCost.Text = totalCost.ToString("0.##") + "VND";

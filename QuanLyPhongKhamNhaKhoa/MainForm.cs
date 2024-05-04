@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -16,6 +17,7 @@ using System.Windows.Forms;
 
 namespace QuanLyPhongKhamNhaKhoa
 {
+    
     public partial class MainForm : Form
     {
         public MainForm()
@@ -23,15 +25,17 @@ namespace QuanLyPhongKhamNhaKhoa
             InitializeComponent();
         }
         
-        public User user = new User();
+        
         public MemoryStream picture = null;
         public void MainForm_Load(object sender, EventArgs e)
         {
+           
             ResetButtonColors();
             ReSetForm();
             picBoxNen.Visible = true;
-            picture = user.Image;
+            picture = CurrentUser.currentUser.Image;
             xuLyAvatar(picture);
+            
 
         }
         public void ReSetForm()
@@ -115,7 +119,7 @@ namespace QuanLyPhongKhamNhaKhoa
             ReSetForm();
             picBoxNen.Visible = true;
             if (picture == null)
-                picture = user.Image;
+                picture = CurrentUser.currentUser.Image;
             else
                 this.xuLyAvatar(picture);
         }
@@ -133,7 +137,7 @@ namespace QuanLyPhongKhamNhaKhoa
             ReSetForm();
             Guna2Button clickedButton = (Guna2Button)sender;
             clickedButton.FillColor = Color.LightGray;
-
+            
             uC_DieuTri_New1.Visible = true;
             uC_DieuTri_New1.BringToFront();
         }
@@ -181,7 +185,7 @@ namespace QuanLyPhongKhamNhaKhoa
         {
             if(!uC_TuyChonTaiKhoan1.Visible)
             {
-                uC_TuyChonTaiKhoan1.user = user;
+                //uC_TuyChonTaiKhoan1.user = user;
                 uC_TuyChonTaiKhoan1.Visible = true;
                 uC_TuyChonTaiKhoan1.BringToFront();
             } else
