@@ -12,17 +12,19 @@ using System.Windows.Forms;
 
 namespace QuanLyPhongKhamNhaKhoa.User_Control.DieuTri
 {
-    public partial class UC_ItemDichVuSelected : UserControl
+    public partial class UC_ItemSelected : UserControl
     {
-        public UC_ItemDichVuSelected(string serviceName, float cost, string unit)
+        public UC_ItemSelected(string id, string serviceName, float cost, string unit)
         {
             InitializeComponent();
+            ID = id;
             ServiceName = serviceName;
             ServiceCost = cost;
             Unit = unit;
             float totalCost = float.Parse(numAmount.Value.ToString()) * ServiceCost;
             lblTotalCost.Text = totalCost.ToString("0.##") + "VND";
         }
+        public string ID { get; set; }
         public string ServiceName
         {
             get { return nameService.Text; }
@@ -50,6 +52,15 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control.DieuTri
 
             // Kích hoạt sự kiện TotalCostChanged để thông báo rằng thành tiền đã thay đổi
             TotalCostChanged?.Invoke(this, EventArgs.Empty);
+        }
+        public event EventHandler PBExit_Click;
+
+        private void pBExit_Click(object sender, EventArgs e)
+        {
+            if (PBExit_Click != null)
+            {
+                PBExit_Click(this, EventArgs.Empty);
+            }
         }
     }
 }

@@ -51,7 +51,7 @@ namespace QuanLyPhongKhamNhaKhoa
             this.picBoxNen = new Guna.UI2.WinForms.Guna2PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.uC_LichHenTest1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_LichHenTest();
-            this.uC_DieuTri_New1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_DieuTri_New();
+            this.uC_DieuTri_New1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_DieuTri();
             this.uC_TuyChonTaiKhoan1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_TuyChonTaiKhoan();
             this.uC_LichHen1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_LichHen();
             this.uC_BenhNhan1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_BenhNhan();
@@ -498,7 +498,7 @@ namespace QuanLyPhongKhamNhaKhoa
         private User_Control.UC_NhanVien uC_NhanVien2;
         private User_Control.UC_NhanVien uC_NhanVien1;
         private User_Control.UC_TuyChonTaiKhoan uC_TuyChonTaiKhoan1;
-        private User_Control.UC_DieuTri_New uC_DieuTri_New1;
+        private User_Control.UC_DieuTri uC_DieuTri_New1;
         private User_Control.UC_LichHenTest uC_LichHenTest1;
     }
 }

@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace QuanLyPhongKhamNhaKhoa.User_Control
 {
-    public partial class UC_ItemDichVu : UserControl
+    public partial class UC_Item : UserControl
     {
-        public UC_ItemDichVu(string id, string serviceName, float cost, string unit)
+        public UC_Item(string id, string serviceName, float cost, string unit)
         {
             InitializeComponent();
             ServiceId = id;

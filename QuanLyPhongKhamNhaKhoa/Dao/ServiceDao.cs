@@ -22,5 +22,6 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
             adapter.Fill(table);
             return table;
         }
+
     }
 }

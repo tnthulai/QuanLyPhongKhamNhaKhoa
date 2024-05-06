@@ -26,8 +26,6 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
             this.uc_LichHenTest = uc_LichHenTest;
         }
 
-       
-
         SQLConnectionData mydb = new SQLConnectionData();
         PatientsDao patientsDao = new PatientsDao();
         AppointmentDao appDao = new AppointmentDao();
@@ -53,7 +51,7 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
             lblTenNhaSi.Text = fullNameNS;
             taoThoiGianChoCbTime();
             cbTime.DropDownStyle = ComboBoxStyle.DropDownList;
-            
+
         }
 
         private void taoThoiGianChoCbTime()
@@ -63,8 +61,8 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
             DateTime date = DateTime.ParseExact(dateString, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime thoiGianHienTai = DateTime.Now;
 
-            /*if (thoiGianHienTai < date)
-            {*/
+            if (thoiGianHienTai < date)
+            {
                 cbTime.Enabled = true;
                 panelDichVu.Controls.Clear();
                 List<int> hourTimeList = new List<int>();
@@ -91,31 +89,31 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
                         cbTime.Items.Add(temp);
                     }
                 }
-            /* }
-             else
-             {
-                 cbTime.Enabled = false;
-                 panelDichVu.Controls.Clear();
-                 Label labelThongBao = new Label();
-                 labelThongBao.Text = "Thời gian đặt lịch không hợp lệ.";
+            }
+            else
+            {
+                cbTime.Enabled = false;
+                panelDichVu.Controls.Clear();
+                Label labelThongBao = new Label();
+                labelThongBao.Text = "Thời gian đặt lịch không hợp lệ.";
 
-                 panelDichVu.Controls.Add(labelThongBao);
-                 labelThongBao.Location = new Point(10, 10);
-                 labelThongBao.ForeColor = Color.Gold;
-                 labelThongBao.Font = new Font(labelThongBao.Font.FontFamily, 13, FontStyle.Bold);
-                 panelDichVu.Controls.Add(labelThongBao);
-                 labelThongBao.AutoSize = true;
-                 int x = (panelDichVu.Width - labelThongBao.Width) / 2;
-                 int y = (panelDichVu.Height - labelThongBao.Height) / 2;
-                 labelThongBao.Location = new Point(x, y);
-             }*/
+                panelDichVu.Controls.Add(labelThongBao);
+                labelThongBao.Location = new Point(10, 10);
+                labelThongBao.ForeColor = Color.Gold;
+                labelThongBao.Font = new Font(labelThongBao.Font.FontFamily, 13, FontStyle.Bold);
+                panelDichVu.Controls.Add(labelThongBao);
+                labelThongBao.AutoSize = true;
+                int x = (panelDichVu.Width - labelThongBao.Width) / 2;
+                int y = (panelDichVu.Height - labelThongBao.Height) / 2;
+                labelThongBao.Location = new Point(x, y);
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-        
+
         private void txtCCCD_TextChanged(object sender, EventArgs e)
         {
             SqlCommand command = new SqlCommand("SELECT fullName, phoneNumber, patientsID " +
@@ -270,26 +268,26 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
 
         private void themDichVu()
         {
-            FormChonDichVu formChonDichVu = new FormChonDichVu(setValueList);
+            FormChonDichVu formChonDichVu = new FormChonDichVu(setValueList, "");
             formChonDichVu.ShowDialog();
         }
         private void loadListDichVuDaChon()
         {
-            if(listService != null)
+            if (listService != null)
             {
                 foreach (Service service in listService)
                 {
-                    UC_ItemDichVu uC_ItemDichVu = new UC_ItemDichVu(service.ServiceID, service.ServiceName, service.Cost, service.Unit);
+                    UC_Item uC_ItemDichVu = new UC_Item(service.ServiceID, service.ServiceName, service.Cost, service.Unit);
                     uC_ItemDichVu.checkBox.Checked = true;
                     panelDichVu.Controls.Add(uC_ItemDichVu);
 
                 }
             }
-            
+
         }
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            
+
             themLichHen();
             themLichHenDichVu();
 
@@ -299,7 +297,7 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
         }
         private void themLichHenDichVu()
         {
-            foreach(Service service in listService)
+            foreach (Service service in listService)
             {
                 SqlCommand command = new SqlCommand("INSERT INTO Appointment_Service (appointmentID, serviceID) VALUES(@appointmentID, @serviceID)", mydb.getConnection);
                 command.Parameters.Add("@appointmentID", SqlDbType.VarChar).Value = appointmentID;

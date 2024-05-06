@@ -70,6 +70,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DentalClinicDataSetDSNV.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DieuTri\FormChonThuoc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DieuTri\FormChonThuoc.Designer.cs">
+      <DependentUpon>FormChonThuoc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entity\Appointment.cs" />
     <Compile Include="Entity\Bill.cs" />
     <Compile Include="Entity\CurrentUser.cs" />
@@ -113,11 +119,11 @@
     <Compile Include="Test.Designer.cs">
       <DependentUpon>Test.cs</DependentUpon>
     </Compile>
-    <Compile Include="User Control\DieuTri\UC_ItemDichVuSelected.cs">
+    <Compile Include="DieuTri\UC_ItemSelected.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="User Control\DieuTri\UC_ItemDichVuSelected.Designer.cs">
-      <DependentUpon>UC_ItemDichVuSelected.cs</DependentUpon>
+    <Compile Include="DieuTri\UC_ItemSelected.Designer.cs">
+      <DependentUpon>UC_ItemSelected.cs</DependentUpon>
     </Compile>
     <Compile Include="User Control\UC_BaoCao.cs">
       <SubType>UserControl</SubType>
@@ -131,23 +137,17 @@
     <Compile Include="User Control\UC_BenhNhan.Designer.cs">
       <DependentUpon>UC_BenhNhan.cs</DependentUpon>
     </Compile>
-    <Compile Include="User Control\DieuTri\UC_ItemDichVu.cs">
+    <Compile Include="DieuTri\UC_Item.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="User Control\DieuTri\UC_ItemDichVu.Designer.cs">
-      <DependentUpon>UC_ItemDichVu.cs</DependentUpon>
+    <Compile Include="DieuTri\UC_Item.Designer.cs">
+      <DependentUpon>UC_Item.cs</DependentUpon>
     </Compile>
-    <Compile Include="User Control\DieuTri\UC_DieuTri.cs">
+    <Compile Include="DieuTri\UC_DieuTri.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="User Control\DieuTri\UC_DieuTri.Designer.cs">
+    <Compile Include="DieuTri\UC_DieuTri.Designer.cs">
       <DependentUpon>UC_DieuTri.cs</DependentUpon>
-    </Compile>
-    <Compile Include="User Control\DieuTri\UC_DieuTri_New.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="User Control\DieuTri\UC_DieuTri_New.Designer.cs">
-      <DependentUpon>UC_DieuTri_New.cs</DependentUpon>
     </Compile>
     <Compile Include="User Control\UC_LichHen.cs">
       <SubType>UserControl</SubType>
@@ -189,6 +189,9 @@
     <EmbeddedResource Include="AccountInfoForm.resx">
       <DependentUpon>AccountInfoForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DieuTri\FormChonThuoc.resx">
+      <DependentUpon>FormChonThuoc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormXuLyLichHen\FormChonDichVu.resx">
       <DependentUpon>FormChonDichVu.cs</DependentUpon>
     </EmbeddedResource>
@@ -214,8 +217,8 @@
     <EmbeddedResource Include="Test.resx">
       <DependentUpon>Test.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User Control\DieuTri\UC_ItemDichVuSelected.resx">
-      <DependentUpon>UC_ItemDichVuSelected.cs</DependentUpon>
+    <EmbeddedResource Include="DieuTri\UC_ItemSelected.resx">
+      <DependentUpon>UC_ItemSelected.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Control\UC_BaoCao.resx">
       <DependentUpon>UC_BaoCao.cs</DependentUpon>
@@ -223,14 +226,11 @@
     <EmbeddedResource Include="User Control\UC_BenhNhan.resx">
       <DependentUpon>UC_BenhNhan.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User Control\DieuTri\UC_ItemDichVu.resx">
-      <DependentUpon>UC_ItemDichVu.cs</DependentUpon>
+    <EmbeddedResource Include="DieuTri\UC_Item.resx">
+      <DependentUpon>UC_Item.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User Control\DieuTri\UC_DieuTri.resx">
+    <EmbeddedResource Include="DieuTri\UC_DieuTri.resx">
       <DependentUpon>UC_DieuTri.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="User Control\DieuTri\UC_DieuTri_New.resx">
-      <DependentUpon>UC_DieuTri_New.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Control\UC_LichHen.resx">
       <DependentUpon>UC_LichHen.cs</DependentUpon>

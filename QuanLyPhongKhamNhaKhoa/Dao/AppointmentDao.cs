@@ -190,5 +190,26 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
                 return false;
             }
         }
+        public bool insertAppointmentService(string id, string serviceID)
+        {
+           
+
+            SqlCommand command = new SqlCommand("INSERT INTO Appointment_Service (appointmentID, serviceID)" +
+                " VALUES (@appointmentID,@serviceID)", mydb.getConnection);
+            command.Parameters.Add("@appointmentID", SqlDbType.VarChar).Value = id;
+            command.Parameters.Add("@serviceID", SqlDbType.VarChar).Value = serviceID;
+            
+            mydb.openConnection();
+            if ((command.ExecuteNonQuery() == 1))
+            {
+                mydb.closeConnection();
+                return true;
+            }
+            else
+            {
+                mydb.closeConnection();
+                return false;
+            }
+        }
     }
 }

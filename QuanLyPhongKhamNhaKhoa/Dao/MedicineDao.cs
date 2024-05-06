@@ -64,11 +64,12 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
 
         public bool insertMedicine(Medicine medicine)
         {
-            SqlCommand command = new SqlCommand("INSERT INTO Medicine (medicineID, medicineName, cost)" +
+            SqlCommand command = new SqlCommand("INSERT INTO Medicine (medicineID, medicineName, cost, unit)" +
                 " VALUES (@medicineID,@medicineName, @cost)", mydb.getConnection);
             command.Parameters.Add("@medicineID", SqlDbType.VarChar).Value = medicine.MedicineID;
             command.Parameters.Add("@medicineName", SqlDbType.NVarChar).Value = medicine.MedicineName;
             command.Parameters.Add("@cost", SqlDbType.Float).Value = medicine.Cost;
+            command.Parameters.Add("@unit", SqlDbType.NVarChar).Value = medicine.Unit;
 
             mydb.openConnection();
             if ((command.ExecuteNonQuery() == 1))
@@ -82,5 +83,7 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
                 return false;
             }
         }
+
+        
     }
 }

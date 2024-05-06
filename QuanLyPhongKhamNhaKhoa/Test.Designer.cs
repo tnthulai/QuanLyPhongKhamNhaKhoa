@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.uC_DieuTri_New1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_DieuTri_New();
+            this.uC_DieuTri_New1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_DieuTri();
             this.SuspendLayout();
             // 
             // uC_DieuTri_New1
@@ -57,6 +57,6 @@
 
         #endregion
 
-        private User_Control.UC_DieuTri_New uC_DieuTri_New1;
+        private User_Control.UC_DieuTri uC_DieuTri_New1;
     }
 }
