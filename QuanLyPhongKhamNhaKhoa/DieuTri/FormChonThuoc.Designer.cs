@@ -162,6 +162,7 @@
             this.Controls.Add(this.txtThuoc);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FormChonThuoc";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormChonThuoc";
             this.Load += new System.EventHandler(this.FormChonThuoc_Load);
             this.panel1.ResumeLayout(false);

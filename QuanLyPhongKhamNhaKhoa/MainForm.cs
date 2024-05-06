@@ -35,9 +35,17 @@ namespace QuanLyPhongKhamNhaKhoa
             picBoxNen.Visible = true;
             picture = CurrentUser.currentUser.Image;
             xuLyAvatar(picture);
-            
+            uC_TuyChonTaiKhoan1.DangXuatClicked += UC_TuyChonTaiKhoan1_DangXuatClicked;
 
         }
+
+        private void UC_TuyChonTaiKhoan1_DangXuatClicked(object sender, EventArgs e)
+        {
+            this.Close();
+            LoginForm loginForm = new LoginForm();
+            loginForm.Show();
+        }
+
         public void ReSetForm()
         {
             uC_BenhNhan1.Visible = false;
@@ -185,7 +193,7 @@ namespace QuanLyPhongKhamNhaKhoa
         {
             if(!uC_TuyChonTaiKhoan1.Visible)
             {
-                //uC_TuyChonTaiKhoan1.user = user;
+                
                 uC_TuyChonTaiKhoan1.Visible = true;
                 uC_TuyChonTaiKhoan1.BringToFront();
             } else

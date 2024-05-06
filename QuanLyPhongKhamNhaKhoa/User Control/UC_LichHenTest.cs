@@ -46,6 +46,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         {
             cbNhaSi.DropDownStyle = ComboBoxStyle.DropDownList;
             load();
+            hienThiLichHen();
             
             InitializeCalendar();
         }

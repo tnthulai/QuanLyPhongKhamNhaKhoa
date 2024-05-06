@@ -1,4 +1,5 @@
-﻿using QuanLyPhongKhamNhaKhoa.Dao;
+﻿using QuanLyPhongKhamNhaKhoa.Account;
+using QuanLyPhongKhamNhaKhoa.Dao;
 using QuanLyPhongKhamNhaKhoa.Entity;
 using QuanLyPhongKhamNhaKhoa.Validation;
 using System;
@@ -12,7 +13,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
+using Image = System.Drawing.Image;
 
 namespace QuanLyPhongKhamNhaKhoa
 {
@@ -219,8 +222,9 @@ namespace QuanLyPhongKhamNhaKhoa
         }
 
         private void btnDoiMatKhau_Click(object sender, EventArgs e)
-        {
-
+        { 
+            ChangePasswordForm changePasswordForm = new ChangePasswordForm();
+            changePasswordForm.ShowDialog();
         }
     }
 }

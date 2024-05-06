@@ -1,4 +1,5 @@
-﻿using QuanLyPhongKhamNhaKhoa.Entity;
+﻿using QuanLyPhongKhamNhaKhoa.Account;
+using QuanLyPhongKhamNhaKhoa.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,12 +31,31 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
             AccountInfoForm accountInfoForm = new AccountInfoForm();
             //lấy userID chuyển qua cho accountInfoForm
             accountInfoForm.userID = CurrentUser.currentUser.UserID;
+            this.Visible = false;
             accountInfoForm.ShowDialog();
         }
 
         private void guna2Shapes1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void lblDoiMatKhau_Click(object sender, EventArgs e)
+        {
+            ChangePasswordForm changePasswordForm = new ChangePasswordForm();
+            this.Visible = false;
+            changePasswordForm.ShowDialog();
+        }
+        public event EventHandler DangXuatClicked;
+
+        private void lblDangXuat_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Bạn có muốn đăng xuất?", "Xác nhận đăng xuất", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                // Khi người dùng chấp nhận đăng xuất, kích hoạt sự kiện DangXuatClicked
+                DangXuatClicked?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 }

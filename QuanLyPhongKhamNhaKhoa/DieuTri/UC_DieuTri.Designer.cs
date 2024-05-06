@@ -80,7 +80,7 @@
             this.textBox6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox6.Multiline = true;
             this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(375, 160);
+            this.textBox6.Size = new System.Drawing.Size(382, 160);
             this.textBox6.TabIndex = 92;
             // 
             // btnLuu
@@ -115,12 +115,12 @@
             this.textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(375, 160);
+            this.textBox2.Size = new System.Drawing.Size(382, 160);
             this.textBox2.TabIndex = 93;
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(223, 262);
+            this.dateTimePicker1.Location = new System.Drawing.Point(230, 262);
             this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(247, 22);
@@ -128,7 +128,7 @@
             // 
             // ngayBatDau
             // 
-            this.ngayBatDau.Location = new System.Drawing.Point(223, 215);
+            this.ngayBatDau.Location = new System.Drawing.Point(230, 215);
             this.ngayBatDau.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ngayBatDau.Name = "ngayBatDau";
             this.ngayBatDau.Size = new System.Drawing.Size(247, 22);
@@ -193,7 +193,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(223, 155);
+            this.textBox1.Location = new System.Drawing.Point(230, 156);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -245,7 +245,7 @@
             this.btnTimkiemMaDieuTri.ImageOffset = new System.Drawing.Point(0, 0);
             this.btnTimkiemMaDieuTri.ImageRotate = 0F;
             this.btnTimkiemMaDieuTri.ImageSize = new System.Drawing.Size(20, 20);
-            this.btnTimkiemMaDieuTri.Location = new System.Drawing.Point(440, 158);
+            this.btnTimkiemMaDieuTri.Location = new System.Drawing.Point(440, 159);
             this.btnTimkiemMaDieuTri.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnTimkiemMaDieuTri.Name = "btnTimkiemMaDieuTri";
             this.btnTimkiemMaDieuTri.Size = new System.Drawing.Size(28, 21);
@@ -256,7 +256,7 @@
             this.lblNameNS.AutoSize = true;
             this.lblNameNS.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNameNS.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNameNS.Location = new System.Drawing.Point(231, 69);
+            this.lblNameNS.Location = new System.Drawing.Point(236, 72);
             this.lblNameNS.Name = "lblNameNS";
             this.lblNameNS.Size = new System.Drawing.Size(102, 20);
             this.lblNameNS.TabIndex = 98;
@@ -267,7 +267,7 @@
             this.lblNameBN.AutoSize = true;
             this.lblNameBN.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNameBN.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNameBN.Location = new System.Drawing.Point(204, 113);
+            this.lblNameBN.Location = new System.Drawing.Point(213, 114);
             this.lblNameBN.Name = "lblNameBN";
             this.lblNameBN.Size = new System.Drawing.Size(103, 20);
             this.lblNameBN.TabIndex = 98;
@@ -428,11 +428,11 @@
             this.lblTotalCostMedicine.Dock = System.Windows.Forms.DockStyle.Right;
             this.lblTotalCostMedicine.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalCostMedicine.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblTotalCostMedicine.Location = new System.Drawing.Point(1242, 596);
+            this.lblTotalCostMedicine.Location = new System.Drawing.Point(1075, 596);
             this.lblTotalCostMedicine.Name = "lblTotalCostMedicine";
-            this.lblTotalCostMedicine.Size = new System.Drawing.Size(58, 45);
+            this.lblTotalCostMedicine.Size = new System.Drawing.Size(225, 45);
             this.lblTotalCostMedicine.TabIndex = 83;
-            this.lblTotalCostMedicine.Text = "0VND";
+            this.lblTotalCostMedicine.Text = "Tổng chi phí thuốc: 0VND";
             // 
             // lblTotalCostService
             // 
@@ -468,18 +468,17 @@
             this.guna2Panel1.BorderColor = System.Drawing.Color.Black;
             this.guna2Panel1.BorderThickness = 1;
             this.guna2Panel1.Controls.Add(this.lblTotalCost);
-            this.guna2Panel1.Location = new System.Drawing.Point(571, 711);
+            this.guna2Panel1.Location = new System.Drawing.Point(572, 711);
             this.guna2Panel1.Name = "guna2Panel1";
-            this.guna2Panel1.Size = new System.Drawing.Size(1304, 50);
+            this.guna2Panel1.Size = new System.Drawing.Size(1303, 50);
             this.guna2Panel1.TabIndex = 118;
             // 
             // lblTotalCost
             // 
-            this.lblTotalCost.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.lblTotalCost.AutoSize = true;
             this.lblTotalCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalCost.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblTotalCost.Location = new System.Drawing.Point(629, 18);
+            this.lblTotalCost.Location = new System.Drawing.Point(3, 14);
             this.lblTotalCost.Name = "lblTotalCost";
             this.lblTotalCost.Size = new System.Drawing.Size(58, 20);
             this.lblTotalCost.TabIndex = 84;

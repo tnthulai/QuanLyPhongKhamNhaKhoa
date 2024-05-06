@@ -88,6 +88,7 @@
             this.lblDoiMatKhau.Size = new System.Drawing.Size(107, 20);
             this.lblDoiMatKhau.TabIndex = 2;
             this.lblDoiMatKhau.Text = "Đổi mật khẩu";
+            this.lblDoiMatKhau.Click += new System.EventHandler(this.lblDoiMatKhau_Click);
             // 
             // lblDangXuat
             // 
@@ -99,6 +100,7 @@
             this.lblDangXuat.Size = new System.Drawing.Size(106, 20);
             this.lblDangXuat.TabIndex = 2;
             this.lblDangXuat.Text = "ĐĂNG XUẤT";
+            this.lblDangXuat.Click += new System.EventHandler(this.lblDangXuat_Click);
             // 
             // guna2Shapes2
             // 

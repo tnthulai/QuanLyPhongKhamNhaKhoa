@@ -44,5 +44,26 @@ namespace QuanLyPhongKhamNhaKhoa
                 MessageBox.Show("Tên người dùng hoặc mật khẩu sai.", "Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void pbHienPassword_Click(object sender, EventArgs e)
+        {
+            if (pbHienPassword.Image == an)
+            {
+                pbHienPassword.Image = hien;
+                txtMatKhau.PasswordChar = '\0';
+            }
+            else
+            {
+                pbHienPassword.Image = an;
+                txtMatKhau.PasswordChar = '*';
+            }
+        }
+        Image hien = Image.FromFile("../../image/visible.png");
+        Image an = Image.FromFile("../../image/visiblefalse.png");
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            pbHienPassword.Image = an;
+            txtMatKhau.PasswordChar = '*';
+        }
     }
 }

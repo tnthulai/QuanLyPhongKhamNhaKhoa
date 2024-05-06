@@ -53,11 +53,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountInfoForm.cs">
+    <Compile Include="Account\AccountInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AccountInfoForm.Designer.cs">
+    <Compile Include="Account\AccountInfoForm.Designer.cs">
       <DependentUpon>AccountInfoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Account\ChangePasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Account\ChangePasswordForm.Designer.cs">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Dao\AppointmentDao.cs" />
     <Compile Include="Dao\BillDao.cs" />
@@ -98,10 +104,10 @@
     <Compile Include="FormXuLyLichHen\FormThemLichHen.Designer.cs">
       <DependentUpon>FormThemLichHen.cs</DependentUpon>
     </Compile>
-    <Compile Include="LoginForm.cs">
+    <Compile Include="Account\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoginForm.Designer.cs">
+    <Compile Include="Account\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
@@ -179,15 +185,18 @@
     <Compile Include="User Control\UC_ServiceAppointment.Designer.cs">
       <DependentUpon>UC_ServiceAppointment.cs</DependentUpon>
     </Compile>
-    <Compile Include="User Control\UC_TuyChonTaiKhoan.cs">
+    <Compile Include="Account\UC_TuyChonTaiKhoan.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="User Control\UC_TuyChonTaiKhoan.Designer.cs">
+    <Compile Include="Account\UC_TuyChonTaiKhoan.Designer.cs">
       <DependentUpon>UC_TuyChonTaiKhoan.cs</DependentUpon>
     </Compile>
     <Compile Include="Validation\Validation.cs" />
-    <EmbeddedResource Include="AccountInfoForm.resx">
+    <EmbeddedResource Include="Account\AccountInfoForm.resx">
       <DependentUpon>AccountInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Account\ChangePasswordForm.resx">
+      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DieuTri\FormChonThuoc.resx">
       <DependentUpon>FormChonThuoc.cs</DependentUpon>
@@ -198,7 +207,7 @@
     <EmbeddedResource Include="FormXuLyLichHen\FormThemLichHen.resx">
       <DependentUpon>FormThemLichHen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LoginForm.resx">
+    <EmbeddedResource Include="Account\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
@@ -247,7 +256,7 @@
     <EmbeddedResource Include="User Control\UC_ServiceAppointment.resx">
       <DependentUpon>UC_ServiceAppointment.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User Control\UC_TuyChonTaiKhoan.resx">
+    <EmbeddedResource Include="Account\UC_TuyChonTaiKhoan.resx">
       <DependentUpon>UC_TuyChonTaiKhoan.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="DentalClinicDataSetDSNV.xsc">
@@ -281,10 +290,19 @@
     <Content Include="image\avatar.png" />
     <Content Include="image\bacsi.jpg" />
     <Content Include="image\dieutri.png" />
+    <None Include="Resources\image.png" />
+    <None Include="image\xoa.png" />
+    <None Include="Resources\refresh1.png" />
+    <None Include="Resources\save.png" />
+    <None Include="Resources\refresh.png" />
     <None Include="image\findicon.png" />
     <Content Include="image\logo.png" />
+    <Content Include="image\refresh.png" />
+    <Content Include="image\save.png" />
     <Content Include="image\search.png" />
     <Content Include="image\user.jpg" />
+    <Content Include="image\visible.png" />
+    <Content Include="image\visiblefalse.png" />
     <Content Include="image\x.png" />
     <None Include="Resources\x.png" />
     <None Include="Resources\rang.png" />

@@ -33,11 +33,6 @@
             this.btnChonAnh = new System.Windows.Forms.Button();
             this.picBoxImage = new System.Windows.Forms.PictureBox();
             this.btnXuatDuLieu = new System.Windows.Forms.Button();
-            this.btnTimKiem = new System.Windows.Forms.Button();
-            this.btnXoaBN = new System.Windows.Forms.Button();
-            this.btnSuaBN = new System.Windows.Forms.Button();
-            this.btnThemBN = new System.Windows.Forms.Button();
-            this.btnLamMoi = new System.Windows.Forms.Button();
             this.dateTimePickerNgSinh = new System.Windows.Forms.DateTimePicker();
             this.rbFemale = new System.Windows.Forms.RadioButton();
             this.rbMale = new System.Windows.Forms.RadioButton();
@@ -57,8 +52,18 @@
             this.dataPatient = new System.Windows.Forms.DataGridView();
             this.label10 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnXoaNV = new System.Windows.Forms.PictureBox();
+            this.btnSuaNV = new System.Windows.Forms.PictureBox();
+            this.btnThemNV = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataPatient)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnXoaNV)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSuaNV)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnThemNV)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // guna2Elipse1
@@ -103,76 +108,6 @@
             this.btnXuatDuLieu.Text = "Xuất dữ liệu";
             this.btnXuatDuLieu.UseVisualStyleBackColor = false;
             this.btnXuatDuLieu.Click += new System.EventHandler(this.btnXuatDuLieu_Click);
-            // 
-            // btnTimKiem
-            // 
-            this.btnTimKiem.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTimKiem.ForeColor = System.Drawing.Color.White;
-            this.btnTimKiem.Location = new System.Drawing.Point(1381, 346);
-            this.btnTimKiem.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnTimKiem.Name = "btnTimKiem";
-            this.btnTimKiem.Size = new System.Drawing.Size(137, 38);
-            this.btnTimKiem.TabIndex = 59;
-            this.btnTimKiem.Text = "Tìm kiếm";
-            this.btnTimKiem.UseVisualStyleBackColor = false;
-            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
-            // 
-            // btnXoaBN
-            // 
-            this.btnXoaBN.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnXoaBN.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXoaBN.ForeColor = System.Drawing.Color.White;
-            this.btnXoaBN.Location = new System.Drawing.Point(729, 292);
-            this.btnXoaBN.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnXoaBN.Name = "btnXoaBN";
-            this.btnXoaBN.Size = new System.Drawing.Size(149, 38);
-            this.btnXoaBN.TabIndex = 58;
-            this.btnXoaBN.Text = "Xóa bệnh nhân";
-            this.btnXoaBN.UseVisualStyleBackColor = false;
-            this.btnXoaBN.Click += new System.EventHandler(this.btnXoaBN_Click);
-            // 
-            // btnSuaBN
-            // 
-            this.btnSuaBN.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnSuaBN.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSuaBN.ForeColor = System.Drawing.Color.White;
-            this.btnSuaBN.Location = new System.Drawing.Point(524, 292);
-            this.btnSuaBN.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnSuaBN.Name = "btnSuaBN";
-            this.btnSuaBN.Size = new System.Drawing.Size(149, 38);
-            this.btnSuaBN.TabIndex = 57;
-            this.btnSuaBN.Text = "Cập nhật";
-            this.btnSuaBN.UseVisualStyleBackColor = false;
-            this.btnSuaBN.Click += new System.EventHandler(this.btnSuaBN_Click);
-            // 
-            // btnThemBN
-            // 
-            this.btnThemBN.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnThemBN.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnThemBN.ForeColor = System.Drawing.Color.White;
-            this.btnThemBN.Location = new System.Drawing.Point(319, 292);
-            this.btnThemBN.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnThemBN.Name = "btnThemBN";
-            this.btnThemBN.Size = new System.Drawing.Size(149, 38);
-            this.btnThemBN.TabIndex = 56;
-            this.btnThemBN.Text = "Thêm bệnh nhân";
-            this.btnThemBN.UseVisualStyleBackColor = false;
-            this.btnThemBN.Click += new System.EventHandler(this.btnThemBN_Click);
-            // 
-            // btnLamMoi
-            // 
-            this.btnLamMoi.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnLamMoi.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLamMoi.ForeColor = System.Drawing.Color.White;
-            this.btnLamMoi.Location = new System.Drawing.Point(115, 292);
-            this.btnLamMoi.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnLamMoi.Name = "btnLamMoi";
-            this.btnLamMoi.Size = new System.Drawing.Size(149, 38);
-            this.btnLamMoi.TabIndex = 55;
-            this.btnLamMoi.Text = "Làm mới";
-            this.btnLamMoi.UseVisualStyleBackColor = false;
-            this.btnLamMoi.Click += new System.EventHandler(this.btnLamMoi_Click);
             // 
             // dateTimePickerNgSinh
             // 
@@ -229,11 +164,11 @@
             // txtTimKiem
             // 
             this.txtTimKiem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTimKiem.Location = new System.Drawing.Point(965, 346);
+            this.txtTimKiem.Location = new System.Drawing.Point(1157, 347);
             this.txtTimKiem.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtTimKiem.Multiline = true;
             this.txtTimKiem.Name = "txtTimKiem";
-            this.txtTimKiem.Size = new System.Drawing.Size(411, 37);
+            this.txtTimKiem.Size = new System.Drawing.Size(363, 37);
             this.txtTimKiem.TabIndex = 49;
             this.txtTimKiem.TextChanged += new System.EventHandler(this.txtTimKiem_TextChanged);
             // 
@@ -395,18 +330,74 @@
             this.label1.TabIndex = 36;
             this.label1.Text = "Bệnh Nhân";
             // 
+            // btnXoaNV
+            // 
+            this.btnXoaNV.Image = global::QuanLyPhongKhamNhaKhoa.Properties.Resources.xoa;
+            this.btnXoaNV.Location = new System.Drawing.Point(361, 292);
+            this.btnXoaNV.Name = "btnXoaNV";
+            this.btnXoaNV.Size = new System.Drawing.Size(38, 37);
+            this.btnXoaNV.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnXoaNV.TabIndex = 75;
+            this.btnXoaNV.TabStop = false;
+            this.btnXoaNV.Click += new System.EventHandler(this.btnXoaBN_Click);
+            // 
+            // btnSuaNV
+            // 
+            this.btnSuaNV.Image = global::QuanLyPhongKhamNhaKhoa.Properties.Resources.save;
+            this.btnSuaNV.Location = new System.Drawing.Point(271, 292);
+            this.btnSuaNV.Name = "btnSuaNV";
+            this.btnSuaNV.Size = new System.Drawing.Size(38, 37);
+            this.btnSuaNV.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnSuaNV.TabIndex = 76;
+            this.btnSuaNV.TabStop = false;
+            this.btnSuaNV.Click += new System.EventHandler(this.btnSuaBN_Click);
+            // 
+            // btnThemNV
+            // 
+            this.btnThemNV.Image = global::QuanLyPhongKhamNhaKhoa.Properties.Resources.add;
+            this.btnThemNV.Location = new System.Drawing.Point(181, 292);
+            this.btnThemNV.Name = "btnThemNV";
+            this.btnThemNV.Size = new System.Drawing.Size(38, 37);
+            this.btnThemNV.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.btnThemNV.TabIndex = 77;
+            this.btnThemNV.TabStop = false;
+            this.btnThemNV.Click += new System.EventHandler(this.btnThemBN_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::QuanLyPhongKhamNhaKhoa.Properties.Resources.refresh1;
+            this.pictureBox1.Location = new System.Drawing.Point(91, 292);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(38, 37);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 78;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.btnLamMoi_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.White;
+            this.pictureBox2.Image = global::QuanLyPhongKhamNhaKhoa.Properties.Resources.findicon;
+            this.pictureBox2.Location = new System.Drawing.Point(1489, 350);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(29, 32);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 79;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.btnTimKiem_Click);
+            // 
             // UC_BenhNhan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.btnXoaNV);
+            this.Controls.Add(this.btnSuaNV);
+            this.Controls.Add(this.btnThemNV);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnChonAnh);
             this.Controls.Add(this.picBoxImage);
             this.Controls.Add(this.btnXuatDuLieu);
-            this.Controls.Add(this.btnTimKiem);
-            this.Controls.Add(this.btnXoaBN);
-            this.Controls.Add(this.btnSuaBN);
-            this.Controls.Add(this.btnThemBN);
-            this.Controls.Add(this.btnLamMoi);
             this.Controls.Add(this.dateTimePickerNgSinh);
             this.Controls.Add(this.rbFemale);
             this.Controls.Add(this.rbMale);
@@ -428,10 +419,15 @@
             this.Controls.Add(this.label1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "UC_BenhNhan";
-            this.Size = new System.Drawing.Size(1564, 818);
+            this.Size = new System.Drawing.Size(1936, 812);
             this.Load += new System.EventHandler(this.UC_BenhNhan_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picBoxImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataPatient)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnXoaNV)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSuaNV)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnThemNV)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -442,11 +438,6 @@
         private System.Windows.Forms.Button btnChonAnh;
         private System.Windows.Forms.PictureBox picBoxImage;
         private System.Windows.Forms.Button btnXuatDuLieu;
-        private System.Windows.Forms.Button btnTimKiem;
-        private System.Windows.Forms.Button btnXoaBN;
-        private System.Windows.Forms.Button btnSuaBN;
-        private System.Windows.Forms.Button btnThemBN;
-        private System.Windows.Forms.Button btnLamMoi;
         private System.Windows.Forms.DateTimePicker dateTimePickerNgSinh;
         private System.Windows.Forms.RadioButton rbFemale;
         private System.Windows.Forms.RadioButton rbMale;
@@ -466,5 +457,10 @@
         private System.Windows.Forms.DataGridView dataPatient;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox btnXoaNV;
+        private System.Windows.Forms.PictureBox btnSuaNV;
+        private System.Windows.Forms.PictureBox btnThemNV;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

@@ -195,6 +195,26 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
             command.Parameters.Add("@address", SqlDbType.NVarChar).Value = user.Address;
             command.Parameters.Add("@isRole", SqlDbType.NVarChar).Value = user.IsRole;
             command.Parameters.Add("@image", SqlDbType.Image).Value = user.Image.ToArray();
+            
+
+            mydb.openConnection();
+            if ((command.ExecuteNonQuery() == 1))
+            {
+                mydb.closeConnection();
+                return true;
+            }
+            else
+            {
+                mydb.closeConnection();
+                return false;
+            }
+        }
+        public bool changePassWord(User user)
+        {
+            SqlCommand command = new SqlCommand("UPDATE Users SET password=@password " +
+                "WHERE userID=@userID", mydb.getConnection);
+            command.Parameters.Add("@userID", SqlDbType.VarChar).Value = user.UserID;
+            command.Parameters.Add("@password", SqlDbType.VarChar).Value = user.Password;
 
             mydb.openConnection();
             if ((command.ExecuteNonQuery() == 1))

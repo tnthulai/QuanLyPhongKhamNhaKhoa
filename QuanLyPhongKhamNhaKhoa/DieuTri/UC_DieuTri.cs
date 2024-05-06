@@ -46,7 +46,11 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 
             SqlCommand command = new SqlCommand(query, mydb.getConnection);
             command.Parameters.Add("@currentDate", SqlDbType.DateTime).Value = DateTime.Today;
-            command.Parameters.Add("@doctorID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID;
+            if(CurrentUser.currentUser.UserID != null)
+            {
+                command.Parameters.Add("@doctorID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID;
+            }
+            
 
             DataTable table = appointmentDao.getAppointment(command);
             DataColumn timeRangeColumn = new DataColumn("TimeRange", typeof(string));
@@ -82,16 +86,23 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         {
             lblNameNS.Text = CurrentUser.currentUser.FullName;
             
-            SqlCommand command = new SqlCommand("SELECT patientsID FROM Appointment WHERE appointmentID = @ID", mydb.getConnection);
-
-            command.Parameters.Add("@ID", SqlDbType.VarChar).Value = comboBoxLichHen.SelectedValue.ToString().Trim();
-            DataTable table = appointmentDao.getAppointment(command);
-            if (table.Rows.Count > 0)
+            if(comboBoxLichHen.SelectedItem != null)
             {
-                string patientID = table.Rows[0]["patientsID"].ToString().Trim();
-                lblNameBN.Text = patientsDao.GetNameByID(patientID);
+                SqlCommand command = new SqlCommand("SELECT patientsID FROM Appointment WHERE appointmentID = @ID", mydb.getConnection);
+
+                command.Parameters.Add("@ID", SqlDbType.VarChar).Value = comboBoxLichHen.SelectedValue.ToString().Trim();
+                DataTable table = appointmentDao.getAppointment(command);
+                if (table.Rows.Count > 0)
+                {
+                    string patientID = table.Rows[0]["patientsID"].ToString().Trim();
+                    lblNameBN.Text = patientsDao.GetNameByID(patientID);
+                }
+                LoadPanelDichVu();
             }
-            LoadPanelDichVu();
+            else
+            {
+
+            }
             
         }
         private void comboBoxLichHen_SelectedValueChanged(object sender, EventArgs e)
@@ -124,7 +135,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                     pnDichVuDaChon.Controls.Add(uC_ItemDichVuSelected);
                 }
             }
-            UpdateTotalCost();
+            UpdateTotalCostDichVu();
 
         }
 
@@ -150,10 +161,12 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 MessageBox.Show(ex.Message);
             }
         }
-
-        private void UpdateTotalCost()
+        private float totalCostDichVu;
+        private float totalCostThuoc;
+        private float totalCost;
+        private void UpdateTotalCostDichVu()
         {
-            totalCost = 0;
+            totalCostDichVu = 0;
             foreach (Control control in pnDichVuDaChon.Controls)
             {
                 if (control is UC_ItemSelected)
@@ -162,18 +175,36 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                     float serviceTotalCost;
                     if (float.TryParse(selectedService.lblTotalCost.Text.Replace("VND", ""), out serviceTotalCost))
                     {
-                        totalCost += serviceTotalCost;
+                        totalCostDichVu += serviceTotalCost;
                     }
                 }
+                
             }
+            lblTotalCostService.Text = "Tổng chi phí dịch vụ: " + string.Format("{0:N0}", totalCostDichVu) + " VND";
 
-            lblTotalCostService.Text = "Tổng chi phí dịch vụ: " + totalCost.ToString("0.##") + "VND";
+            totalCost = totalCostDichVu + totalCostThuoc;
+            lblTotalCost.Text = "Tổng chi phí: " + string.Format("{0:N0}", totalCost) + "VND";
         }
-        private float totalCost = 0;
-
+        private void UpdateTotalCostThuoc()
+        {
+            totalCostThuoc = 0;
+            foreach (UC_ItemSelected uC_ItemSelected in pnThuocDaChon.Controls)
+            {
+                
+                    float medicineTotalCost;
+                    if (float.TryParse(uC_ItemSelected.lblTotalCost.Text.Replace("VND", ""), out medicineTotalCost))
+                    {
+                        totalCostThuoc += medicineTotalCost;
+                    }
+            }
+            lblTotalCostMedicine.Text = "Tổng chi phí  thuốc: " + string.Format("{0:N0}", totalCostThuoc) + "VND";
+            totalCost = totalCostDichVu + totalCostThuoc;
+            lblTotalCost.Text = "Tổng chi phí: " + string.Format("{0:N0}", totalCost) + "VND";
+        }
+        
         private void UC_ItemDichVuSelected_TotalCostChanged(object sender, EventArgs e)
         {
-            UpdateTotalCost();
+            UpdateTotalCostDichVu();
         }
 
         private void pBThemDichVu_Click(object sender, EventArgs e)
@@ -217,9 +248,16 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 {
                     UC_ItemSelected uC_ItemSelected = new UC_ItemSelected(medicine.MedicineID, medicine.MedicineName, medicine.Cost, medicine.Unit);
                     uC_ItemSelected.PBExit_Click += UC_ItemSelected_PBExit_Click;
+                    uC_ItemSelected.TotalCostChanged += UC_ItemSelected_TotalCostChanged;
                     pnThuocDaChon.Controls.Add(uC_ItemSelected);
                 }
             }
+            UpdateTotalCostThuoc();
+        }
+
+        private void UC_ItemSelected_TotalCostChanged(object sender, EventArgs e)
+        {
+            UpdateTotalCostThuoc();
         }
 
         private void UC_ItemSelected_PBExit_Click(object sender, EventArgs e)
@@ -227,22 +265,16 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
             try
             {
                 UC_ItemSelected uC_ItemThuocSelected = (UC_ItemSelected)sender;
-                string serviceId = uC_ItemThuocSelected.ID;
-
-                foreach (Control control in pnDichVuDaChon.Controls)
+                
+                foreach(Medicine medicine in listMedicine)
                 {
-                    if (control is UC_ItemSelected)
+                    if(medicine.MedicineID == uC_ItemThuocSelected.ID)
                     {
-                        UC_ItemSelected item = control as UC_ItemSelected;
-                        if (item.ServiceName == uC_ItemThuocSelected.ServiceName)
-                        {
-                            pnThuocDaChon.Controls.Remove(control);
-                            break;
-                        }
+                        listMedicine.Remove(medicine);
+                        break;
                     }
                 }
                 LoadPanelThuocDaChon();
-
             }
             catch (Exception ex)
             {
