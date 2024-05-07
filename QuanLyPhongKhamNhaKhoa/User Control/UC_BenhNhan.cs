@@ -366,5 +366,10 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 e.Handled = true;
             }
         }
+
+        private void btnCamera_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -218,6 +218,12 @@
     <Compile Include="User Control\UC_PatientAppointment.Designer.cs">
       <DependentUpon>UC_PatientAppointment.cs</DependentUpon>
     </Compile>
+    <Compile Include="User Control\UC_QuanLy.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="User Control\UC_QuanLy.Designer.cs">
+      <DependentUpon>UC_QuanLy.cs</DependentUpon>
+    </Compile>
     <Compile Include="User Control\UC_ServiceAppointment.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -300,6 +306,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="User Control\UC_PatientAppointment.resx">
       <DependentUpon>UC_PatientAppointment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Control\UC_QuanLy.resx">
+      <DependentUpon>UC_QuanLy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Control\UC_ServiceAppointment.resx">
       <DependentUpon>UC_ServiceAppointment.cs</DependentUpon>

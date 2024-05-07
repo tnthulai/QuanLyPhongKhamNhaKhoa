@@ -50,6 +50,7 @@ namespace QuanLyPhongKhamNhaKhoa
             this.guna2Shapes3 = new Guna.UI2.WinForms.Guna2Shapes();
             this.picBoxNen = new Guna.UI2.WinForms.Guna2PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.uC_BaoCao_1 = new QuanLyPhongKhamNhaKhoa.Report.UC_BaoCao_();
             this.uC_LichHenTest1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_LichHenTest();
             this.uC_DieuTri_New1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_DieuTri();
             this.uC_TuyChonTaiKhoan1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_TuyChonTaiKhoan();
@@ -57,7 +58,7 @@ namespace QuanLyPhongKhamNhaKhoa
             this.uC_BenhNhan1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_BenhNhan();
             this.uC_NhanVien2 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_NhanVien();
             this.uC_NhanVien1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_NhanVien();
-            this.uC_BaoCao_1 = new QuanLyPhongKhamNhaKhoa.Report.UC_BaoCao_();
+            this.uC_QuanLy1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_QuanLy();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxNen)).BeginInit();
@@ -358,6 +359,7 @@ namespace QuanLyPhongKhamNhaKhoa
             // 
             this.panel3.BackColor = System.Drawing.Color.White;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.uC_QuanLy1);
             this.panel3.Controls.Add(this.uC_BaoCao_1);
             this.panel3.Controls.Add(this.uC_LichHenTest1);
             this.panel3.Controls.Add(this.uC_DieuTri_New1);
@@ -373,6 +375,14 @@ namespace QuanLyPhongKhamNhaKhoa
             this.panel3.Size = new System.Drawing.Size(1940, 816);
             this.panel3.TabIndex = 1;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
+            // 
+            // uC_BaoCao_1
+            // 
+            this.uC_BaoCao_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uC_BaoCao_1.Location = new System.Drawing.Point(0, 0);
+            this.uC_BaoCao_1.Name = "uC_BaoCao_1";
+            this.uC_BaoCao_1.Size = new System.Drawing.Size(1936, 812);
+            this.uC_BaoCao_1.TabIndex = 7;
             // 
             // uC_LichHenTest1
             // 
@@ -443,13 +453,13 @@ namespace QuanLyPhongKhamNhaKhoa
             this.uC_NhanVien1.TabIndex = 0;
             this.uC_NhanVien1.Visible = false;
             // 
-            // uC_BaoCao_1
+            // uC_QuanLy1
             // 
-            this.uC_BaoCao_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uC_BaoCao_1.Location = new System.Drawing.Point(0, 0);
-            this.uC_BaoCao_1.Name = "uC_BaoCao_1";
-            this.uC_BaoCao_1.Size = new System.Drawing.Size(1936, 812);
-            this.uC_BaoCao_1.TabIndex = 7;
+            this.uC_QuanLy1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uC_QuanLy1.Location = new System.Drawing.Point(0, 0);
+            this.uC_QuanLy1.Name = "uC_QuanLy1";
+            this.uC_QuanLy1.Size = new System.Drawing.Size(1936, 812);
+            this.uC_QuanLy1.TabIndex = 8;
             // 
             // MainForm
             // 
@@ -510,5 +520,6 @@ namespace QuanLyPhongKhamNhaKhoa
         private User_Control.UC_DieuTri uC_DieuTri_New1;
         private User_Control.UC_LichHenTest uC_LichHenTest1;
         private Report.UC_BaoCao_ uC_BaoCao_1;
+        private User_Control.UC_QuanLy uC_QuanLy1;
     }
 }
