@@ -76,13 +76,8 @@
             // 
             // numAmount
             // 
-<<<<<<< Updated upstream
-            this.numAmount.Location = new System.Drawing.Point(179, 16);
-            this.numAmount.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-=======
             this.numAmount.Location = new System.Drawing.Point(134, 13);
             this.numAmount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
->>>>>>> Stashed changes
             this.numAmount.Minimum = new decimal(new int[] {
             1,
             0,
@@ -131,15 +126,9 @@
             this.Controls.Add(this.cost);
             this.Controls.Add(this.nameService);
             this.Controls.Add(this.panel1);
-<<<<<<< Updated upstream
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Name = "UC_ItemSelected";
-            this.Size = new System.Drawing.Size(564, 59);
-=======
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "UC_ItemSelected";
             this.Size = new System.Drawing.Size(423, 48);
->>>>>>> Stashed changes
             ((System.ComponentModel.ISupportInitialize)(this.numAmount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBExit)).EndInit();
             this.ResumeLayout(false);

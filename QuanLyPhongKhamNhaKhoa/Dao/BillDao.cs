@@ -1,18 +1,15 @@
 ﻿using QuanLyPhongKhamNhaKhoa.Entity;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QuanLyPhongKhamNhaKhoa.Dao
 {
     internal class BillDao
     {
         SQLConnectionData mydb = new SQLConnectionData();
-
+        private Random random = new Random();
         public DataTable getBill(SqlCommand command)
         {
             command.Connection = mydb.getConnection;
@@ -42,11 +39,10 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
 
         public bool updateBill(Bill bill)
         {
-            SqlCommand command = new SqlCommand("UPDATE Bill SET patientsID=@patientsID, treatmentID=@treatmentID, " +
+            SqlCommand command = new SqlCommand("UPDATE Bill SET treatmentID=@treatmentID, " +
                 "totalCost=@totalCost, exportBillDate=@exportBillDate " +
                 "WHERE billID=@billID", mydb.getConnection);
             command.Parameters.Add("@billID", SqlDbType.VarChar).Value = bill.BillID;
-            command.Parameters.Add("@patientsID", SqlDbType.VarChar).Value = bill.PatientsID;
             command.Parameters.Add("@treatmentID", SqlDbType.VarChar).Value = bill.TreatmentID;
             command.Parameters.Add("@totalCost", SqlDbType.Float).Value = bill.TotalCost;
             command.Parameters.Add("@exportBillDate", SqlDbType.DateTime).Value = DateTime.Now;
@@ -64,13 +60,43 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
                 return false;
             }
         }
-
+        public string taoMaBill()
+        {
+            const string chars = "0123456789";
+            string result;
+            do
+            {
+                string randomPart = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
+                result = $"BILL{randomPart}";
+            } while (existBill(result));
+            return result;
+        }
+        public bool existBill(string id)
+        {
+            try
+            {
+                mydb.openConnection();
+                SqlCommand command = new SqlCommand("SELECT * FROM Bill WHERE billID = @billID", mydb.getConnection);
+                command.Parameters.Add("@billID", SqlDbType.VarChar).Value = id;
+                var result = command.ExecuteReader();
+                if (result.HasRows)
+                {
+                    mydb.closeConnection();
+                    return true;
+                }
+                mydb.closeConnection();
+                return false;
+            }
+            catch
+            {
+                return true;
+            }
+        }
         public bool insertBill(Bill bill)
         {
-            SqlCommand command = new SqlCommand("INSERT INTO Bill (billID, patientsID, treatmentID, totalCost, exportBillDate)" +
-                " VALUES (@billID, @patientsID, @treatmentID, @totalCost, @exportBillDate)", mydb.getConnection);
+            SqlCommand command = new SqlCommand("INSERT INTO Bill (billID, treatmentID, totalCost, exportBillDate)" +
+                " VALUES (@billID, @treatmentID, @totalCost, @exportBillDate)", mydb.getConnection);
             command.Parameters.Add("@billID", SqlDbType.VarChar).Value = bill.BillID;
-            command.Parameters.Add("@patientsID", SqlDbType.VarChar).Value = bill.PatientsID;
             command.Parameters.Add("@treatmentID", SqlDbType.VarChar).Value = bill.TreatmentID;
             command.Parameters.Add("@totalCost", SqlDbType.Float).Value = bill.TotalCost;
             command.Parameters.Add("@exportBillDate", SqlDbType.DateTime).Value = DateTime.Now;
