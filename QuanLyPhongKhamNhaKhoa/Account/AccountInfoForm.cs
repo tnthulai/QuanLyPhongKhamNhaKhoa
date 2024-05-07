@@ -126,7 +126,7 @@ namespace QuanLyPhongKhamNhaKhoa
                 }
                 int born_year = dateTimePickerNgSinh.Value.Year;
                 int this_year = DateTime.Now.Year;
-                if (((this_year - born_year) < 22))
+                if ((this_year - born_year) < 22)
                 {
                     throw new InvalidBirthdate(22);
                 }
@@ -225,6 +225,23 @@ namespace QuanLyPhongKhamNhaKhoa
         { 
             ChangePasswordForm changePasswordForm = new ChangePasswordForm();
             changePasswordForm.ShowDialog();
+        }
+
+        private void txtSDT_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (txtSDT.Text.Length >= 10 && e.KeyChar != (char)Keys.Back ||
+            (!char.IsControl(e.KeyChar) && (!char.IsDigit(e.KeyChar) || (txtSDT.Text.Length == 0 && e.KeyChar != '0'))))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtCCCD_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (txtCCCD.Text.Length >= 12 && e.KeyChar != (char)Keys.Back || !char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

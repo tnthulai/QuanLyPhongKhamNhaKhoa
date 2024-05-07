@@ -68,7 +68,6 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
 
             DataTable dtService = serviceDao.getService(cmd);
 
-
             panelDichVu.Controls.Clear();
             foreach (DataRow row in dtService.Rows)
             {
@@ -83,8 +82,6 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
                     uC_itemDichVu.CheckBoxCheckedChanged += UC_ItemDichVu_CheckBoxCheckedChanged;
 
                     panelDichVu.Controls.Add(uC_itemDichVu);
-
-
                 }
             }
         }
@@ -109,6 +106,10 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
+            if(listService.Count == 0)
+            {
+                listService.Add(new Service("TV", "Tư vấn", 0, "Lần"));
+            }
             this.listDichVuSelected(listService);
             this.Close();
         }

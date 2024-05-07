@@ -1,4 +1,5 @@
-﻿using QuanLyPhongKhamNhaKhoa.Dao;
+﻿using QuanLyPhongKhamNhaKhoa.Account;
+using QuanLyPhongKhamNhaKhoa.Dao;
 using QuanLyPhongKhamNhaKhoa.Entity;
 using System;
 using System.Collections.Generic;
@@ -64,6 +65,12 @@ namespace QuanLyPhongKhamNhaKhoa
         {
             pbHienPassword.Image = an;
             txtMatKhau.PasswordChar = '*';
+        }
+
+        private void lblQuenMatKhau_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            FormForgotPassword formForgotPassword = new FormForgotPassword();
+            formForgotPassword.ShowDialog();
         }
     }
 }

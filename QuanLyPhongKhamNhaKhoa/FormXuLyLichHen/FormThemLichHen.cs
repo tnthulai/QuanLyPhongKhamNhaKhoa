@@ -119,7 +119,8 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
                 panelDichVu.Controls.Add(labelThongBao);
                 labelThongBao.AutoSize = true;
                 int x = (panelDichVu.Width - labelThongBao.Width) / 2;
-                int y = (panelDichVu.Height - labelThongBao.Height) / 2; labelThongBao.Location = new Point(x, y);
+                int y = (panelDichVu.Height - labelThongBao.Height) / 2;
+                labelThongBao.Location = new Point(x, y);
             }
         }
 
@@ -274,6 +275,7 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
         private void dateTPKLichHen_ValueChanged(object sender, EventArgs e)
         {
             taoThoiGianChoCbTime();
+            loadListDichVuDaChon();
         }
 
         private void pBThemDichVu_Click(object sender, EventArgs e)
@@ -300,14 +302,23 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
                     UC_Item uC_ItemDichVu = new UC_Item(service.ServiceID, service.ServiceName, service.Cost, service.Unit);
                     uC_ItemDichVu.checkBox.Checked = true;
                     panelDichVu.Controls.Add(uC_ItemDichVu);
-
                 }
             }
-
+            else
+            {
+                UC_Item uC_Item = new UC_Item("TV", "Tư vấn", 0, "Lần");
+                uC_Item.checkBox.Checked = true;
+                uC_Item.checkBox.Checked = false;
+                panelDichVu.Controls.Add(uC_Item);
+            }
         }
         private void btnLuu_Click(object sender, EventArgs e)
         {
-
+            if (txtCCCD.Text.ToString()=="" || patientsID == "" || cbTime.Text.ToString()=="")
+            {
+                MessageBox.Show("Chưa đủ dữ liệu!", "Add Appointment", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             themLichHen();
             themLichHenDichVu();
 
@@ -362,7 +373,7 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
                 }
             }catch(Exception ex)
             {
-
+                MessageBox.Show("ERROR: " + ex.Message, "Add Appointment", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

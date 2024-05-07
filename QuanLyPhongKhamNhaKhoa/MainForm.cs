@@ -58,6 +58,8 @@ namespace QuanLyPhongKhamNhaKhoa
             picBoxNen.Visible = false;
             uC_TuyChonTaiKhoan1.Visible = false;
 
+            uC_BaoCao_1.Visible = false;
+
         }
         public void xuLyAvatar(MemoryStream picture)
         {
@@ -171,7 +173,8 @@ namespace QuanLyPhongKhamNhaKhoa
             Guna2Button clickedButton = (Guna2Button)sender;
             clickedButton.FillColor = Color.LightGray;
 
-            
+            uC_BaoCao_1.Visible = true;
+            uC_BaoCao_1.BringToFront();
         }
         private void ResetButtonColors()
         {

@@ -31,7 +31,6 @@
             this.btnDatLich = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dtpkDate = new System.Windows.Forms.DateTimePicker();
-            this.cBoxNotify = new System.Windows.Forms.CheckBox();
             this.panelDate = new System.Windows.Forms.Panel();
             this.cbNhaSi = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -75,17 +74,6 @@
             this.dtpkDate.TabIndex = 66;
             this.dtpkDate.ValueChanged += new System.EventHandler(this.dtpkDate_ValueChanged);
             // 
-            // cBoxNotify
-            // 
-            this.cBoxNotify.AutoSize = true;
-            this.cBoxNotify.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cBoxNotify.Location = new System.Drawing.Point(174, 31);
-            this.cBoxNotify.Name = "cBoxNotify";
-            this.cBoxNotify.Size = new System.Drawing.Size(74, 24);
-            this.cBoxNotify.TabIndex = 67;
-            this.cBoxNotify.Text = "Notify";
-            this.cBoxNotify.UseVisualStyleBackColor = true;
-            // 
             // panelDate
             // 
             this.panelDate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -121,7 +109,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cbNhaSi);
             this.Controls.Add(this.panelDate);
-            this.Controls.Add(this.cBoxNotify);
             this.Controls.Add(this.dtpkDate);
             this.Controls.Add(this.btnDatLich);
             this.Controls.Add(this.label1);
@@ -137,7 +124,6 @@
         private System.Windows.Forms.Button btnDatLich;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dtpkDate;
-        private System.Windows.Forms.CheckBox cBoxNotify;
         private System.Windows.Forms.Panel panelDate;
         private System.Windows.Forms.ComboBox cbNhaSi;
         private System.Windows.Forms.Label label2;

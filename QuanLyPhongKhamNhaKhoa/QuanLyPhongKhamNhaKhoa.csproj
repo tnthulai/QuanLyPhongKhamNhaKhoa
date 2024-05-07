@@ -60,6 +60,7 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Messaging" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -82,6 +83,12 @@
     </Compile>
     <Compile Include="Account\ChangePasswordForm.Designer.cs">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Account\FormForgotPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Account\FormForgotPassword.designer.cs">
+      <DependentUpon>FormForgotPassword.cs</DependentUpon>
     </Compile>
     <Compile Include="Dao\AppointmentDao.cs" />
     <Compile Include="Dao\BillDao.cs" />
@@ -137,25 +144,37 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\UC_BaoCaoTheoNam.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Report\UC_BaoCaoTheoNam.designer.cs">
+      <DependentUpon>UC_BaoCaoTheoNam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\UC_BaoCaoTheoThang.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Report\UC_BaoCaoTheoThang.designer.cs">
+      <DependentUpon>UC_BaoCaoTheoThang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\UC_BaoCao_.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Report\UC_BaoCao_.designer.cs">
+      <DependentUpon>UC_BaoCao_.cs</DependentUpon>
+    </Compile>
     <Compile Include="SQLConnectionData.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
-    <Compile Include="Test.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test.Designer.cs">
-      <DependentUpon>Test.cs</DependentUpon>
-    </Compile>
     <Compile Include="DieuTri\UC_ItemSelected.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DieuTri\UC_ItemSelected.Designer.cs">
       <DependentUpon>UC_ItemSelected.cs</DependentUpon>
     </Compile>
-    <Compile Include="User Control\UC_BaoCao.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Test.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="User Control\UC_BaoCao.Designer.cs">
-      <DependentUpon>UC_BaoCao.cs</DependentUpon>
+    <Compile Include="Test.Designer.cs">
+      <DependentUpon>Test.cs</DependentUpon>
     </Compile>
     <Compile Include="User Control\UC_BenhNhan.cs">
       <SubType>UserControl</SubType>
@@ -218,6 +237,9 @@
     <EmbeddedResource Include="Account\ChangePasswordForm.resx">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Account\FormForgotPassword.resx">
+      <DependentUpon>FormForgotPassword.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DieuTri\FormChonThuoc.resx">
       <DependentUpon>FormChonThuoc.cs</DependentUpon>
     </EmbeddedResource>
@@ -243,14 +265,20 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Test.resx">
-      <DependentUpon>Test.cs</DependentUpon>
+    <EmbeddedResource Include="Report\UC_BaoCaoTheoNam.resx">
+      <DependentUpon>UC_BaoCaoTheoNam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\UC_BaoCaoTheoThang.resx">
+      <DependentUpon>UC_BaoCaoTheoThang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\UC_BaoCao_.resx">
+      <DependentUpon>UC_BaoCao_.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DieuTri\UC_ItemSelected.resx">
       <DependentUpon>UC_ItemSelected.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User Control\UC_BaoCao.resx">
-      <DependentUpon>UC_BaoCao.cs</DependentUpon>
+    <EmbeddedResource Include="Test.resx">
+      <DependentUpon>Test.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Control\UC_BenhNhan.resx">
       <DependentUpon>UC_BenhNhan.cs</DependentUpon>

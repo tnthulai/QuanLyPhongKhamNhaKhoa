@@ -60,6 +60,90 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
                 return false;
             }
         }
+        public double CalculateMonthlyRevenue(int month, int year)
+        {
+            double totalRevenue = 0;
+            try
+            {
+                string query = "SELECT SUM(totalCost) AS TotalRevenue FROM Bill WHERE MONTH(exportBillDate) = @Month AND YEAR(exportBillDate) = @Year";
+                using (SqlCommand command = new SqlCommand(query, mydb.getConnection))
+                {
+                    command.Parameters.AddWithValue("@Month", month);
+                    command.Parameters.AddWithValue("@Year", year);
+                    mydb.openConnection();
+                    object result = command.ExecuteScalar();
+                    if (result != DBNull.Value)
+                    {
+                        totalRevenue = Convert.ToDouble(result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error calculating monthly revenue: " + ex.Message);
+            }
+            finally
+            {
+                mydb.closeConnection();
+            }
+            return totalRevenue;
+        }
+        public double CalculateDailyRevenue(DateTime date)
+        {
+            double totalRevenue = 0;
+            try
+            {
+                string query = "SELECT SUM(totalCost) AS TotalRevenue FROM Bill WHERE CONVERT(date, exportBillDate) = @Date";
+                using (SqlCommand command = new SqlCommand(query, mydb.getConnection))
+                {
+                    command.Parameters.AddWithValue("@Date", date.Date);
+                    mydb.openConnection();
+                    object result = command.ExecuteScalar();
+                    if (result != DBNull.Value)
+                    {
+                        totalRevenue = Convert.ToDouble(result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý exception tại đây nếu cần
+                Console.WriteLine("Error calculating daily revenue: " + ex.Message);
+            }
+            finally
+            {
+                mydb.closeConnection();
+            }
+            return totalRevenue;
+        }
+        public double CalculateYearlyRevenue(int year)
+        {
+            double totalRevenue = 0;
+            try
+            {
+                string query = "SELECT SUM(totalCost) AS TotalRevenue FROM Bill WHERE YEAR(exportBillDate) = @Year";
+                using (SqlCommand command = new SqlCommand(query, mydb.getConnection))
+                {
+                    command.Parameters.AddWithValue("@Year", year);
+                    mydb.openConnection();
+                    object result = command.ExecuteScalar();
+                    if (result != DBNull.Value)
+                    {
+                        totalRevenue = Convert.ToDouble(result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý exception tại đây nếu cần
+                Console.WriteLine("Error calculating yearly revenue: " + ex.Message);
+            }
+            finally
+            {
+                mydb.closeConnection();
+            }
+            return totalRevenue;
+        }
         public string taoMaBill()
         {
             const string chars = "0123456789";

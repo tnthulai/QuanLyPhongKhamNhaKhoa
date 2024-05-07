@@ -40,7 +40,37 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         {
             LoadAppointments();
         }
-        
+        private void LoadMedicine()
+        {
+            SqlCommand cmd = new SqlCommand(@"SELECT s.serviceID, s.serviceName, s.cost, s.unit 
+                                            FROM Appointment a 
+                                            join Appointment_Service a_s on a.appointmentID = a_s.appointmentID 
+                                            join Service s on a_s.serviceID = s.serviceID
+                                            where a.appointmentID = @ID", mydb.getConnection);
+            cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = comboBoxLichHen.SelectedValue.ToString();
+            DataTable dtService = serviceDao.getService(cmd);
+            pnDichVuDaChon.Controls.Clear();
+            if (dtService.Rows.Count != 0)
+            {
+                foreach (DataRow row in dtService.Rows)
+                {
+                    string id = row["serviceID"].ToString();
+                    string serviceName = row["serviceName"].ToString();
+                    string unit = row["unit"].ToString();
+                    float cost;
+
+                    if (float.TryParse(row["cost"].ToString(), out cost))
+                    {
+                        UC_ItemSelected uC_ItemDichVuSelected = new UC_ItemSelected(id, serviceName, cost, unit);
+                        uC_ItemDichVuSelected.PBExit_Click += UC_ItemDichVuSelected_PBExit_Click;
+                        uC_ItemDichVuSelected.TotalCostChanged += UC_ItemDichVuSelected_TotalCostChanged;
+
+                        pnDichVuDaChon.Controls.Add(uC_ItemDichVuSelected);
+                    }
+                }
+                UpdateTotalCostDichVu();
+            }
+        }
         private void LoadAppointments()
         {
             comboBoxLichHen.SelectedIndex = -1;
@@ -107,6 +137,10 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
             {
                 pnDichVuDaChon.Controls.Clear();
                 pnThuocDaChon.Controls.Clear();
+                totalCostDichVu = 0;
+                totalCostThuoc = 0;
+                totalCost = 0;
+                UpdateTotalCostDichVu();
             }
         }
         private void comboBoxLichHen_SelectedValueChanged(object sender, EventArgs e)
@@ -154,6 +188,10 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
             {
                 pnDichVuDaChon.Controls.Clear();
                 pnThuocDaChon.Controls.Clear();
+                totalCostDichVu = 0;
+                totalCostThuoc = 0;
+                totalCost = 0;
+                UpdateTotalCostDichVu();
             }
         }
         private void UC_ItemDichVuSelected_PBExit_Click(object sender, EventArgs e)
