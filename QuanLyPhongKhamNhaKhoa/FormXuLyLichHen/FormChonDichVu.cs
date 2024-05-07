@@ -23,11 +23,11 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
         {
             InitializeComponent();
         }
-        public FormChonDichVu(ListDichVuSelected sender, string apointment)
+        public FormChonDichVu(ListDichVuSelected sender, string appointment)
         {
             InitializeComponent();
             this.listDichVuSelected = sender;
-            this.appointment = apointment;
+            this.appointment = appointment;
         }
 
         SQLConnectionData mydb = new SQLConnectionData();

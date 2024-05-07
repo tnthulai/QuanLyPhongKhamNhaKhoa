@@ -3,16 +3,11 @@ using QuanLyPhongKhamNhaKhoa.DieuTri;
 using QuanLyPhongKhamNhaKhoa.Entity;
 using QuanLyPhongKhamNhaKhoa.FormXuLyLichHen;
 using QuanLyPhongKhamNhaKhoa.User_Control.DieuTri;
+using QuanLyPhongKhamNhaKhoa.Validation;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
 namespace QuanLyPhongKhamNhaKhoa.User_Control
@@ -31,18 +26,22 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         public List<Service> listService;
         public List<Medicine> listMedicine;
 
+        string patientID;
+        string treatmentID;
+        TreatmentDao treatmentDao = new TreatmentDao();
+
         private void UC_DieuTri_New_Load(object sender, EventArgs e)
         {
             LoadAppointments();
-            
         }
 
         private void LoadAppointments()
         {
             TimeSpan currentTime = DateTime.Now.TimeOfDay;
-            //TimeSpan currentTime = new TimeSpan(23, 30, 0);
 
-            string query = "SELECT appointmentID, patientsID, startTime, endTime FROM Appointment WHERE appointmentDate = @currentDate AND userID = @doctorID ORDER BY startTime ASC";
+            string query = "SELECT appointmentID, patientsID, startTime, endTime FROM Appointment " +
+                "WHERE appointmentDate = @currentDate AND userID = @doctorID " +
+                "ORDER BY startTime ASC";
 
             SqlCommand command = new SqlCommand(query, mydb.getConnection);
             command.Parameters.Add("@currentDate", SqlDbType.DateTime).Value = DateTime.Today;
@@ -94,16 +93,12 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 DataTable table = appointmentDao.getAppointment(command);
                 if (table.Rows.Count > 0)
                 {
-                    string patientID = table.Rows[0]["patientsID"].ToString().Trim();
+                    patientID = table.Rows[0]["patientsID"].ToString().Trim();
                     lblNameBN.Text = patientsDao.GetNameByID(patientID);
                 }
                 LoadPanelDichVu();
             }
-            else
-            {
-
-            }
-            
+            else {}
         }
         private void comboBoxLichHen_SelectedValueChanged(object sender, EventArgs e)
         {
@@ -209,8 +204,16 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 
         private void pBThemDichVu_Click(object sender, EventArgs e)
         {
-            FormChonDichVu formChonDichVu = new FormChonDichVu(setValueList, comboBoxLichHen.SelectedValue.ToString());
-            formChonDichVu.ShowDialog();
+            if (comboBoxLichHen.SelectedValue != null)
+            {
+                FormChonDichVu formChonDichVu = new FormChonDichVu(setValueList, comboBoxLichHen.SelectedValue.ToString());
+                formChonDichVu.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Chưa chọn cuộc hẹn!", "Add Services", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
 
         private void setValueList(List<Service> list)
@@ -230,7 +233,6 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 }
             }
             LoadPanelDichVu();
-
         }
 
         private void setValueListMedicine(List<Medicine> list)
@@ -278,7 +280,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -286,6 +288,92 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         {
             FormChonThuoc formChonThuoc = new FormChonThuoc(setValueListMedicine);
             formChonThuoc.ShowDialog();
+        }
+
+        private void btnLuu_Click(object sender, EventArgs e)
+        {
+            themThongTinDieuTri();
+        }
+        private void thuocDieuTri()
+        {
+            try
+            {
+                foreach (UC_ItemSelected uC_ItemSelected in pnThuocDaChon.Controls)
+                {
+                    Medicine_Treatment medicine_Treatment = new Medicine_Treatment();
+                    medicine_Treatment.TreatmentID = treatmentID;
+                    medicine_Treatment.MedicineID = uC_ItemSelected.ID;
+                    medicine_Treatment.Amount = uC_ItemSelected.NumAmount;
+                    treatmentDao.insertMedicineTreatment(medicine_Treatment);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void luuDichVuDieuTri()
+        {
+            try
+            {
+                foreach (UC_ItemSelected uC_ItemSelected in pnDichVuDaChon.Controls)
+                {
+                    Service_Treatment service_Treatment = new Service_Treatment();
+                    service_Treatment.TreatmentID = treatmentID;
+                    service_Treatment.ServiceID = uC_ItemSelected.ID;
+                    service_Treatment.Amount = uC_ItemSelected.NumAmount;
+                    treatmentDao.insertServiceTreatment(service_Treatment);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void themThongTinDieuTri()
+        {
+            try
+            {
+                Treatment treatment = new Treatment();
+                treatmentID = treatmentDao.taoMaStreatment();
+                treatment.TreatmentID = treatmentID;
+                treatment.PatientsID = patientID;
+                treatment.UserID = CurrentUser.currentUser.UserID;
+                DateTime startDate = dateTPStartDate.Value.Date;
+                DateTime endDate = dateTPEndDate.Value.Date;
+                DateTime nowDate = DateTime.Now.Date;
+
+                if (nowDate > startDate || startDate > endDate)
+                {
+                    MessageBox.Show("Thời gian không hợp lệ!", "Error Date", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                treatment.StartDate = startDate;
+                treatment.EndDate = endDate;
+                if (txtDetail.Text == "" || txtAdvice.Text == "")
+                {
+                    MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Error Infomation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                treatment.TreatmentDetail = txtDetail.Text.Trim();
+                treatment.Advice = txtAdvice.Text.Trim();
+
+                //thêm điều trị
+                if (treatmentDao.insertTreatment(treatment))
+                {
+                    MessageBox.Show("Thêm điều trị thành công!", "Add Treatment", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtTreatmentID.Text = treatmentID;
+                    luuDichVuDieuTri();
+                    thuocDieuTri();
+                }
+                else
+                {
+                    throw new InvalidExistPatients("Thêm điều trị thất bại!");
+                }
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Add Treatment", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

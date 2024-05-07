@@ -11,7 +11,6 @@ namespace QuanLyPhongKhamNhaKhoa.Entity
         private string treatmentID;
         private string medicineID;
         private int amount;
-
         public string TreatmentID { get { return treatmentID; } set { treatmentID = value; } }
         public string MedicineID { get { return medicineID; } set {medicineID = value; } }
         public int Amount { get { return amount; } set { amount = value; } }

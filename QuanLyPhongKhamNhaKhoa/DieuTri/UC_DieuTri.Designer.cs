@@ -29,24 +29,22 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_DieuTri));
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.txtAdvice = new System.Windows.Forms.TextBox();
             this.btnLuu = new System.Windows.Forms.Button();
             this.btnXuatHoaDon = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.ngayBatDau = new System.Windows.Forms.DateTimePicker();
+            this.txtDetail = new System.Windows.Forms.TextBox();
+            this.dateTPEndDate = new System.Windows.Forms.DateTimePicker();
+            this.dateTPStartDate = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtTreatmentID = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
-            this.btnTimkiemMaDieuTri = new Guna.UI2.WinForms.Guna2ImageButton();
             this.lblNameNS = new System.Windows.Forms.Label();
             this.lblNameBN = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -68,20 +66,23 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.lblTotalCost = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.pBThemDichVu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBThemThuoc)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.guna2Panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // textBox6
+            // txtAdvice
             // 
-            this.textBox6.Location = new System.Drawing.Point(95, 551);
-            this.textBox6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox6.Multiline = true;
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(382, 160);
-            this.textBox6.TabIndex = 92;
+            this.txtAdvice.Location = new System.Drawing.Point(95, 551);
+            this.txtAdvice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtAdvice.Multiline = true;
+            this.txtAdvice.Name = "txtAdvice";
+            this.txtAdvice.Size = new System.Drawing.Size(382, 160);
+            this.txtAdvice.TabIndex = 92;
             // 
             // btnLuu
             // 
@@ -95,6 +96,7 @@
             this.btnLuu.TabIndex = 107;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = false;
+            this.btnLuu.Click += new System.EventHandler(this.btnLuu_Click);
             // 
             // btnXuatHoaDon
             // 
@@ -109,37 +111,45 @@
             this.btnXuatHoaDon.Text = "Xuất hóa đơn";
             this.btnXuatHoaDon.UseVisualStyleBackColor = false;
             // 
-            // textBox2
+            // txtDetail
             // 
-            this.textBox2.Location = new System.Drawing.Point(95, 347);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(382, 160);
-            this.textBox2.TabIndex = 93;
+            this.txtDetail.Location = new System.Drawing.Point(95, 347);
+            this.txtDetail.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtDetail.Multiline = true;
+            this.txtDetail.Name = "txtDetail";
+            this.txtDetail.Size = new System.Drawing.Size(382, 160);
+            this.txtDetail.TabIndex = 93;
             // 
-            // dateTimePicker1
+            // dateTPEndDate
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(230, 262);
-            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(247, 22);
-            this.dateTimePicker1.TabIndex = 105;
+            this.dateTPEndDate.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTPEndDate.CustomFormat = "dd/MM/yyyy";
+            this.dateTPEndDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTPEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTPEndDate.Location = new System.Drawing.Point(251, 262);
+            this.dateTPEndDate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dateTPEndDate.Name = "dateTPEndDate";
+            this.dateTPEndDate.Size = new System.Drawing.Size(155, 30);
+            this.dateTPEndDate.TabIndex = 105;
             // 
-            // ngayBatDau
+            // dateTPStartDate
             // 
-            this.ngayBatDau.Location = new System.Drawing.Point(230, 215);
-            this.ngayBatDau.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ngayBatDau.Name = "ngayBatDau";
-            this.ngayBatDau.Size = new System.Drawing.Size(247, 22);
-            this.ngayBatDau.TabIndex = 104;
+            this.dateTPStartDate.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTPStartDate.CustomFormat = "dd/MM/yyyy";
+            this.dateTPStartDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTPStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTPStartDate.Location = new System.Drawing.Point(251, 215);
+            this.dateTPStartDate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dateTPStartDate.Name = "dateTPStartDate";
+            this.dateTPStartDate.Size = new System.Drawing.Size(155, 30);
+            this.dateTPStartDate.TabIndex = 104;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label12.Location = new System.Drawing.Point(91, 533);
+            this.label12.Location = new System.Drawing.Point(91, 528);
             this.label12.Name = "label12";
             this.label12.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label12.Size = new System.Drawing.Size(108, 20);
@@ -191,14 +201,15 @@
             this.label5.TabIndex = 98;
             this.label5.Text = "Nha sĩ điều trị:";
             // 
-            // textBox1
+            // txtTreatmentID
             // 
-            this.textBox1.Location = new System.Drawing.Point(230, 156);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(247, 29);
-            this.textBox1.TabIndex = 97;
+            this.txtTreatmentID.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTreatmentID.Location = new System.Drawing.Point(230, 156);
+            this.txtTreatmentID.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtTreatmentID.Multiline = true;
+            this.txtTreatmentID.Name = "txtTreatmentID";
+            this.txtTreatmentID.Size = new System.Drawing.Size(247, 29);
+            this.txtTreatmentID.TabIndex = 97;
             // 
             // label4
             // 
@@ -237,20 +248,6 @@
             // 
             this.guna2Elipse1.TargetControl = this;
             // 
-            // btnTimkiemMaDieuTri
-            // 
-            this.btnTimkiemMaDieuTri.BackColor = System.Drawing.Color.White;
-            this.btnTimkiemMaDieuTri.CheckedState.ImageSize = new System.Drawing.Size(64, 64);
-            this.btnTimkiemMaDieuTri.Image = ((System.Drawing.Image)(resources.GetObject("btnTimkiemMaDieuTri.Image")));
-            this.btnTimkiemMaDieuTri.ImageOffset = new System.Drawing.Point(0, 0);
-            this.btnTimkiemMaDieuTri.ImageRotate = 0F;
-            this.btnTimkiemMaDieuTri.ImageSize = new System.Drawing.Size(20, 20);
-            this.btnTimkiemMaDieuTri.Location = new System.Drawing.Point(440, 159);
-            this.btnTimkiemMaDieuTri.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnTimkiemMaDieuTri.Name = "btnTimkiemMaDieuTri";
-            this.btnTimkiemMaDieuTri.Size = new System.Drawing.Size(28, 21);
-            this.btnTimkiemMaDieuTri.TabIndex = 110;
-            // 
             // lblNameNS
             // 
             this.lblNameNS.AutoSize = true;
@@ -267,7 +264,7 @@
             this.lblNameBN.AutoSize = true;
             this.lblNameBN.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblNameBN.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblNameBN.Location = new System.Drawing.Point(213, 114);
+            this.lblNameBN.Location = new System.Drawing.Point(236, 113);
             this.lblNameBN.Name = "lblNameBN";
             this.lblNameBN.Size = new System.Drawing.Size(103, 20);
             this.lblNameBN.TabIndex = 98;
@@ -350,11 +347,12 @@
             // 
             // comboBoxLichHen
             // 
+            this.comboBoxLichHen.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxLichHen.FormattingEnabled = true;
             this.comboBoxLichHen.Location = new System.Drawing.Point(1575, 25);
             this.comboBoxLichHen.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxLichHen.Name = "comboBoxLichHen";
-            this.comboBoxLichHen.Size = new System.Drawing.Size(205, 24);
+            this.comboBoxLichHen.Size = new System.Drawing.Size(205, 33);
             this.comboBoxLichHen.TabIndex = 116;
             this.comboBoxLichHen.SelectedValueChanged += new System.EventHandler(this.comboBoxLichHen_SelectedValueChanged);
             // 
@@ -433,6 +431,7 @@
             this.lblTotalCostMedicine.Size = new System.Drawing.Size(225, 45);
             this.lblTotalCostMedicine.TabIndex = 83;
             this.lblTotalCostMedicine.Text = "Tổng chi phí thuốc: 0VND";
+            this.lblTotalCostMedicine.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblTotalCostService
             // 
@@ -445,6 +444,7 @@
             this.lblTotalCostService.Size = new System.Drawing.Size(58, 45);
             this.lblTotalCostService.TabIndex = 83;
             this.lblTotalCostService.Text = "0VND";
+            this.lblTotalCostService.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel1
             // 
@@ -484,11 +484,35 @@
             this.lblTotalCost.TabIndex = 84;
             this.lblTotalCost.Text = "0VND";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::QuanLyPhongKhamNhaKhoa.Properties.Resources.findicon;
+            this.pictureBox1.Location = new System.Drawing.Point(446, 158);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(29, 25);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 119;
+            this.pictureBox1.TabStop = false;
+            // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker2.CustomFormat = "dd/MM/yyyy";
+            this.dateTimePicker2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker2.Location = new System.Drawing.Point(1414, 27);
+            this.dateTimePicker2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(154, 30);
+            this.dateTimePicker2.TabIndex = 120;
+            // 
             // UC_DieuTri
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.dateTimePicker2);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.guna2Panel1);
             this.Controls.Add(this.comboBoxLichHen);
             this.Controls.Add(this.pBThemThuoc);
@@ -500,16 +524,15 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.pnThuocDaChon);
-            this.Controls.Add(this.btnTimkiemMaDieuTri);
             this.Controls.Add(this.pnDichVuDaChon);
-            this.Controls.Add(this.textBox6);
+            this.Controls.Add(this.txtAdvice);
             this.Controls.Add(this.btnLuu);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.btnXuatHoaDon);
             this.Controls.Add(this.label13);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.ngayBatDau);
+            this.Controls.Add(this.txtDetail);
+            this.Controls.Add(this.dateTPEndDate);
+            this.Controls.Add(this.dateTPStartDate);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
@@ -518,7 +541,7 @@
             this.Controls.Add(this.lblNameNS);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtTreatmentID);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -533,29 +556,29 @@
             this.tableLayoutPanel1.PerformLayout();
             this.guna2Panel1.ResumeLayout(false);
             this.guna2Panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox txtAdvice;
         private System.Windows.Forms.Button btnLuu;
         private System.Windows.Forms.Button btnXuatHoaDon;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.DateTimePicker ngayBatDau;
+        private System.Windows.Forms.TextBox txtDetail;
+        private System.Windows.Forms.DateTimePicker dateTPEndDate;
+        private System.Windows.Forms.DateTimePicker dateTPStartDate;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtTreatmentID;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private Guna.UI2.WinForms.Guna2Elipse guna2Elipse1;
-        private Guna.UI2.WinForms.Guna2ImageButton btnTimkiemMaDieuTri;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.Label lblNameNS;
         private System.Windows.Forms.Label lblNameBN;
@@ -578,5 +601,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private System.Windows.Forms.Label lblTotalCost;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.DateTimePicker dateTimePicker2;
     }
 }

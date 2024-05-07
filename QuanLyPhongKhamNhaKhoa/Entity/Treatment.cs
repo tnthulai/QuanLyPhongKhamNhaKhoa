@@ -23,5 +23,20 @@ namespace QuanLyPhongKhamNhaKhoa.Entity
         public DateTime EndDate { get { return endDate; } set {endDate = value; } }
         public string TreatmentDetail { get { return treatmentDetail; } set {treatmentDetail = value; } }
         public string Advice { get { return advice; } set {advice = value; } }
+
+        public Treatment(string treatmentID, string patientsID, string userID, DateTime startDate, DateTime endDate, string treatmentDetail, string advice)
+        {
+            this.treatmentID = treatmentID;
+            this.patientsID = patientsID;
+            this.userID = userID;
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.treatmentDetail = treatmentDetail;
+            this.advice = advice;
+        }
+
+        public Treatment()
+        {
+        }
     }
 }
