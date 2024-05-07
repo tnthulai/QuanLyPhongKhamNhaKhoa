@@ -9,6 +9,8 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -100,7 +102,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         }
         public void refesh()
         {
-            SqlCommand command = new SqlCommand("SELECT userID, fullName, birthDate, gender, persionalID, phoneNumber, email, isRole, address, image FROM Users");
+            SqlCommand command = new SqlCommand("SELECT userID, fullName, birthDate, gender, persionalID, phoneNumber, email, isRole, address, image FROM Users where isRole != 'PAUSED'");
             fillGrid(command);
         }
         private void btnXoaNV_Click(object sender, EventArgs e)
@@ -150,11 +152,6 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 if (verif())
                 {
                     throw new InvalidData();
-                }
-                string userId = txtMaNV.Text.Trim();
-                if (userDao.existUsers(userId))
-                {
-                    throw new InvalidExistUsers();
                 }
                 string fullName = txtHoTen.Text.Trim();
                 string persionalID = txtCCCD.Text.Trim();
@@ -225,6 +222,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 User user = new User(userID, fullName, birthDate, gender, persionalID, phone, email, address, chucVu, password, pic);
                 if (userDao.insertUsers(user))
                 {
+                    sendPasswordByEmail(userID,password);
                     MessageBox.Show("Thêm người dùng thành công!", "Add User", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     refesh();
                     reset();
@@ -237,6 +235,40 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
             catch (Exception ex)
             {
                 MessageBox.Show("ERROR: " + ex.Message, "Add User", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        
+        private void sendPasswordByEmail(string userid, string password)
+        {
+            string from, pass, messageBody;
+            MailMessage message = new MailMessage();
+
+            string to = txtEmail.Text.ToString().Trim();
+            from = "nguyentranthulai@gmail.com"; // Email của bạn
+            pass = "opta rrst uesb fdqc";
+
+            messageBody = "Tên tài khoản đăng nhập: " + userid + "\nMật khẩu: " + password;
+
+            message.To.Add(to);
+            message.From = new MailAddress(from);
+            message.Body = messageBody;
+            message.Subject = "Creation account successful";
+
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+            smtp.EnableSsl = true;
+            smtp.Port = 587;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.Credentials = new NetworkCredential(from, pass);
+
+            try
+            {
+                smtp.Send(message);
+                MessageBox.Show("Đã gửi email thành công!", "Send Password", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "Send Password", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

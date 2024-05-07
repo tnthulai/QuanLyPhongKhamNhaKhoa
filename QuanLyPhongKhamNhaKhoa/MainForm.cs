@@ -29,7 +29,8 @@ namespace QuanLyPhongKhamNhaKhoa
         public MemoryStream picture = null;
         public void MainForm_Load(object sender, EventArgs e)
         {
-           
+
+            CheckPermisstion();
             ResetButtonColors();
             ReSetForm();
             picBoxNen.Visible = true;
@@ -37,6 +38,34 @@ namespace QuanLyPhongKhamNhaKhoa
             xuLyAvatar(picture);
             uC_TuyChonTaiKhoan1.DangXuatClicked += UC_TuyChonTaiKhoan1_DangXuatClicked;
 
+        }
+
+        private void setAdminPermisstion()
+        {
+            btnBenhNhan.Visible = true;
+            btnLichHen.Visible = true;
+            btnDieuTri.Visible = true;
+            btnBaoCao.Visible = true;
+            btnQuanLy.Visible = true;
+            btnNhanVien.Visible = true;
+        }
+
+        private void CheckPermisstion()
+        {
+            setAdminPermisstion();
+            string role = CurrentUser.currentUser.IsRole;
+            if(role == "ASSISTANT")
+            {
+                btnNhanVien.Visible = false;
+                btnDieuTri.Visible = false;
+                btnBaoCao.Visible = false;
+                btnQuanLy.Visible = false;
+            } else if (role == "DENTIST")
+            {
+                btnBaoCao.Visible = false;
+                btnQuanLy.Visible = false;
+                btnNhanVien.Visible = false;
+            }
         }
 
         private void UC_TuyChonTaiKhoan1_DangXuatClicked(object sender, EventArgs e)
@@ -57,6 +86,8 @@ namespace QuanLyPhongKhamNhaKhoa
             
             picBoxNen.Visible = false;
             uC_TuyChonTaiKhoan1.Visible = false;
+
+            uC_BaoCao_1.Visible = false;
 
         }
         public void xuLyAvatar(MemoryStream picture)
@@ -171,7 +202,8 @@ namespace QuanLyPhongKhamNhaKhoa
             Guna2Button clickedButton = (Guna2Button)sender;
             clickedButton.FillColor = Color.LightGray;
 
-            
+            uC_BaoCao_1.Visible = true;
+            uC_BaoCao_1.BringToFront();
         }
         private void ResetButtonColors()
         {

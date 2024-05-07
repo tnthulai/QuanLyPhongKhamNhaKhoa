@@ -36,12 +36,31 @@
     <Reference Include="Guna.UI2, Version=2.0.4.6, Culture=neutral, PublicKeyToken=8b9d14aa5142e261, processorArchitecture=MSIL">
       <HintPath>..\packages\Guna.UI2.WinForms.2.0.4.6\lib\net472\Guna.UI2.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1620.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1620.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1620.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1620.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1620.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
     <Reference Include="System.Management" />
     <Reference Include="System.Messaging" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -65,11 +84,18 @@
     <Compile Include="Account\ChangePasswordForm.Designer.cs">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Account\FormForgotPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Account\FormForgotPassword.designer.cs">
+      <DependentUpon>FormForgotPassword.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dao\AppointmentDao.cs" />
     <Compile Include="Dao\BillDao.cs" />
     <Compile Include="Dao\MedicineDao.cs" />
     <Compile Include="Dao\PatientsDao.cs" />
     <Compile Include="Dao\ServiceDao.cs" />
+    <Compile Include="Dao\TreatmentDao.cs" />
     <Compile Include="Dao\UserDao.cs" />
     <Compile Include="DentalClinicDataSetDSNV.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -118,24 +144,37 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\UC_BaoCaoTheoNam.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Report\UC_BaoCaoTheoNam.designer.cs">
+      <DependentUpon>UC_BaoCaoTheoNam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\UC_BaoCaoTheoThang.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Report\UC_BaoCaoTheoThang.designer.cs">
+      <DependentUpon>UC_BaoCaoTheoThang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Report\UC_BaoCao_.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Report\UC_BaoCao_.designer.cs">
+      <DependentUpon>UC_BaoCao_.cs</DependentUpon>
+    </Compile>
     <Compile Include="SQLConnectionData.cs" />
-    <Compile Include="Test.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test.Designer.cs">
-      <DependentUpon>Test.cs</DependentUpon>
-    </Compile>
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="DieuTri\UC_ItemSelected.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="DieuTri\UC_ItemSelected.Designer.cs">
       <DependentUpon>UC_ItemSelected.cs</DependentUpon>
     </Compile>
-    <Compile Include="User Control\UC_BaoCao.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Test.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="User Control\UC_BaoCao.Designer.cs">
-      <DependentUpon>UC_BaoCao.cs</DependentUpon>
+    <Compile Include="Test.Designer.cs">
+      <DependentUpon>Test.cs</DependentUpon>
     </Compile>
     <Compile Include="User Control\UC_BenhNhan.cs">
       <SubType>UserControl</SubType>
@@ -198,6 +237,9 @@
     <EmbeddedResource Include="Account\ChangePasswordForm.resx">
       <DependentUpon>ChangePasswordForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Account\FormForgotPassword.resx">
+      <DependentUpon>FormForgotPassword.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DieuTri\FormChonThuoc.resx">
       <DependentUpon>FormChonThuoc.cs</DependentUpon>
     </EmbeddedResource>
@@ -223,14 +265,20 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Test.resx">
-      <DependentUpon>Test.cs</DependentUpon>
+    <EmbeddedResource Include="Report\UC_BaoCaoTheoNam.resx">
+      <DependentUpon>UC_BaoCaoTheoNam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\UC_BaoCaoTheoThang.resx">
+      <DependentUpon>UC_BaoCaoTheoThang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\UC_BaoCao_.resx">
+      <DependentUpon>UC_BaoCao_.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DieuTri\UC_ItemSelected.resx">
       <DependentUpon>UC_ItemSelected.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User Control\UC_BaoCao.resx">
-      <DependentUpon>UC_BaoCao.cs</DependentUpon>
+    <EmbeddedResource Include="Test.resx">
+      <DependentUpon>Test.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Control\UC_BenhNhan.resx">
       <DependentUpon>UC_BenhNhan.cs</DependentUpon>
@@ -290,6 +338,19 @@
     <Content Include="image\avatar.png" />
     <Content Include="image\bacsi.jpg" />
     <Content Include="image\dieutri.png" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\image.png" />
     <None Include="image\xoa.png" />
     <None Include="Resources\refresh1.png" />

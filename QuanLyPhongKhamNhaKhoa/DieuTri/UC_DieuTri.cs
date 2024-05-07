@@ -3,16 +3,11 @@ using QuanLyPhongKhamNhaKhoa.DieuTri;
 using QuanLyPhongKhamNhaKhoa.Entity;
 using QuanLyPhongKhamNhaKhoa.FormXuLyLichHen;
 using QuanLyPhongKhamNhaKhoa.User_Control.DieuTri;
+using QuanLyPhongKhamNhaKhoa.Validation;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using System.Windows.Forms;
 
 namespace QuanLyPhongKhamNhaKhoa.User_Control
@@ -24,6 +19,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         {
             InitializeComponent();
         }
+
         SQLConnectionData mydb = new SQLConnectionData();
         ServiceDao serviceDao = new ServiceDao();
         AppointmentDao appointmentDao = new AppointmentDao();
@@ -31,26 +27,66 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         public List<Service> listService;
         public List<Medicine> listMedicine;
 
+        private float totalCostDichVu;
+        private float totalCostThuoc;
+        private float totalCost;
+
+        string patientID;
+        string treatmentID;
+        TreatmentDao treatmentDao = new TreatmentDao();
+        BillDao billDao = new BillDao();
+
         private void UC_DieuTri_New_Load(object sender, EventArgs e)
         {
             LoadAppointments();
-            
         }
+        private void LoadMedicine()
+        {
+            SqlCommand cmd = new SqlCommand(@"SELECT s.serviceID, s.serviceName, s.cost, s.unit 
+                                            FROM Appointment a 
+                                            join Appointment_Service a_s on a.appointmentID = a_s.appointmentID 
+                                            join Service s on a_s.serviceID = s.serviceID
+                                            where a.appointmentID = @ID", mydb.getConnection);
+            cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = comboBoxLichHen.SelectedValue.ToString();
+            DataTable dtService = serviceDao.getService(cmd);
+            pnDichVuDaChon.Controls.Clear();
+            if (dtService.Rows.Count != 0)
+            {
+                foreach (DataRow row in dtService.Rows)
+                {
+                    string id = row["serviceID"].ToString();
+                    string serviceName = row["serviceName"].ToString();
+                    string unit = row["unit"].ToString();
+                    float cost;
 
+                    if (float.TryParse(row["cost"].ToString(), out cost))
+                    {
+                        UC_ItemSelected uC_ItemDichVuSelected = new UC_ItemSelected(id, serviceName, cost, unit);
+                        uC_ItemDichVuSelected.PBExit_Click += UC_ItemDichVuSelected_PBExit_Click;
+                        uC_ItemDichVuSelected.TotalCostChanged += UC_ItemDichVuSelected_TotalCostChanged;
+
+                        pnDichVuDaChon.Controls.Add(uC_ItemDichVuSelected);
+                    }
+                }
+                UpdateTotalCostDichVu();
+            }
+        }
         private void LoadAppointments()
         {
+            comboBoxLichHen.SelectedIndex = -1;
             TimeSpan currentTime = DateTime.Now.TimeOfDay;
-            //TimeSpan currentTime = new TimeSpan(23, 30, 0);
+            DateTime currentDate = DateTime.Parse(dateTPDate.Value.ToString("MM/dd/yyyy"));
 
-            string query = "SELECT appointmentID, patientsID, startTime, endTime FROM Appointment WHERE appointmentDate = @currentDate AND userID = @doctorID ORDER BY startTime ASC";
+            string query = "SELECT appointmentID, patientsID, startTime, endTime FROM Appointment " +
+                "WHERE appointmentDate = @currentDate AND userID = @doctorID " +
+                "ORDER BY startTime ASC";
 
             SqlCommand command = new SqlCommand(query, mydb.getConnection);
-            command.Parameters.Add("@currentDate", SqlDbType.DateTime).Value = DateTime.Today;
+            command.Parameters.Add("@currentDate", SqlDbType.DateTime).Value = currentDate;
             if(CurrentUser.currentUser.UserID != null)
             {
                 command.Parameters.Add("@doctorID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID;
             }
-            
 
             DataTable table = appointmentDao.getAppointment(command);
             DataColumn timeRangeColumn = new DataColumn("TimeRange", typeof(string));
@@ -68,17 +104,15 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 if (currentTime >= startTime && currentTime <= endTime)
                 {
                     selectedIndex = table.Rows.IndexOf(row);
-
                 }
             }
-
             comboBoxLichHen.DataSource = table;
             comboBoxLichHen.DisplayMember = "TimeRange";
             comboBoxLichHen.ValueMember = "appointmentID";
 
             if (selectedIndex != -1)
             {
-                comboBoxLichHen.SelectedIndex = selectedIndex; // Chọn giá trị mặc định 
+                comboBoxLichHen.SelectedIndex = selectedIndex;
             }
         }
         
@@ -94,51 +128,72 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 DataTable table = appointmentDao.getAppointment(command);
                 if (table.Rows.Count > 0)
                 {
-                    string patientID = table.Rows[0]["patientsID"].ToString().Trim();
+                    patientID = table.Rows[0]["patientsID"].ToString().Trim();
                     lblNameBN.Text = patientsDao.GetNameByID(patientID);
                 }
                 LoadPanelDichVu();
             }
             else
             {
-
+                pnDichVuDaChon.Controls.Clear();
+                pnThuocDaChon.Controls.Clear();
+                totalCostDichVu = 0;
+                totalCostThuoc = 0;
+                totalCost = 0;
+                UpdateTotalCostDichVu();
             }
-            
         }
         private void comboBoxLichHen_SelectedValueChanged(object sender, EventArgs e)
         {
+            txtTreatmentID.Text = "";
+            KiemTraTimKiemDieuTri();
             getData();
         }
+
+        //Hiển thị danh sách dịch vụ theo lịch hẹn
         private void LoadPanelDichVu()
         {
-            SqlCommand cmd = new SqlCommand(@"SELECT s.serviceID, s.serviceName, s.cost, s.unit 
+            if(comboBoxLichHen.SelectedValue.ToString() != "")
+            {
+                SqlCommand cmd = new SqlCommand(@"SELECT s.serviceID, s.serviceName, s.cost, s.unit 
                                             FROM Appointment a 
                                             join Appointment_Service a_s on a.appointmentID = a_s.appointmentID 
                                             join Service s on a_s.serviceID = s.serviceID
                                             where a.appointmentID = @ID", mydb.getConnection);
-            cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = comboBoxLichHen.SelectedValue.ToString();
-            DataTable dtService = serviceDao.getService(cmd);
-            pnDichVuDaChon.Controls.Clear();
-            foreach (DataRow row in dtService.Rows)
-            {
-                string id = row["serviceID"].ToString();
-                string serviceName = row["serviceName"].ToString();
-                string unit = row["unit"].ToString();
-                float cost;
-
-                if (float.TryParse(row["cost"].ToString(), out cost))
+                cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = comboBoxLichHen.SelectedValue.ToString();
+                DataTable dtService = serviceDao.getService(cmd);
+                pnDichVuDaChon.Controls.Clear();
+                if (dtService.Rows.Count != 0)
                 {
-                    UC_ItemSelected uC_ItemDichVuSelected = new UC_ItemSelected(id, serviceName, cost, unit);
-                    uC_ItemDichVuSelected.PBExit_Click += UC_ItemDichVuSelected_PBExit_Click;
-                    uC_ItemDichVuSelected.TotalCostChanged += UC_ItemDichVuSelected_TotalCostChanged;
+                    foreach (DataRow row in dtService.Rows)
+                    {
+                        string id = row["serviceID"].ToString();
+                        string serviceName = row["serviceName"].ToString();
+                        string unit = row["unit"].ToString();
+                        float cost;
 
-                    pnDichVuDaChon.Controls.Add(uC_ItemDichVuSelected);
+                        if (float.TryParse(row["cost"].ToString(), out cost))
+                        {
+                            UC_ItemSelected uC_ItemDichVuSelected = new UC_ItemSelected(id, serviceName, cost, unit);
+                            uC_ItemDichVuSelected.PBExit_Click += UC_ItemDichVuSelected_PBExit_Click;
+                            uC_ItemDichVuSelected.TotalCostChanged += UC_ItemDichVuSelected_TotalCostChanged;
+
+                            pnDichVuDaChon.Controls.Add(uC_ItemDichVuSelected);
+                        }
+                    }
+                    UpdateTotalCostDichVu();
                 }
             }
-            UpdateTotalCostDichVu();
-
+            else
+            {
+                pnDichVuDaChon.Controls.Clear();
+                pnThuocDaChon.Controls.Clear();
+                totalCostDichVu = 0;
+                totalCostThuoc = 0;
+                totalCost = 0;
+                UpdateTotalCostDichVu();
+            }
         }
-
         private void UC_ItemDichVuSelected_PBExit_Click(object sender, EventArgs e)
         {
             try
@@ -150,20 +205,14 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 command.Parameters.Add("@appointmentID", SqlDbType.VarChar).Value = comboBoxLichHen.SelectedValue.ToString();
                 command.Parameters.Add("@serviceID", SqlDbType.VarChar).Value = serviceId;
                 mydb.openConnection();
-                
                 command.ExecuteNonQuery();
-
                 LoadPanelDichVu();
-
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
-        private float totalCostDichVu;
-        private float totalCostThuoc;
-        private float totalCost;
         private void UpdateTotalCostDichVu()
         {
             totalCostDichVu = 0;
@@ -177,8 +226,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                     {
                         totalCostDichVu += serviceTotalCost;
                     }
-                }
-                
+                }                
             }
             lblTotalCostService.Text = "Tổng chi phí dịch vụ: " + string.Format("{0:N0}", totalCostDichVu) + " VND";
 
@@ -190,12 +238,11 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
             totalCostThuoc = 0;
             foreach (UC_ItemSelected uC_ItemSelected in pnThuocDaChon.Controls)
             {
-                
-                    float medicineTotalCost;
-                    if (float.TryParse(uC_ItemSelected.lblTotalCost.Text.Replace("VND", ""), out medicineTotalCost))
-                    {
-                        totalCostThuoc += medicineTotalCost;
-                    }
+                float medicineTotalCost;
+                if (float.TryParse(uC_ItemSelected.lblTotalCost.Text.Replace("VND", ""), out medicineTotalCost))
+                {
+                    totalCostThuoc += medicineTotalCost;
+                }
             }
             lblTotalCostMedicine.Text = "Tổng chi phí  thuốc: " + string.Format("{0:N0}", totalCostThuoc) + "VND";
             totalCost = totalCostDichVu + totalCostThuoc;
@@ -209,8 +256,15 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 
         private void pBThemDichVu_Click(object sender, EventArgs e)
         {
-            FormChonDichVu formChonDichVu = new FormChonDichVu(setValueList, comboBoxLichHen.SelectedValue.ToString());
-            formChonDichVu.ShowDialog();
+            if (comboBoxLichHen.SelectedValue != null)
+            {
+                FormChonDichVu formChonDichVu = new FormChonDichVu(setValueList, comboBoxLichHen.SelectedValue.ToString());
+                formChonDichVu.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Chưa chọn cuộc hẹn!", "Add Services", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void setValueList(List<Service> list)
@@ -230,7 +284,6 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                 }
             }
             LoadPanelDichVu();
-
         }
 
         private void setValueListMedicine(List<Medicine> list)
@@ -278,7 +331,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -286,6 +339,235 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         {
             FormChonThuoc formChonThuoc = new FormChonThuoc(setValueListMedicine);
             formChonThuoc.ShowDialog();
+        }
+
+        private void btnLuu_Click(object sender, EventArgs e)
+        {
+            ThemThongTinDieuTri();
+        }
+        private void LuuThuocDieuTri()
+        {
+            try
+            {
+                foreach (UC_ItemSelected uC_ItemSelected in pnThuocDaChon.Controls)
+                {
+                    Medicine_Treatment medicine_Treatment = new Medicine_Treatment();
+                    medicine_Treatment.TreatmentID = treatmentID;
+                    medicine_Treatment.MedicineID = uC_ItemSelected.ID;
+                    medicine_Treatment.Amount = uC_ItemSelected.NumAmount;
+                    treatmentDao.insertMedicineTreatment(medicine_Treatment);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void LuuDichVuDieuTri()
+        {
+            try
+            {
+                foreach (UC_ItemSelected uC_ItemSelected in pnDichVuDaChon.Controls)
+                {
+                    Service_Treatment service_Treatment = new Service_Treatment();
+                    service_Treatment.TreatmentID = treatmentID;
+                    service_Treatment.ServiceID = uC_ItemSelected.ID;
+                    service_Treatment.Amount = uC_ItemSelected.NumAmount;
+                    treatmentDao.insertServiceTreatment(service_Treatment);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+        private void ThemThongTinDieuTri()
+        {
+            try
+            {
+                Treatment treatment = new Treatment();
+                treatmentID = treatmentDao.taoMaStreatment();
+                treatment.TreatmentID = treatmentID;
+                treatment.PatientsID = patientID;
+                treatment.UserID = CurrentUser.currentUser.UserID;
+                DateTime startDate = dateTPStartDate.Value.Date;
+                DateTime endDate = dateTPEndDate.Value.Date;
+                DateTime nowDate = DateTime.Now.Date;
+
+                if (nowDate > startDate || startDate > endDate)
+                {
+                    MessageBox.Show("Thời gian không hợp lệ!", "Error Date", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                treatment.StartDate = startDate;
+                treatment.EndDate = endDate;
+                if (txtDetail.Text == "" || txtAdvice.Text == "")
+                {
+                    MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Error Infomation", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                treatment.TreatmentDetail = txtDetail.Text.Trim();
+                treatment.Advice = txtAdvice.Text.Trim();
+
+                //thêm điều trị
+                if (treatmentDao.insertTreatment(treatment))
+                {
+                    txtTreatmentID.Text = treatmentID;
+                    LuuDichVuDieuTri();
+                    LuuThuocDieuTri();
+                    MessageBox.Show("Thêm điều trị thành công!", "Add Treatment", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ThemHoaDon();
+                }
+                else
+                {
+                    throw new InvalidExistPatients("Thêm điều trị thất bại!");
+                }
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Add Treatment", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ThemHoaDon()
+        {
+            try
+            {
+                Bill bill = new Bill();
+                string billID = billDao.taoMaBill();
+                bill.BillID = billID;
+                bill.TreatmentID = treatmentID;
+                bill.TotalCost = totalCost;
+                bill.ExportBillDate = DateTime.Now.Date;
+                if (billDao.insertBill(bill))
+                {
+                    MessageBox.Show("Thêm hoá đơn thành công!", "Add Bill", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    throw new InvalidExistPatients("Thêm hoá đơn thất bại!");
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error Add Bill", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void dateTPDate_ValueChanged(object sender, EventArgs e)
+        {
+            getData();
+            LoadAppointments();
+            KiemTraTimKiemDieuTri();
+        }
+
+        //Khi nhập treatmentID thì sẽ tìm kiếm thuốc đã chọn và dịch vụ đã chọn
+        private void LoadPanelThuocDaChonTheoTreatment(string treatmentID)
+        {
+            pnThuocDaChon.Controls.Clear();
+            SqlCommand cmd = new SqlCommand(@"SELECT m.medicineID, m.medicineName, m.unit, m.cost
+                                            FROM Medicine_Treatment m_t 
+                                            join Medicine m on m.medicineID = m_t.medicineID
+                                            join Treatment t on t.treatmentID = m_t.treatmentID 
+                                            where m_t.treatmentID = @ID AND t.userID = @userID", mydb.getConnection);
+            cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = treatmentID.Trim();
+            cmd.Parameters.Add("@userID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID.Trim();
+
+            DataTable dtService = serviceDao.getService(cmd);
+
+            foreach (DataRow row in dtService.Rows)
+            {
+                string medicineID = row["medicineID"].ToString();
+                string medicineName = row["medicineName"].ToString();
+                string unit = row["unit"].ToString();
+                float cost;
+
+                if (float.TryParse(row["cost"].ToString(), out cost))
+                {
+                    UC_ItemSelected uC_ItemDichVuSelected = new UC_ItemSelected(medicineID, medicineName, cost, unit);
+                    uC_ItemDichVuSelected.numAmount.Enabled = false;
+                    uC_ItemDichVuSelected.pBExit.Visible = false;
+                    
+                    pnThuocDaChon.Controls.Add(uC_ItemDichVuSelected);
+                }
+            }
+            UpdateTotalCostThuoc();
+
+        }
+        private void LoadPanelDichVuDaChonTheoTreatment(string treatmentID)
+        {
+            SqlCommand cmd = new SqlCommand(@"SELECT s.serviceID, s.serviceName, s.cost, s.unit 
+                                            FROM Service_Treatment a 
+                                            join Service s on a.serviceID = s.serviceID 
+                                            join Treatment t on t.treatmentID = a.treatmentID
+                                            where a.treatmentID = @ID AND t.userID = @userID", mydb.getConnection);
+            cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = treatmentID.Trim();
+            cmd.Parameters.Add("@userID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID.Trim();
+
+            DataTable dtService = serviceDao.getService(cmd);
+            pnDichVuDaChon.Controls.Clear();
+            foreach (DataRow row in dtService.Rows)
+            {
+                string id = row["serviceID"].ToString();
+                string serviceName = row["serviceName"].ToString();
+                string unit = row["unit"].ToString();
+                float cost;
+
+                if (float.TryParse(row["cost"].ToString(), out cost))
+                {
+                    UC_ItemSelected uC_ItemDichVuSelected = new UC_ItemSelected(id, serviceName, cost, unit);
+                    uC_ItemDichVuSelected.numAmount.Enabled = false;
+                    uC_ItemDichVuSelected.pBExit.Visible = false;
+                    pnDichVuDaChon.Controls.Add(uC_ItemDichVuSelected);
+                }
+            }
+            UpdateTotalCostDichVu();
+        }
+        private void KiemTraTimKiemDieuTri()
+        {
+            if(txtTreatmentID.Text.ToString() == "")
+            {
+                pBThemDichVu.Enabled = true;
+                pBThemThuoc.Enabled = true;
+            }
+            else
+            {
+                pBThemDichVu.Enabled = false;
+                pBThemThuoc.Enabled = false;
+            }
+        }
+
+        private void pbSearch_Click(object sender, EventArgs e)
+        {
+            if (txtTreatmentID.Text.ToString() != "")
+            {
+                SqlCommand command = new SqlCommand("SELECT *" +
+                "FROM Treatment WHERE treatmentID LIKE @treatmentID AND userID = @userID");
+                command.Parameters.Add("@treatmentID", SqlDbType.VarChar).Value = "%" + txtTreatmentID.Text.Trim() + "%";
+                command.Parameters.Add("@userID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID;
+
+                DataTable table = patientsDao.getPatients(command);
+                if (table.Rows.Count > 0)
+                {
+                    txtTreatmentID.Text = table.Rows[0]["treatmentID"].ToString().Trim();
+                    txtDetail.Text = table.Rows[0]["treatmentDetail"].ToString().Trim();
+                    txtAdvice.Text = table.Rows[0]["advice"].ToString().Trim();
+                    dateTPStartDate.Value = DateTime.Parse(table.Rows[0]["startDate"].ToString());
+                    dateTPEndDate.Value = DateTime.Parse(table.Rows[0]["endDate"].ToString());
+                    patientID = table.Rows[0]["patientsID"].ToString().Trim();
+
+                    LoadPanelThuocDaChonTheoTreatment(txtTreatmentID.Text.Trim());
+                    LoadPanelDichVuDaChonTheoTreatment(txtTreatmentID.Text.Trim());
+                }
+                else
+                {
+                    txtDetail.Text = "";
+                    txtAdvice.Text = "";
+                    dateTPStartDate.Value = DateTime.Now;
+                    dateTPEndDate.Value = DateTime.Now;
+                    patientID = null;
+                }
+            }
+            else return;
         }
     }
 }

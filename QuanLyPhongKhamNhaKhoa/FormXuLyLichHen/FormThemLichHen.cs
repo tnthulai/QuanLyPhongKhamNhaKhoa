@@ -60,8 +60,9 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
             string dateString = dateTPKLichHen.Value.ToString("dd/MM/yyyy");
             DateTime date = DateTime.ParseExact(dateString, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime thoiGianHienTai = DateTime.Now;
-
-            if (thoiGianHienTai < date)
+            DateTime dateNow = thoiGianHienTai.Date;
+            int hourNow = thoiGianHienTai.Hour;
+            if (dateNow <= date)
             {
                 cbTime.Enabled = true;
                 panelDichVu.Controls.Clear();
@@ -81,12 +82,26 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
                     }
                 }
 
-                for (int i = 8; i < 17; i++)
+                if (date.Equals(dateNow))
                 {
-                    if (!hourTimeList.Contains(i) && i != 12)
+                    for (int i = hourNow; i < 17; i++)
                     {
-                        string temp = i.ToString() + "h - " + (i + 1).ToString() + "h";
-                        cbTime.Items.Add(temp);
+                        if (!hourTimeList.Contains(i) && i != 12 && i >=8)
+                        {
+                            string temp = i.ToString() + "h - " + (i + 1).ToString() + "h";
+                            cbTime.Items.Add(temp);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 8; i < 17; i++)
+                    {
+                        if (!hourTimeList.Contains(i) && i != 12)
+                        {
+                            string temp = i.ToString() + "h - " + (i + 1).ToString() + "h";
+                            cbTime.Items.Add(temp);
+                        }
                     }
                 }
             }
@@ -116,21 +131,27 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
 
         private void txtCCCD_TextChanged(object sender, EventArgs e)
         {
-            SqlCommand command = new SqlCommand("SELECT fullName, phoneNumber, patientsID " +
+            try
+            {
+                SqlCommand command = new SqlCommand("SELECT fullName, phoneNumber, patientsID " +
                 "FROM Patients WHERE persionalID LIKE @persionalID");
-            command.Parameters.Add("@persionalID", SqlDbType.VarChar).Value = "%" + txtCCCD.Text.Trim() + "%";
+                command.Parameters.Add("@persionalID", SqlDbType.VarChar).Value = "%" + txtCCCD.Text.Trim() + "%";
 
-            DataTable table = patientsDao.getPatients(command);
-            if (table.Rows.Count > 0)
+                DataTable table = patientsDao.getPatients(command);
+                if (table.Rows.Count > 0)
+                {
+                    txtTenBN.Text = table.Rows[0]["fullName"].ToString().Trim();
+                    txtSDTBN.Text = table.Rows[0]["phoneNumber"].ToString().Trim();
+                    patientsID = table.Rows[0]["patientsID"].ToString().Trim();
+                }
+                else
+                {
+                    txtTenBN.Text = "";
+                    txtSDTBN.Text = "";
+                }
+            }catch(Exception ex)
             {
-                txtTenBN.Text = table.Rows[0]["fullName"].ToString().Trim();
-                txtSDTBN.Text = table.Rows[0]["phoneNumber"].ToString().Trim();
-                patientsID = table.Rows[0]["patientsID"].ToString().Trim();
-            }
-            else
-            {
-                txtTenBN.Text = "";
-                txtSDTBN.Text = "";
+                MessageBox.Show(ex.Message);
             }
         }
         public void themBenhNhan()
@@ -254,6 +275,7 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
         private void dateTPKLichHen_ValueChanged(object sender, EventArgs e)
         {
             taoThoiGianChoCbTime();
+            loadListDichVuDaChon();
         }
 
         private void pBThemDichVu_Click(object sender, EventArgs e)
@@ -280,14 +302,23 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
                     UC_Item uC_ItemDichVu = new UC_Item(service.ServiceID, service.ServiceName, service.Cost, service.Unit);
                     uC_ItemDichVu.checkBox.Checked = true;
                     panelDichVu.Controls.Add(uC_ItemDichVu);
-
                 }
             }
-
+            else
+            {
+                UC_Item uC_Item = new UC_Item("TV", "Tư vấn", 0, "Lần");
+                uC_Item.checkBox.Checked = true;
+                uC_Item.checkBox.Checked = false;
+                panelDichVu.Controls.Add(uC_Item);
+            }
         }
         private void btnLuu_Click(object sender, EventArgs e)
         {
-
+            if (txtCCCD.Text.ToString()=="" || patientsID == "" || cbTime.Text.ToString()=="")
+            {
+                MessageBox.Show("Chưa đủ dữ liệu!", "Add Appointment", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             themLichHen();
             themLichHenDichVu();
 
@@ -309,36 +340,40 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
         }
         private void themLichHen()
         {
-            appointmentID = appDao.taoMaAppointment();
-            if (patientsID == null)
+            try
             {
-                SqlCommand command = new SqlCommand("SELECT patientsID FROM Patients WHERE persionalID=@persionalID");
-                command.Parameters.Add("@persionalID", SqlDbType.VarChar).Value = txtCCCD.Text.Trim();
-                DataTable table = patientsDao.getPatients(command);
-                if (table.Rows.Count > 0)
+                appointmentID = appDao.taoMaAppointment();
+                if (patientsID == null)
                 {
-                    patientsID = table.Rows[0]["patientsID"].ToString().Trim();
+                    SqlCommand command = new SqlCommand("SELECT patientsID FROM Patients WHERE persionalID=@persionalID");
+                    command.Parameters.Add("@persionalID", SqlDbType.VarChar).Value = txtCCCD.Text.Trim();
+                    DataTable table = patientsDao.getPatients(command);
+                    if (table.Rows.Count > 0)
+                    {
+                        patientsID = table.Rows[0]["patientsID"].ToString().Trim();
+                    }
                 }
-            }
 
-            DateTime ngayHen = dateTPKLichHen.Value;
-            string time = cbTime.SelectedItem.ToString();
-            string[] parts = time.Split(new char[] { ' ', '-' }, StringSplitOptions.RemoveEmptyEntries);
+                DateTime ngayHen = dateTPKLichHen.Value;
+                string time = cbTime.SelectedItem.ToString();
+                string[] parts = time.Split(new char[] { ' ', '-' }, StringSplitOptions.RemoveEmptyEntries);
 
-            int startTime = int.Parse(parts[0].Replace("h", ""));
-            int endTime = int.Parse(parts[1].Replace("h", ""));
-            string timestart = startTime.ToString("00") + ":00:00";
-            string timeend = endTime.ToString("00") + ":00:00";
+                int startTime = int.Parse(parts[0].Replace("h", ""));
+                int endTime = int.Parse(parts[1].Replace("h", ""));
+                string timestart = startTime.ToString("00") + ":00:00";
+                string timeend = endTime.ToString("00") + ":00:00";
 
-            if (appDao.insertAppointment(appointmentID, patientsID, userIDNS, ngayHen, timestart, timeend, "BOOKED"))
+                if (appDao.insertAppointment(appointmentID, patientsID, userIDNS, ngayHen, timestart, timeend, "BOOKED"))
+                {
+                    MessageBox.Show("Thêm cuộc hẹn thành công!", "Add Appointment", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    throw new InvalidExistAppointment("Thêm cuộc hẹn thất bại!");
+                }
+            }catch(Exception ex)
             {
-                MessageBox.Show("Thêm cuộc hẹn thành công!", "Add Appointment", MessageBoxButtons.OK, MessageBoxIcon.Information);/*
-                UC_LichHenTest uC_LichHenTest = new UC_LichHenTest();
-                uC_LichHenTest.UpdateCalendar();*/
-            }
-            else
-            {
-                throw new InvalidExistAppointment("Thêm cuộc hẹn thất bại!");
+                MessageBox.Show("ERROR: " + ex.Message, "Add Appointment", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

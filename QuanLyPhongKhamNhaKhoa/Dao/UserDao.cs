@@ -164,7 +164,7 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
 
         public bool deleteUsers(string id)
         {
-            SqlCommand command = new SqlCommand("DELETE FROM Users WHERE userID = @userID", mydb.getConnection);
+            SqlCommand command = new SqlCommand("update Users set isRole = 'PAUSED' where userID =  @userID", mydb.getConnection);
             command.Parameters.Add("@userID", SqlDbType.VarChar).Value = id;
             mydb.openConnection();
             if ((command.ExecuteNonQuery() == 1))

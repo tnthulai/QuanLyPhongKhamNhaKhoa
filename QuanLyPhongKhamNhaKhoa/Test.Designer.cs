@@ -28,35 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.uC_DieuTri_New1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_DieuTri();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
-            // uC_DieuTri_New1
+            // chart1
             // 
-            this.uC_DieuTri_New1.BackColor = System.Drawing.Color.White;
-            this.uC_DieuTri_New1.Location = new System.Drawing.Point(1, 2);
-            this.uC_DieuTri_New1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.uC_DieuTri_New1.Name = "uC_DieuTri_New1";
-            this.uC_DieuTri_New1.Size = new System.Drawing.Size(1715, 818);
-            this.uC_DieuTri_New1.TabIndex = 0;
-            this.uC_DieuTri_New1.Load += new System.EventHandler(this.uC_DieuTri_New1_Load);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(12, 12);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(776, 426);
+            this.chart1.TabIndex = 0;
+            this.chart1.Text = "chart1";
+            this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // Test
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1715, 817);
-            this.Controls.Add(this.uC_DieuTri_New1);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.chart1);
             this.Name = "Test";
             this.Text = "Test";
-            this.Load += new System.EventHandler(this.Test_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private User_Control.UC_DieuTri uC_DieuTri_New1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }

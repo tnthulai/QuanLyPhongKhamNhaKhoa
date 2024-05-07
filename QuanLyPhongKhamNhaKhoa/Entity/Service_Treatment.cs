@@ -10,8 +10,15 @@ namespace QuanLyPhongKhamNhaKhoa.Entity
     {
         private string treatmentID;
         private string serviceID;
+        private int amount;
 
         public string TreatmentID { get { return treatmentID; } set { treatmentID = value; } }
         public string ServiceID { get { return serviceID; } set { serviceID = value; } }
+        public int Amount { get { return amount; } set { amount = value; } }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

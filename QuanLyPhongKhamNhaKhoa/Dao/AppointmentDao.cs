@@ -130,39 +130,6 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
             }
         }
 
-        /*public bool insertAppointment(Appointment appointment)
-        {
-            DateTime startTime;
-            DateTime endTime;
-
-            if (!DateTime.TryParseExact(appointment.StartTime, "HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out startTime) ||
-                !DateTime.TryParseExact(appointment.EndTime, "HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out endTime))
-            {
-                return false;
-        }
-
-            SqlCommand command = new SqlCommand("INSERT INTO Appointment (appointmentID, patientsID, userID, appointmentDate, startTime, endTime, status)" +
-                " VALUES (@appointmentID,@patientsID, @userID, @appointmentDate, @startTime, @endTime, @status)", mydb.getConnection);
-            command.Parameters.Add("@appointmentID", SqlDbType.VarChar).Value = appointment.AppointmentID;
-            command.Parameters.Add("@patientsID", SqlDbType.VarChar).Value = appointment.PatientsID;
-            command.Parameters.Add("@userID", SqlDbType.VarChar).Value = appointment.UserID;
-            command.Parameters.Add("@appointmentDate", SqlDbType.DateTime).Value = appointment.AppointmentDate;
-            command.Parameters.Add("@startTime", SqlDbType.DateTime).Value = startTime;
-            command.Parameters.Add("@endTime", SqlDbType.DateTime).Value = endTime;
-            command.Parameters.Add("@status", SqlDbType.NVarChar).Value = appointment.Status;
-
-            mydb.openConnection();
-            if ((command.ExecuteNonQuery() == 1))
-            {
-                mydb.closeConnection();
-                return true;
-            }
-            else
-            {
-                mydb.closeConnection();
-                return false;
-            }
-        }*/
         public bool insertAppointment(string id, string patientid, string userid, DateTime date, string timestart, string timend, string status)
         {
             DateTime startTime = DateTime.ParseExact(timestart, "HH:mm:ss", CultureInfo.InvariantCulture);

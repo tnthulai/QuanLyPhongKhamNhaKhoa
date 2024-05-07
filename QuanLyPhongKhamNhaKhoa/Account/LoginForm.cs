@@ -1,4 +1,5 @@
-﻿using QuanLyPhongKhamNhaKhoa.Dao;
+﻿using QuanLyPhongKhamNhaKhoa.Account;
+using QuanLyPhongKhamNhaKhoa.Dao;
 using QuanLyPhongKhamNhaKhoa.Entity;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace QuanLyPhongKhamNhaKhoa
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SqlCommand command = new SqlCommand("SELECT * FROM Users WHERE userID = @User AND password = @Pass");
+            SqlCommand command = new SqlCommand("SELECT * FROM Users WHERE userID = @User AND password = @Pass AND isRole != 'PAUSED'");
             command.Parameters.Add("@User", SqlDbType.VarChar).Value = txtTenDangNhap.Text.Trim();
             command.Parameters.Add("@Pass", SqlDbType.VarChar).Value = txtMatKhau.Text.Trim();
 
@@ -64,6 +65,12 @@ namespace QuanLyPhongKhamNhaKhoa
         {
             pbHienPassword.Image = an;
             txtMatKhau.PasswordChar = '*';
+        }
+
+        private void lblQuenMatKhau_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            FormForgotPassword formForgotPassword = new FormForgotPassword();
+            formForgotPassword.ShowDialog();
         }
     }
 }

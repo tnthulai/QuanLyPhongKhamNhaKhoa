@@ -43,6 +43,11 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control.DieuTri
             set { cost.Text = ServiceCost.ToString("0.##") + "/" + value; }
         }
 
+        public int NumAmount
+        {
+            get { return int.Parse(numAmount.Value.ToString()); }
+            set { numAmount.Value = value; }
+        }
 
         public event EventHandler TotalCostChanged;
         public void numAmount_ValueChanged(object sender, EventArgs e)

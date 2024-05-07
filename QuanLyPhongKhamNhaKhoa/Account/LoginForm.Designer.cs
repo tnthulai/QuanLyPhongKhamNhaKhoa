@@ -33,7 +33,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             this.pbHienPassword = new System.Windows.Forms.PictureBox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.lblQuenMatKhau = new System.Windows.Forms.LinkLabel();
             this.button1 = new System.Windows.Forms.Button();
             this.txtMatKhau = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -67,7 +67,7 @@
             // 
             this.guna2Panel1.BackColor = System.Drawing.Color.SteelBlue;
             this.guna2Panel1.Controls.Add(this.pbHienPassword);
-            this.guna2Panel1.Controls.Add(this.linkLabel1);
+            this.guna2Panel1.Controls.Add(this.lblQuenMatKhau);
             this.guna2Panel1.Controls.Add(this.button1);
             this.guna2Panel1.Controls.Add(this.txtMatKhau);
             this.guna2Panel1.Controls.Add(this.label3);
@@ -91,17 +91,18 @@
             this.pbHienPassword.TabStop = false;
             this.pbHienPassword.Click += new System.EventHandler(this.pbHienPassword_Click);
             // 
-            // linkLabel1
+            // lblQuenMatKhau
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabel1.LinkColor = System.Drawing.Color.Gold;
-            this.linkLabel1.Location = new System.Drawing.Point(355, 344);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(103, 16);
-            this.linkLabel1.TabIndex = 4;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Quên mật khẩu?";
+            this.lblQuenMatKhau.AutoSize = true;
+            this.lblQuenMatKhau.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblQuenMatKhau.LinkColor = System.Drawing.Color.Gold;
+            this.lblQuenMatKhau.Location = new System.Drawing.Point(355, 344);
+            this.lblQuenMatKhau.Name = "lblQuenMatKhau";
+            this.lblQuenMatKhau.Size = new System.Drawing.Size(103, 16);
+            this.lblQuenMatKhau.TabIndex = 4;
+            this.lblQuenMatKhau.TabStop = true;
+            this.lblQuenMatKhau.Text = "Quên mật khẩu?";
+            this.lblQuenMatKhau.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblQuenMatKhau_LinkClicked);
             // 
             // button1
             // 
@@ -267,7 +268,7 @@
         private System.Windows.Forms.Button button1;
         private Guna.UI2.WinForms.Guna2BorderlessForm guna2BorderlessForm1;
         private Guna.UI2.WinForms.Guna2Button btnExit;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel lblQuenMatKhau;
         private System.Windows.Forms.PictureBox pbHienPassword;
     }
 }
