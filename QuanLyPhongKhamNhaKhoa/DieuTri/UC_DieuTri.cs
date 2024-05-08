@@ -42,118 +42,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         }
         private void LoadMedicine()
         {
-            SqlCommand cmd = new SqlCommand(@"SELECT s.serviceID, s.serviceName, s.cost, s.unit 
-                                            FROM Appointment a 
-                                            join Appointment_Service a_s on a.appointmentID = a_s.appointmentID 
-                                            join Service s on a_s.serviceID = s.serviceID
-                                            where a.appointmentID = @ID", mydb.getConnection);
-            cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = comboBoxLichHen.SelectedValue.ToString();
-            DataTable dtService = serviceDao.getService(cmd);
-            pnDichVuDaChon.Controls.Clear();
-            if (dtService.Rows.Count != 0)
-            {
-                foreach (DataRow row in dtService.Rows)
-                {
-                    string id = row["serviceID"].ToString();
-                    string serviceName = row["serviceName"].ToString();
-                    string unit = row["unit"].ToString();
-                    float cost;
-
-                    if (float.TryParse(row["cost"].ToString(), out cost))
-                    {
-                        UC_ItemSelected uC_ItemDichVuSelected = new UC_ItemSelected(id, serviceName, cost, unit);
-                        uC_ItemDichVuSelected.PBExit_Click += UC_ItemDichVuSelected_PBExit_Click;
-                        uC_ItemDichVuSelected.TotalCostChanged += UC_ItemDichVuSelected_TotalCostChanged;
-
-                        pnDichVuDaChon.Controls.Add(uC_ItemDichVuSelected);
-                    }
-                }
-                UpdateTotalCostDichVu();
-            }
-        }
-        private void LoadAppointments()
-        {
-            comboBoxLichHen.SelectedIndex = -1;
-            TimeSpan currentTime = DateTime.Now.TimeOfDay;
-            DateTime currentDate = DateTime.Parse(dateTPDate.Value.ToString("MM/dd/yyyy"));
-
-            string query = "SELECT appointmentID, patientsID, startTime, endTime FROM Appointment " +
-                "WHERE appointmentDate = @currentDate AND userID = @doctorID " +
-                "ORDER BY startTime ASC";
-
-            SqlCommand command = new SqlCommand(query, mydb.getConnection);
-            command.Parameters.Add("@currentDate", SqlDbType.DateTime).Value = currentDate;
-            if(CurrentUser.currentUser.UserID != null)
-            {
-                command.Parameters.Add("@doctorID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID;
-            }
-
-            DataTable table = appointmentDao.getAppointment(command);
-            DataColumn timeRangeColumn = new DataColumn("TimeRange", typeof(string));
-            table.Columns.Add(timeRangeColumn);
-
-            int selectedIndex = -1;
-            foreach (DataRow row in table.Rows)
-            {
-                TimeSpan startTime = (TimeSpan)row["startTime"];
-                TimeSpan endTime = (TimeSpan)row["endTime"];
-                string timeRange = $"{startTime.ToString()} - {endTime.ToString()}";
-                row["TimeRange"] = timeRange;
-                
-                // Kiểm tra xem thời gian hiện tại có nằm trong khoảng thời gian của appointment không
-                if (currentTime >= startTime && currentTime <= endTime)
-                {
-                    selectedIndex = table.Rows.IndexOf(row);
-                }
-            }
-            comboBoxLichHen.DataSource = table;
-            comboBoxLichHen.DisplayMember = "TimeRange";
-            comboBoxLichHen.ValueMember = "appointmentID";
-
-            if (selectedIndex != -1)
-            {
-                comboBoxLichHen.SelectedIndex = selectedIndex;
-            }
-        }
-        
-        private void getData()
-        {
-            lblNameNS.Text = CurrentUser.currentUser.FullName;
-            
-            if(comboBoxLichHen.SelectedItem != null)
-            {
-                SqlCommand command = new SqlCommand("SELECT patientsID FROM Appointment WHERE appointmentID = @ID", mydb.getConnection);
-
-                command.Parameters.Add("@ID", SqlDbType.VarChar).Value = comboBoxLichHen.SelectedValue.ToString().Trim();
-                DataTable table = appointmentDao.getAppointment(command);
-                if (table.Rows.Count > 0)
-                {
-                    patientID = table.Rows[0]["patientsID"].ToString().Trim();
-                    lblNameBN.Text = patientsDao.GetNameByID(patientID);
-                }
-                LoadPanelDichVu();
-            }
-            else
-            {
-                pnDichVuDaChon.Controls.Clear();
-                pnThuocDaChon.Controls.Clear();
-                totalCostDichVu = 0;
-                totalCostThuoc = 0;
-                totalCost = 0;
-                UpdateTotalCostDichVu();
-            }
-        }
-        private void comboBoxLichHen_SelectedValueChanged(object sender, EventArgs e)
-        {
-            txtTreatmentID.Text = "";
-            KiemTraTimKiemDieuTri();
-            getData();
-        }
-
-        //Hiển thị danh sách dịch vụ theo lịch hẹn
-        private void LoadPanelDichVu()
-        {
-            if(comboBoxLichHen.SelectedValue.ToString() != "")
+            try
             {
                 SqlCommand cmd = new SqlCommand(@"SELECT s.serviceID, s.serviceName, s.cost, s.unit 
                                             FROM Appointment a 
@@ -184,14 +73,153 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
                     UpdateTotalCostDichVu();
                 }
             }
-            else
+            catch (Exception ex)
             {
-                pnDichVuDaChon.Controls.Clear();
-                pnThuocDaChon.Controls.Clear();
-                totalCostDichVu = 0;
-                totalCostThuoc = 0;
-                totalCost = 0;
-                UpdateTotalCostDichVu();
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void LoadAppointments()
+        {
+            try
+            {
+                comboBoxLichHen.SelectedIndex = -1;
+                TimeSpan currentTime = DateTime.Now.TimeOfDay;
+                DateTime currentDate = DateTime.Parse(dateTPDate.Value.ToString("MM/dd/yyyy"));
+
+                string query = "SELECT appointmentID, patientsID, startTime, endTime FROM Appointment " +
+                    "WHERE appointmentDate = @currentDate AND userID = @doctorID " +
+                    "ORDER BY startTime ASC";
+
+                SqlCommand command = new SqlCommand(query, mydb.getConnection);
+                command.Parameters.Add("@currentDate", SqlDbType.DateTime).Value = currentDate;
+                if (CurrentUser.currentUser.UserID != null)
+                {
+                    command.Parameters.Add("@doctorID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID;
+                }
+
+                DataTable table = appointmentDao.getAppointment(command);
+                DataColumn timeRangeColumn = new DataColumn("TimeRange", typeof(string));
+                table.Columns.Add(timeRangeColumn);
+
+                int selectedIndex = -1;
+                foreach (DataRow row in table.Rows)
+                {
+                    TimeSpan startTime = (TimeSpan)row["startTime"];
+                    TimeSpan endTime = (TimeSpan)row["endTime"];
+                    string timeRange = $"{startTime.ToString()} - {endTime.ToString()}";
+                    row["TimeRange"] = timeRange;
+
+                    // Kiểm tra xem thời gian hiện tại có nằm trong khoảng thời gian của appointment không
+                    if (currentTime >= startTime && currentTime <= endTime)
+                    {
+                        selectedIndex = table.Rows.IndexOf(row);
+                    }
+                }
+                comboBoxLichHen.DataSource = table;
+                comboBoxLichHen.DisplayMember = "TimeRange";
+                comboBoxLichHen.ValueMember = "appointmentID";
+
+                if (selectedIndex != -1)
+                {
+                    comboBoxLichHen.SelectedIndex = selectedIndex;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        
+        private void getData()
+        {
+            try
+            {
+                lblNameNS.Text = CurrentUser.currentUser.FullName;
+
+                if (comboBoxLichHen.SelectedItem != null)
+                {
+                    SqlCommand command = new SqlCommand("SELECT patientsID FROM Appointment WHERE appointmentID = @ID", mydb.getConnection);
+
+                    command.Parameters.Add("@ID", SqlDbType.VarChar).Value = comboBoxLichHen.SelectedValue.ToString().Trim();
+                    DataTable table = appointmentDao.getAppointment(command);
+                    if (table.Rows.Count > 0)
+                    {
+                        patientID = table.Rows[0]["patientsID"].ToString().Trim();
+                        lblNameBN.Text = patientsDao.GetNameByID(patientID);
+                    }
+                    LoadPanelDichVu();
+                }
+                else
+                {
+                    pnDichVuDaChon.Controls.Clear();
+                    pnThuocDaChon.Controls.Clear();
+                    totalCostDichVu = 0;
+                    totalCostThuoc = 0;
+                    totalCost = 0;
+                    UpdateTotalCostDichVu();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void comboBoxLichHen_SelectedValueChanged(object sender, EventArgs e)
+        {
+            txtTreatmentID.Text = "";
+            KiemTraTimKiemDieuTri();
+            getData();
+        }
+
+        //Hiển thị danh sách dịch vụ theo lịch hẹn
+        private void LoadPanelDichVu()
+        {
+            try
+            {
+                if (comboBoxLichHen.SelectedValue.ToString() != "")
+                {
+                    SqlCommand cmd = new SqlCommand(@"SELECT s.serviceID, s.serviceName, s.cost, s.unit 
+                                            FROM Appointment a 
+                                            join Appointment_Service a_s on a.appointmentID = a_s.appointmentID 
+                                            join Service s on a_s.serviceID = s.serviceID
+                                            where a.appointmentID = @ID", mydb.getConnection);
+                    cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = comboBoxLichHen.SelectedValue.ToString();
+                    DataTable dtService = serviceDao.getService(cmd);
+                    pnDichVuDaChon.Controls.Clear();
+                    if (dtService.Rows.Count != 0)
+                    {
+                        foreach (DataRow row in dtService.Rows)
+                        {
+                            string id = row["serviceID"].ToString();
+                            string serviceName = row["serviceName"].ToString();
+                            string unit = row["unit"].ToString();
+                            float cost;
+
+                            if (float.TryParse(row["cost"].ToString(), out cost))
+                            {
+                                UC_ItemSelected uC_ItemDichVuSelected = new UC_ItemSelected(id, serviceName, cost, unit);
+                                uC_ItemDichVuSelected.PBExit_Click += UC_ItemDichVuSelected_PBExit_Click;
+                                uC_ItemDichVuSelected.TotalCostChanged += UC_ItemDichVuSelected_TotalCostChanged;
+
+                                pnDichVuDaChon.Controls.Add(uC_ItemDichVuSelected);
+                            }
+                        }
+                        UpdateTotalCostDichVu();
+                    }
+                }
+                else
+                {
+                    pnDichVuDaChon.Controls.Clear();
+                    pnThuocDaChon.Controls.Clear();
+                    totalCostDichVu = 0;
+                    totalCostThuoc = 0;
+                    totalCost = 0;
+                    UpdateTotalCostDichVu();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void UC_ItemDichVuSelected_PBExit_Click(object sender, EventArgs e)
@@ -215,38 +243,52 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         }
         private void UpdateTotalCostDichVu()
         {
-            totalCostDichVu = 0;
-            foreach (Control control in pnDichVuDaChon.Controls)
+            try
             {
-                if (control is UC_ItemSelected)
+                totalCostDichVu = 0;
+                foreach (Control control in pnDichVuDaChon.Controls)
                 {
-                    UC_ItemSelected selectedService = control as UC_ItemSelected;
-                    float serviceTotalCost;
-                    if (float.TryParse(selectedService.lblTotalCost.Text.Replace("VND", ""), out serviceTotalCost))
+                    if (control is UC_ItemSelected)
                     {
-                        totalCostDichVu += serviceTotalCost;
+                        UC_ItemSelected selectedService = control as UC_ItemSelected;
+                        float serviceTotalCost;
+                        if (float.TryParse(selectedService.lblTotalCost.Text.Replace("VND", ""), out serviceTotalCost))
+                        {
+                            totalCostDichVu += serviceTotalCost;
+                        }
                     }
-                }                
-            }
-            lblTotalCostService.Text = "Tổng chi phí dịch vụ: " + string.Format("{0:N0}", totalCostDichVu) + " VND";
+                }
+                lblTotalCostService.Text = "Tổng chi phí dịch vụ: " + string.Format("{0:N0}", totalCostDichVu) + " VND";
 
-            totalCost = totalCostDichVu + totalCostThuoc;
-            lblTotalCost.Text = "Tổng chi phí: " + string.Format("{0:N0}", totalCost) + "VND";
+                totalCost = totalCostDichVu + totalCostThuoc;
+                lblTotalCost.Text = "Tổng chi phí: " + string.Format("{0:N0}", totalCost) + "VND";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void UpdateTotalCostThuoc()
         {
-            totalCostThuoc = 0;
-            foreach (UC_ItemSelected uC_ItemSelected in pnThuocDaChon.Controls)
+            try
             {
-                float medicineTotalCost;
-                if (float.TryParse(uC_ItemSelected.lblTotalCost.Text.Replace("VND", ""), out medicineTotalCost))
+                totalCostThuoc = 0;
+                foreach (UC_ItemSelected uC_ItemSelected in pnThuocDaChon.Controls)
                 {
-                    totalCostThuoc += medicineTotalCost;
+                    float medicineTotalCost;
+                    if (float.TryParse(uC_ItemSelected.lblTotalCost.Text.Replace("VND", ""), out medicineTotalCost))
+                    {
+                        totalCostThuoc += medicineTotalCost;
+                    }
                 }
+                lblTotalCostMedicine.Text = "Tổng chi phí  thuốc: " + string.Format("{0:N0}", totalCostThuoc) + "VND";
+                totalCost = totalCostDichVu + totalCostThuoc;
+                lblTotalCost.Text = "Tổng chi phí: " + string.Format("{0:N0}", totalCost) + "VND";
             }
-            lblTotalCostMedicine.Text = "Tổng chi phí  thuốc: " + string.Format("{0:N0}", totalCostThuoc) + "VND";
-            totalCost = totalCostDichVu + totalCostThuoc;
-            lblTotalCost.Text = "Tổng chi phí: " + string.Format("{0:N0}", totalCost) + "VND";
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         
         private void UC_ItemDichVuSelected_TotalCostChanged(object sender, EventArgs e)
@@ -256,14 +298,21 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 
         private void pBThemDichVu_Click(object sender, EventArgs e)
         {
-            if (comboBoxLichHen.SelectedValue != null)
+            try
             {
-                FormChonDichVu formChonDichVu = new FormChonDichVu(setValueList, comboBoxLichHen.SelectedValue.ToString());
-                formChonDichVu.ShowDialog();
+                if (comboBoxLichHen.SelectedValue != null)
+                {
+                    FormChonDichVu formChonDichVu = new FormChonDichVu(setValueList, comboBoxLichHen.SelectedValue.ToString());
+                    formChonDichVu.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Chưa chọn cuộc hẹn!", "Add Services", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Chưa chọn cuộc hẹn!", "Add Services", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -275,15 +324,22 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 
         private void ThemDichVu()
         {
-            string appointmentID = comboBoxLichHen.SelectedValue.ToString();
-            if (listService != null)
+            try
             {
-                foreach (Service service in listService)
+                string appointmentID = comboBoxLichHen.SelectedValue.ToString();
+                if (listService != null)
                 {
-                    appointmentDao.insertAppointmentService(appointmentID, service.ServiceID);
+                    foreach (Service service in listService)
+                    {
+                        appointmentDao.insertAppointmentService(appointmentID, service.ServiceID);
+                    }
                 }
+                LoadPanelDichVu();
             }
-            LoadPanelDichVu();
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void setValueListMedicine(List<Medicine> list)
@@ -294,18 +350,25 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         }
         private void LoadPanelThuocDaChon()
         {
-            pnThuocDaChon.Controls.Clear();
-            if (listMedicine != null)
+            try
             {
-                foreach (Medicine medicine in listMedicine)
+                pnThuocDaChon.Controls.Clear();
+                if (listMedicine != null)
                 {
-                    UC_ItemSelected uC_ItemSelected = new UC_ItemSelected(medicine.MedicineID, medicine.MedicineName, medicine.Cost, medicine.Unit);
-                    uC_ItemSelected.PBExit_Click += UC_ItemSelected_PBExit_Click;
-                    uC_ItemSelected.TotalCostChanged += UC_ItemSelected_TotalCostChanged;
-                    pnThuocDaChon.Controls.Add(uC_ItemSelected);
+                    foreach (Medicine medicine in listMedicine)
+                    {
+                        UC_ItemSelected uC_ItemSelected = new UC_ItemSelected(medicine.MedicineID, medicine.MedicineName, medicine.Cost, medicine.Unit);
+                        uC_ItemSelected.PBExit_Click += UC_ItemSelected_PBExit_Click;
+                        uC_ItemSelected.TotalCostChanged += UC_ItemSelected_TotalCostChanged;
+                        pnThuocDaChon.Controls.Add(uC_ItemSelected);
+                    }
                 }
+                UpdateTotalCostThuoc();
             }
-            UpdateTotalCostThuoc();
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void UC_ItemSelected_TotalCostChanged(object sender, EventArgs e)
@@ -463,64 +526,78 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         //Khi nhập treatmentID thì sẽ tìm kiếm thuốc đã chọn và dịch vụ đã chọn
         private void LoadPanelThuocDaChonTheoTreatment(string treatmentID)
         {
-            pnThuocDaChon.Controls.Clear();
-            SqlCommand cmd = new SqlCommand(@"SELECT m.medicineID, m.medicineName, m.unit, m.cost
+            try
+            {
+                pnThuocDaChon.Controls.Clear();
+                SqlCommand cmd = new SqlCommand(@"SELECT m.medicineID, m.medicineName, m.unit, m.cost
                                             FROM Medicine_Treatment m_t 
                                             join Medicine m on m.medicineID = m_t.medicineID
                                             join Treatment t on t.treatmentID = m_t.treatmentID 
                                             where m_t.treatmentID = @ID AND t.userID = @userID", mydb.getConnection);
-            cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = treatmentID.Trim();
-            cmd.Parameters.Add("@userID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID.Trim();
+                cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = treatmentID.Trim();
+                cmd.Parameters.Add("@userID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID.Trim();
 
-            DataTable dtService = serviceDao.getService(cmd);
+                DataTable dtService = serviceDao.getService(cmd);
 
-            foreach (DataRow row in dtService.Rows)
-            {
-                string medicineID = row["medicineID"].ToString();
-                string medicineName = row["medicineName"].ToString();
-                string unit = row["unit"].ToString();
-                float cost;
-
-                if (float.TryParse(row["cost"].ToString(), out cost))
+                foreach (DataRow row in dtService.Rows)
                 {
-                    UC_ItemSelected uC_ItemDichVuSelected = new UC_ItemSelected(medicineID, medicineName, cost, unit);
-                    uC_ItemDichVuSelected.numAmount.Enabled = false;
-                    uC_ItemDichVuSelected.pBExit.Visible = false;
-                    
-                    pnThuocDaChon.Controls.Add(uC_ItemDichVuSelected);
+                    string medicineID = row["medicineID"].ToString();
+                    string medicineName = row["medicineName"].ToString();
+                    string unit = row["unit"].ToString();
+                    float cost;
+
+                    if (float.TryParse(row["cost"].ToString(), out cost))
+                    {
+                        UC_ItemSelected uC_ItemDichVuSelected = new UC_ItemSelected(medicineID, medicineName, cost, unit);
+                        uC_ItemDichVuSelected.numAmount.Enabled = false;
+                        uC_ItemDichVuSelected.pBExit.Visible = false;
+
+                        pnThuocDaChon.Controls.Add(uC_ItemDichVuSelected);
+                    }
                 }
+                UpdateTotalCostThuoc();
             }
-            UpdateTotalCostThuoc();
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
         private void LoadPanelDichVuDaChonTheoTreatment(string treatmentID)
         {
-            SqlCommand cmd = new SqlCommand(@"SELECT s.serviceID, s.serviceName, s.cost, s.unit 
+            try
+            {
+                SqlCommand cmd = new SqlCommand(@"SELECT s.serviceID, s.serviceName, s.cost, s.unit 
                                             FROM Service_Treatment a 
                                             join Service s on a.serviceID = s.serviceID 
                                             join Treatment t on t.treatmentID = a.treatmentID
                                             where a.treatmentID = @ID AND t.userID = @userID", mydb.getConnection);
-            cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = treatmentID.Trim();
-            cmd.Parameters.Add("@userID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID.Trim();
+                cmd.Parameters.Add("@ID", SqlDbType.VarChar).Value = treatmentID.Trim();
+                cmd.Parameters.Add("@userID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID.Trim();
 
-            DataTable dtService = serviceDao.getService(cmd);
-            pnDichVuDaChon.Controls.Clear();
-            foreach (DataRow row in dtService.Rows)
-            {
-                string id = row["serviceID"].ToString();
-                string serviceName = row["serviceName"].ToString();
-                string unit = row["unit"].ToString();
-                float cost;
-
-                if (float.TryParse(row["cost"].ToString(), out cost))
+                DataTable dtService = serviceDao.getService(cmd);
+                pnDichVuDaChon.Controls.Clear();
+                foreach (DataRow row in dtService.Rows)
                 {
-                    UC_ItemSelected uC_ItemDichVuSelected = new UC_ItemSelected(id, serviceName, cost, unit);
-                    uC_ItemDichVuSelected.numAmount.Enabled = false;
-                    uC_ItemDichVuSelected.pBExit.Visible = false;
-                    pnDichVuDaChon.Controls.Add(uC_ItemDichVuSelected);
+                    string id = row["serviceID"].ToString();
+                    string serviceName = row["serviceName"].ToString();
+                    string unit = row["unit"].ToString();
+                    float cost;
+
+                    if (float.TryParse(row["cost"].ToString(), out cost))
+                    {
+                        UC_ItemSelected uC_ItemDichVuSelected = new UC_ItemSelected(id, serviceName, cost, unit);
+                        uC_ItemDichVuSelected.numAmount.Enabled = false;
+                        uC_ItemDichVuSelected.pBExit.Visible = false;
+                        pnDichVuDaChon.Controls.Add(uC_ItemDichVuSelected);
+                    }
                 }
+                UpdateTotalCostDichVu();
             }
-            UpdateTotalCostDichVu();
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void KiemTraTimKiemDieuTri()
         {
@@ -538,36 +615,43 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 
         private void pbSearch_Click(object sender, EventArgs e)
         {
-            if (txtTreatmentID.Text.ToString() != "")
+            try
             {
-                SqlCommand command = new SqlCommand("SELECT *" +
-                "FROM Treatment WHERE treatmentID LIKE @treatmentID AND userID = @userID");
-                command.Parameters.Add("@treatmentID", SqlDbType.VarChar).Value = "%" + txtTreatmentID.Text.Trim() + "%";
-                command.Parameters.Add("@userID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID;
-
-                DataTable table = patientsDao.getPatients(command);
-                if (table.Rows.Count > 0)
+                if (txtTreatmentID.Text.ToString() != "")
                 {
-                    txtTreatmentID.Text = table.Rows[0]["treatmentID"].ToString().Trim();
-                    txtDetail.Text = table.Rows[0]["treatmentDetail"].ToString().Trim();
-                    txtAdvice.Text = table.Rows[0]["advice"].ToString().Trim();
-                    dateTPStartDate.Value = DateTime.Parse(table.Rows[0]["startDate"].ToString());
-                    dateTPEndDate.Value = DateTime.Parse(table.Rows[0]["endDate"].ToString());
-                    patientID = table.Rows[0]["patientsID"].ToString().Trim();
+                    SqlCommand command = new SqlCommand("SELECT *" +
+                    "FROM Treatment WHERE treatmentID LIKE @treatmentID AND userID = @userID");
+                    command.Parameters.Add("@treatmentID", SqlDbType.VarChar).Value = "%" + txtTreatmentID.Text.Trim() + "%";
+                    command.Parameters.Add("@userID", SqlDbType.VarChar).Value = CurrentUser.currentUser.UserID;
 
-                    LoadPanelThuocDaChonTheoTreatment(txtTreatmentID.Text.Trim());
-                    LoadPanelDichVuDaChonTheoTreatment(txtTreatmentID.Text.Trim());
+                    DataTable table = patientsDao.getPatients(command);
+                    if (table.Rows.Count > 0)
+                    {
+                        txtTreatmentID.Text = table.Rows[0]["treatmentID"].ToString().Trim();
+                        txtDetail.Text = table.Rows[0]["treatmentDetail"].ToString().Trim();
+                        txtAdvice.Text = table.Rows[0]["advice"].ToString().Trim();
+                        dateTPStartDate.Value = DateTime.Parse(table.Rows[0]["startDate"].ToString());
+                        dateTPEndDate.Value = DateTime.Parse(table.Rows[0]["endDate"].ToString());
+                        patientID = table.Rows[0]["patientsID"].ToString().Trim();
+
+                        LoadPanelThuocDaChonTheoTreatment(txtTreatmentID.Text.Trim());
+                        LoadPanelDichVuDaChonTheoTreatment(txtTreatmentID.Text.Trim());
+                    }
+                    else
+                    {
+                        txtDetail.Text = "";
+                        txtAdvice.Text = "";
+                        dateTPStartDate.Value = DateTime.Now;
+                        dateTPEndDate.Value = DateTime.Now;
+                        patientID = null;
+                    }
                 }
-                else
-                {
-                    txtDetail.Text = "";
-                    txtAdvice.Text = "";
-                    dateTPStartDate.Value = DateTime.Now;
-                    dateTPEndDate.Value = DateTime.Now;
-                    patientID = null;
-                }
+                else return;
             }
-            else return;
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

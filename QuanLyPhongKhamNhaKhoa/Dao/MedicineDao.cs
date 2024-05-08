@@ -23,29 +23,50 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
             return table;
         }
 
-        public bool deleteMedicine(Medicine medicine)
+        
+        private Random random = new Random();
+
+        public string taoMaMedicine()
         {
-            SqlCommand command = new SqlCommand("DELETE FROM Medicine WHERE medicineID=@medicineID", mydb.getConnection);
-            command.Parameters.Add("@medicineID", SqlDbType.VarChar).Value = medicine.MedicineID;
-            mydb.openConnection();
-            if ((command.ExecuteNonQuery() == 1))
+            const string chars = "0123456789";
+            string result;
+            do
             {
-                mydb.closeConnection();
-                return true;
-            }
-            else
+                string randomPart = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
+                result = $"MEDI{randomPart}";
+            } while (existMedicine(result));
+            return result;
+        }
+        public bool existMedicine(string id)
+        {
+            try
             {
+                mydb.openConnection();
+                SqlCommand command = new SqlCommand("SELECT * FROM Medicine WHERE medicineID = @medicineID", mydb.getConnection);
+                command.Parameters.Add("@medicineID", SqlDbType.VarChar).Value = id;
+                var result = command.ExecuteReader();
+                if (result.HasRows)
+                {
+                    mydb.closeConnection();
+                    return true;
+                }
                 mydb.closeConnection();
                 return false;
             }
+            catch
+            {
+                return true;
+            }
         }
 
+        
         public bool updateMedicine(Medicine medicine)
         {
-            SqlCommand command = new SqlCommand("UPDATE Medicine SET medicineID=@medicineID, medicineName=@medicineName, cost=@cost" +
+            SqlCommand command = new SqlCommand("UPDATE Medicine SET medicineName=@medicineName, cost=@cost, unit=@unit " +
                 "WHERE medicineID=@medicineID", mydb.getConnection);
             command.Parameters.Add("@medicineID", SqlDbType.VarChar).Value = medicine.MedicineID;
             command.Parameters.Add("@medicineName", SqlDbType.NVarChar).Value = medicine.MedicineName;
+            command.Parameters.Add("@unit", SqlDbType.NVarChar).Value = medicine.Unit;
             command.Parameters.Add("@cost", SqlDbType.Float).Value = medicine.Cost;
 
             mydb.openConnection();
@@ -65,14 +86,15 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
         public bool insertMedicine(Medicine medicine)
         {
             SqlCommand command = new SqlCommand("INSERT INTO Medicine (medicineID, medicineName, cost, unit)" +
-                " VALUES (@medicineID,@medicineName, @cost)", mydb.getConnection);
+                " VALUES (@medicineID,@medicineName, @cost, @unit)", mydb.getConnection);
             command.Parameters.Add("@medicineID", SqlDbType.VarChar).Value = medicine.MedicineID;
             command.Parameters.Add("@medicineName", SqlDbType.NVarChar).Value = medicine.MedicineName;
+
             command.Parameters.Add("@cost", SqlDbType.Float).Value = medicine.Cost;
             command.Parameters.Add("@unit", SqlDbType.NVarChar).Value = medicine.Unit;
 
             mydb.openConnection();
-            if ((command.ExecuteNonQuery() == 1))
+            if (command.ExecuteNonQuery() == 1)
             {
                 mydb.closeConnection();
                 return true;
@@ -83,7 +105,5 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
                 return false;
             }
         }
-
-        
     }
 }

@@ -40,44 +40,58 @@ namespace QuanLyPhongKhamNhaKhoa.DieuTri
 
         private void LoadListThuoc(string name)
         {
-            SqlCommand cmd = new SqlCommand();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
 
-            cmd = new SqlCommand(@"SELECT medicineID, medicineName, cost, unit
+                cmd = new SqlCommand(@"SELECT medicineID, medicineName, cost, unit
                                      FROM Medicine
                                       where medicineName like @name", mydb.getConnection);
-            cmd.Parameters.Add("@name", SqlDbType.NVarChar).Value = "%" + name + "%";
+                cmd.Parameters.Add("@name", SqlDbType.NVarChar).Value = "%" + name + "%";
 
-            DataTable dtService = medicineDao.getMedicine(cmd);
+                DataTable dtService = medicineDao.getMedicine(cmd);
 
 
-            panelThuoc.Controls.Clear();
-            foreach (DataRow row in dtService.Rows)
-            {
-                string serviceName = row["medicineName"].ToString();
-                string unit = row["unit"].ToString();
-                string id = row["medicineID"].ToString();
-                float cost;
-
-                if (float.TryParse(row["cost"].ToString(), out cost))
+                panelThuoc.Controls.Clear();
+                foreach (DataRow row in dtService.Rows)
                 {
-                    UC_Item uC_itemThuoc = new UC_Item(id, serviceName, cost, unit);
-                    uC_itemThuoc.CheckBoxCheckedChanged += UC_itemThuoc_CheckBoxCheckedChanged;
-                    panelThuoc.Controls.Add(uC_itemThuoc);
+                    string serviceName = row["medicineName"].ToString();
+                    string unit = row["unit"].ToString();
+                    string id = row["medicineID"].ToString();
+                    float cost;
+
+                    if (float.TryParse(row["cost"].ToString(), out cost))
+                    {
+                        UC_Item uC_itemThuoc = new UC_Item(id, serviceName, cost, unit);
+                        uC_itemThuoc.CheckBoxCheckedChanged += UC_itemThuoc_CheckBoxCheckedChanged;
+                        panelThuoc.Controls.Add(uC_itemThuoc);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void UC_itemThuoc_CheckBoxCheckedChanged(object sender, EventArgs e)
         {
-            UC_Item selectedThuoc = sender as UC_Item;
-            if (selectedThuoc.checkBox.Checked)
+            try
             {
-                Medicine medicine = new Medicine(selectedThuoc.ServiceId, selectedThuoc.ServiceName, selectedThuoc.ServiceCost, selectedThuoc.ServiceUnit);
-                listMedicine.Add(medicine);
+                UC_Item selectedThuoc = sender as UC_Item;
+                if (selectedThuoc.checkBox.Checked)
+                {
+                    Medicine medicine = new Medicine(selectedThuoc.ServiceId, selectedThuoc.ServiceName, selectedThuoc.ServiceCost, selectedThuoc.ServiceUnit);
+                    listMedicine.Add(medicine);
+                }
+                else
+                {
+                    listMedicine.RemoveAll(medicine => medicine.MedicineID == selectedThuoc.ServiceId);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                listMedicine.RemoveAll(medicine => medicine.MedicineID == selectedThuoc.ServiceId);
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

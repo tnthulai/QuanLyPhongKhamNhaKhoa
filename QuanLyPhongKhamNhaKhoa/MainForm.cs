@@ -40,7 +40,7 @@ namespace QuanLyPhongKhamNhaKhoa
 
         }
 
-        private void setAdminPermisstion()
+        private void setDefault()
         {
             btnBenhNhan.Visible = true;
             btnLichHen.Visible = true;
@@ -48,23 +48,38 @@ namespace QuanLyPhongKhamNhaKhoa
             btnBaoCao.Visible = true;
             btnQuanLy.Visible = true;
             btnNhanVien.Visible = true;
+            btnNhanVien.BringToFront();
         }
 
         private void CheckPermisstion()
         {
-            setAdminPermisstion();
-            string role = CurrentUser.currentUser.IsRole;
-            if(role == "ASSISTANT")
+            try
             {
-                btnNhanVien.Visible = false;
-                btnDieuTri.Visible = false;
-                btnBaoCao.Visible = false;
-                btnQuanLy.Visible = false;
-            } else if (role == "DENTIST")
+                setDefault();
+                string role = CurrentUser.currentUser.IsRole;
+                if (role == "ASSISTANT")
+                {
+                    btnNhanVien.Visible = false;
+                    btnDieuTri.Visible = false;
+                    btnBaoCao.Visible = false;
+                    btnQuanLy.Visible = false;
+                }
+                else if (role == "DENTIST")
+                {
+                    btnBaoCao.Visible = false;
+                    btnQuanLy.Visible = false;
+                    btnNhanVien.Visible = false;
+                    btnDieuTri.BringToFront() ;
+                }
+                else
+                {
+                    btnDieuTri.Visible = false;
+                    
+                }
+            }
+            catch (Exception ex)
             {
-                btnBaoCao.Visible = false;
-                btnQuanLy.Visible = false;
-                btnNhanVien.Visible = false;
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -88,29 +103,37 @@ namespace QuanLyPhongKhamNhaKhoa
             uC_TuyChonTaiKhoan1.Visible = false;
 
             uC_BaoCao_1.Visible = false;
+            uC_QuanLy1.Visible = false;
 
         }
         public void xuLyAvatar(MemoryStream picture)
         {
-            btnAvatar.Size = new System.Drawing.Size(50, 50);
-            GraphicsPath path = new GraphicsPath();
-            path.AddEllipse(0, 0, 50, 50);
-            btnAvatar.Region = new Region(path);
-            //btnAvatar.Image = Image.FromFile("../../image/dieutri.png");
+            try
+            {
+                btnAvatar.Size = new System.Drawing.Size(50, 50);
+                GraphicsPath path = new GraphicsPath();
+                path.AddEllipse(0, 0, 50, 50);
+                btnAvatar.Region = new Region(path);
+                //btnAvatar.Image = Image.FromFile("../../image/dieutri.png");
 
-            //MemoryStream picture = user.Image;
-            if (picture != null && picture.Length > 0)
-            {
-                btnAvatar.Image = Image.FromStream(picture);
+                //MemoryStream picture = user.Image;
+                if (picture != null && picture.Length > 0)
+                {
+                    btnAvatar.Image = Image.FromStream(picture);
+                }
+                else
+                {
+                    btnAvatar.Image = Image.FromFile(@"..\..\image\logo.png");
+                }
+                btnAvatar.ImageSize = new System.Drawing.Size(50, 50);
+                btnAvatar.CheckedState.ImageSize = new System.Drawing.Size(64, 64);
+                btnAvatar.HoverState.ImageSize = new System.Drawing.Size(64, 64);
+                btnAvatar.PressedState.ImageSize = new System.Drawing.Size(64, 64);
             }
-            else
+            catch (Exception ex)
             {
-                btnAvatar.Image = Image.FromFile(@"..\..\image\logo.png");
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            btnAvatar.ImageSize = new System.Drawing.Size(50, 50);
-            btnAvatar.CheckedState.ImageSize = new System.Drawing.Size(64, 64);
-            btnAvatar.HoverState.ImageSize = new System.Drawing.Size(64, 64);
-            btnAvatar.PressedState.ImageSize = new System.Drawing.Size(64, 64);
         }
 
         private void panel3_Paint(object sender, PaintEventArgs e)
@@ -240,6 +263,9 @@ namespace QuanLyPhongKhamNhaKhoa
             ReSetForm();
             Guna2Button clickedButton = (Guna2Button)sender;
             clickedButton.FillColor = Color.LightGray;
+
+            uC_QuanLy1.Visible = true;
+            uC_QuanLy1.BringToFront();
         }
 
         

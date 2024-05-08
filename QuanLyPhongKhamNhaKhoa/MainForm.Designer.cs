@@ -50,8 +50,9 @@ namespace QuanLyPhongKhamNhaKhoa
             this.guna2Shapes3 = new Guna.UI2.WinForms.Guna2Shapes();
             this.picBoxNen = new Guna.UI2.WinForms.Guna2PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.uC_QuanLy1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_QuanLy();
             this.uC_BaoCao_1 = new QuanLyPhongKhamNhaKhoa.Report.UC_BaoCao_();
-            this.uC_LichHenTest1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_LichHenTest();
+            this.uC_LichHenTest1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_LichHen();
             this.uC_DieuTri_New1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_DieuTri();
             this.uC_TuyChonTaiKhoan1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_TuyChonTaiKhoan();
             this.uC_LichHen1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_LichHen();
@@ -130,7 +131,7 @@ namespace QuanLyPhongKhamNhaKhoa
             this.btnQuanLy.Image = ((System.Drawing.Image)(resources.GetObject("btnQuanLy.Image")));
             this.btnQuanLy.ImageOffset = new System.Drawing.Point(20, -13);
             this.btnQuanLy.ImageSize = new System.Drawing.Size(37, 37);
-            this.btnQuanLy.Location = new System.Drawing.Point(916, -1);
+            this.btnQuanLy.Location = new System.Drawing.Point(757, -1);
             this.btnQuanLy.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnQuanLy.Name = "btnQuanLy";
             this.btnQuanLy.Size = new System.Drawing.Size(160, 89);
@@ -153,7 +154,7 @@ namespace QuanLyPhongKhamNhaKhoa
             this.btnBaoCao.Image = ((System.Drawing.Image)(resources.GetObject("btnBaoCao.Image")));
             this.btnBaoCao.ImageOffset = new System.Drawing.Point(20, -13);
             this.btnBaoCao.ImageSize = new System.Drawing.Size(37, 37);
-            this.btnBaoCao.Location = new System.Drawing.Point(756, -1);
+            this.btnBaoCao.Location = new System.Drawing.Point(597, -1);
             this.btnBaoCao.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBaoCao.Name = "btnBaoCao";
             this.btnBaoCao.Size = new System.Drawing.Size(160, 89);
@@ -246,7 +247,7 @@ namespace QuanLyPhongKhamNhaKhoa
             this.btnNhanVien.Image = ((System.Drawing.Image)(resources.GetObject("btnNhanVien.Image")));
             this.btnNhanVien.ImageOffset = new System.Drawing.Point(25, -13);
             this.btnNhanVien.ImageSize = new System.Drawing.Size(37, 37);
-            this.btnNhanVien.Location = new System.Drawing.Point(596, -1);
+            this.btnNhanVien.Location = new System.Drawing.Point(436, -1);
             this.btnNhanVien.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnNhanVien.Name = "btnNhanVien";
             this.btnNhanVien.Size = new System.Drawing.Size(160, 89);
@@ -358,6 +359,7 @@ namespace QuanLyPhongKhamNhaKhoa
             // 
             this.panel3.BackColor = System.Drawing.Color.White;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel3.Controls.Add(this.uC_QuanLy1);
             this.panel3.Controls.Add(this.uC_BaoCao_1);
             this.panel3.Controls.Add(this.uC_LichHenTest1);
             this.panel3.Controls.Add(this.uC_DieuTri_New1);
@@ -373,6 +375,14 @@ namespace QuanLyPhongKhamNhaKhoa
             this.panel3.Size = new System.Drawing.Size(1940, 816);
             this.panel3.TabIndex = 1;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
+            // 
+            // uC_QuanLy1
+            // 
+            this.uC_QuanLy1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uC_QuanLy1.Location = new System.Drawing.Point(0, 0);
+            this.uC_QuanLy1.Name = "uC_QuanLy1";
+            this.uC_QuanLy1.Size = new System.Drawing.Size(1936, 812);
+            this.uC_QuanLy1.TabIndex = 8;
             // 
             // uC_BaoCao_1
             // 
@@ -508,7 +518,8 @@ namespace QuanLyPhongKhamNhaKhoa
         private User_Control.UC_NhanVien uC_NhanVien1;
         private User_Control.UC_TuyChonTaiKhoan uC_TuyChonTaiKhoan1;
         private User_Control.UC_DieuTri uC_DieuTri_New1;
-        private User_Control.UC_LichHenTest uC_LichHenTest1;
+        private User_Control.UC_LichHen uC_LichHenTest1;
         private Report.UC_BaoCao_ uC_BaoCao_1;
+        private User_Control.UC_QuanLy uC_QuanLy1;
     }
 }

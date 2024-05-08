@@ -15,6 +15,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QuanLyPhongKhamNhaKhoa.Report_File;
 
 namespace QuanLyPhongKhamNhaKhoa.User_Control
 {
@@ -142,7 +143,25 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 
         private void btnXuatDuLieu_Click(object sender, EventArgs e)
         {
+            SQLConnectionData mydb = new SQLConnectionData();
+            ReportFile report = new ReportFile();
+            report.reportpath = "D:\\SPKT\\NAM3\\HK2\\Win Form\\FinalProject\\QuanLyPhongKhamNhaKhoa\\Report_File\\Report_NhanVien.rdlc";
+            report.dataset = "DataSetNhanVien";
 
+            SqlCommand command = new SqlCommand();
+            command.Connection = mydb.getConnection;
+
+            command.CommandText = "SELECT userID, fullName, birthDate, gender, persionalID, phoneNumber, email, isRole, address, image FROM Users where isRole != 'PAUSED';";
+            command.Connection = mydb.getConnection;
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+            DataTable table = new DataTable();
+
+            adapter.Fill(table);
+
+            report.dataTable = table;
+            report.ShowDialog();
         }
 
         private void btnThemNV_Click(object sender, EventArgs e)
@@ -240,35 +259,42 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         
         private void sendPasswordByEmail(string userid, string password)
         {
-            string from, pass, messageBody;
-            MailMessage message = new MailMessage();
-
-            string to = txtEmail.Text.ToString().Trim();
-            from = "nguyentranthulai@gmail.com"; // Email của bạn
-            pass = "opta rrst uesb fdqc";
-
-            messageBody = "Tên tài khoản đăng nhập: " + userid + "\nMật khẩu: " + password;
-
-            message.To.Add(to);
-            message.From = new MailAddress(from);
-            message.Body = messageBody;
-            message.Subject = "Creation account successful";
-
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com");
-            smtp.EnableSsl = true;
-            smtp.Port = 587;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.Credentials = new NetworkCredential(from, pass);
-
             try
             {
-                smtp.Send(message);
-                MessageBox.Show("Đã gửi email thành công!", "Send Password", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string from, pass, messageBody;
+                MailMessage message = new MailMessage();
 
+                string to = txtEmail.Text.ToString().Trim();
+                from = "nguyentranthulai@gmail.com"; // Email của bạn
+                pass = "opta rrst uesb fdqc";
+
+                messageBody = "Tên tài khoản đăng nhập: " + userid + "\nMật khẩu: " + password;
+
+                message.To.Add(to);
+                message.From = new MailAddress(from);
+                message.Body = messageBody;
+                message.Subject = "Creation account successful";
+
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+                smtp.EnableSsl = true;
+                smtp.Port = 587;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Credentials = new NetworkCredential(from, pass);
+
+                try
+                {
+                    smtp.Send(message);
+                    MessageBox.Show("Đã gửi email thành công!", "Send Password", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR: " + ex.Message, "Send Password", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ERROR: " + ex.Message, "Send Password", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -441,19 +467,33 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         }
         public void timKiem()
         {
-            SqlCommand command = new SqlCommand("SELECT userID, fullName, birthDate, gender, persionalID, phoneNumber, email, isRole, address " +
-                "FROM Users WHERE userID LIKE @timKiem OR fullName LIKE @timKiem OR persionalID LIKE @timKiem OR phoneNumber LIKE @timKiem OR email LIKE @timKiem OR isRole LIKE @timKiem");
-            command.Parameters.Add("@timKiem", SqlDbType.NVarChar).Value = "%" + txtTimKiem.Text.Trim() + "%";
-            fillGrid(command);
+            try
+            {
+                SqlCommand command = new SqlCommand("SELECT userID, fullName, birthDate, gender, persionalID, phoneNumber, email, isRole, address, image " +
+                "FROM Users WHERE userID LIKE @timKiem OR fullName LIKE @timKiem OR persionalID LIKE @timKiem OR phoneNumber LIKE @timKiem OR email LIKE @timKiem OR isRole LIKE @timKiem AND isRole != 'PAUSED'");
+                command.Parameters.Add("@timKiem", SqlDbType.NVarChar).Value = "%" + txtTimKiem.Text.Trim() + "%";
+                fillGrid(command);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnChonAnh_Click(object sender, EventArgs e)
         {
-            OpenFileDialog opf = new OpenFileDialog();
-            opf.Filter = "Select Image(*.jpg;*.png;*.gif)|*.jpg;*.png;*.gif";
-            if ((opf.ShowDialog() == DialogResult.OK))
+            try
             {
-                picBoxImage.Image = Image.FromFile(opf.FileName);
+                OpenFileDialog opf = new OpenFileDialog();
+                opf.Filter = "Select Image(*.jpg;*.png;*.gif)|*.jpg;*.png;*.gif";
+                if ((opf.ShowDialog() == DialogResult.OK))
+                {
+                    picBoxImage.Image = Image.FromFile(opf.FileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

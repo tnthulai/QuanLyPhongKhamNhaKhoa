@@ -1,6 +1,7 @@
 ﻿using QuanLyPhongKhamNhaKhoa.Dao;
 using QuanLyPhongKhamNhaKhoa.Entity;
 using QuanLyPhongKhamNhaKhoa.User_Control;
+using QuanLyPhongKhamNhaKhoa.User_Control.DieuTri;
 using QuanLyPhongKhamNhaKhoa.Validation;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,9 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
     public delegate void ListDichVuSelected(List<Service> list);
     public partial class FormThemLichHen : Form
     {
-        private UC_LichHenTest uc_LichHenTest;
+        private UC_LichHen uc_LichHenTest;
 
-        public FormThemLichHen(UC_LichHenTest uc_LichHenTest)
+        public FormThemLichHen(UC_LichHen uc_LichHenTest)
         {
             InitializeComponent();
             this.uc_LichHenTest = uc_LichHenTest;
@@ -33,7 +34,7 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
         public string userIDNS;
         string patientsID = null;
         string appointmentID;
-        public List<Service> listService;
+        public List<Service> listService = new List<Service>();
 
         private void setValueList(List<Service> list)
         {
@@ -50,77 +51,85 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
         {
             lblTenNhaSi.Text = fullNameNS;
             taoThoiGianChoCbTime();
+            loadListDichVuDaChon();
             cbTime.DropDownStyle = ComboBoxStyle.DropDownList;
-
+            
         }
 
         private void taoThoiGianChoCbTime()
         {
-            cbTime.Items.Clear();
-            string dateString = dateTPKLichHen.Value.ToString("dd/MM/yyyy");
-            DateTime date = DateTime.ParseExact(dateString, "dd/MM/yyyy", CultureInfo.InvariantCulture);
-            DateTime thoiGianHienTai = DateTime.Now;
-            DateTime dateNow = thoiGianHienTai.Date;
-            int hourNow = thoiGianHienTai.Hour;
-            if (dateNow <= date)
+            try
             {
-                cbTime.Enabled = true;
-                panelDichVu.Controls.Clear();
-                List<int> hourTimeList = new List<int>();
-                SqlCommand command = new SqlCommand(@"SELECT startTime FROM Appointment WHERE userID=@userID AND appointmentDate=@appointmentDate");
-                command.Parameters.Add("@userID", SqlDbType.VarChar).Value = userIDNS.Trim();
-                command.Parameters.Add("@appointmentDate", SqlDbType.DateTime).Value = date;
-
-                DataTable table = appDao.getAppointment(command);
-                if (table.Rows.Count > 0)
+                cbTime.Items.Clear();
+                string dateString = dateTPKLichHen.Value.ToString("dd/MM/yyyy");
+                DateTime date = DateTime.ParseExact(dateString, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime thoiGianHienTai = DateTime.Now;
+                DateTime dateNow = thoiGianHienTai.Date;
+                int hourNow = thoiGianHienTai.Hour;
+                if (dateNow <= date)
                 {
-                    foreach (DataRow row in table.Rows)
-                    {
-                        TimeSpan startTime = (TimeSpan)row["startTime"];
-                        int hour = startTime.Hours;
-                        hourTimeList.Add(hour);
-                    }
-                }
+                    cbTime.Enabled = true;
+                    panelDichVu.Controls.Clear();
+                    List<int> hourTimeList = new List<int>();
+                    SqlCommand command = new SqlCommand(@"SELECT startTime FROM Appointment WHERE userID=@userID AND appointmentDate=@appointmentDate");
+                    command.Parameters.Add("@userID", SqlDbType.VarChar).Value = userIDNS.Trim();
+                    command.Parameters.Add("@appointmentDate", SqlDbType.DateTime).Value = date;
 
-                if (date.Equals(dateNow))
-                {
-                    for (int i = hourNow; i < 17; i++)
+                    DataTable table = appDao.getAppointment(command);
+                    if (table.Rows.Count > 0)
                     {
-                        if (!hourTimeList.Contains(i) && i != 12 && i >=8)
+                        foreach (DataRow row in table.Rows)
                         {
-                            string temp = i.ToString() + "h - " + (i + 1).ToString() + "h";
-                            cbTime.Items.Add(temp);
+                            TimeSpan startTime = (TimeSpan)row["startTime"];
+                            int hour = startTime.Hours;
+                            hourTimeList.Add(hour);
+                        }
+                    }
+
+                    if (date.Equals(dateNow))
+                    {
+                        for (int i = hourNow; i < 17; i++)
+                        {
+                            if (!hourTimeList.Contains(i) && i != 12 && i >= 8)
+                            {
+                                string temp = i.ToString() + "h - " + (i + 1).ToString() + "h";
+                                cbTime.Items.Add(temp);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 8; i < 17; i++)
+                        {
+                            if (!hourTimeList.Contains(i) && i != 12)
+                            {
+                                string temp = i.ToString() + "h - " + (i + 1).ToString() + "h";
+                                cbTime.Items.Add(temp);
+                            }
                         }
                     }
                 }
                 else
                 {
-                    for (int i = 8; i < 17; i++)
-                    {
-                        if (!hourTimeList.Contains(i) && i != 12)
-                        {
-                            string temp = i.ToString() + "h - " + (i + 1).ToString() + "h";
-                            cbTime.Items.Add(temp);
-                        }
-                    }
+                    cbTime.Enabled = false;
+                    panelDichVu.Controls.Clear();
+                    Label labelThongBao = new Label();
+                    labelThongBao.Text = "Thời gian đặt lịch không hợp lệ.";
+
+                    panelDichVu.Controls.Add(labelThongBao);
+                    labelThongBao.Location = new Point(10, 10);
+                    labelThongBao.ForeColor = Color.Gold;
+                    labelThongBao.Font = new Font(labelThongBao.Font.FontFamily, 13, FontStyle.Bold);
+                    panelDichVu.Controls.Add(labelThongBao);
+                    labelThongBao.AutoSize = true;
+                    int x = (panelDichVu.Width - labelThongBao.Width) / 2;
+                    int y = (panelDichVu.Height - labelThongBao.Height) / 2;
+                    labelThongBao.Location = new Point(x, y);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                cbTime.Enabled = false;
-                panelDichVu.Controls.Clear();
-                Label labelThongBao = new Label();
-                labelThongBao.Text = "Thời gian đặt lịch không hợp lệ.";
-
-                panelDichVu.Controls.Add(labelThongBao);
-                labelThongBao.Location = new Point(10, 10);
-                labelThongBao.ForeColor = Color.Gold;
-                labelThongBao.Font = new Font(labelThongBao.Font.FontFamily, 13, FontStyle.Bold);
-                panelDichVu.Controls.Add(labelThongBao);
-                labelThongBao.AutoSize = true;
-                int x = (panelDichVu.Width - labelThongBao.Width) / 2;
-                int y = (panelDichVu.Height - labelThongBao.Height) / 2;
-                labelThongBao.Location = new Point(x, y);
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -261,14 +270,21 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
 
         private void pBSearchPatient_Click(object sender, EventArgs e)
         {
-            SqlCommand command = new SqlCommand("SELECT persionalID " +
-                "FROM Patients WHERE persionalID LIKE @persionalID AND patientsID=@patientsID");
-            command.Parameters.Add("@persionalID", SqlDbType.VarChar).Value = "%" + txtCCCD.Text.Trim() + "%";
-            command.Parameters.Add("@patientsID", SqlDbType.VarChar).Value = patientsID.Trim();
-            DataTable table = patientsDao.getPatients(command);
-            if (table.Rows.Count > 0)
+            try
             {
-                txtCCCD.Text = table.Rows[0]["persionalID"].ToString().Trim();
+                SqlCommand command = new SqlCommand("SELECT persionalID " +
+                "FROM Patients WHERE persionalID LIKE @persionalID AND patientsID=@patientsID");
+                command.Parameters.Add("@persionalID", SqlDbType.VarChar).Value = "%" + txtCCCD.Text.Trim() + "%";
+                command.Parameters.Add("@patientsID", SqlDbType.VarChar).Value = patientsID.Trim();
+                DataTable table = patientsDao.getPatients(command);
+                if (table.Rows.Count > 0)
+                {
+                    txtCCCD.Text = table.Rows[0]["persionalID"].ToString().Trim();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -295,47 +311,69 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
         }
         private void loadListDichVuDaChon()
         {
-            if (listService != null)
+            try
             {
-                foreach (Service service in listService)
+                if (listService != null)
                 {
-                    UC_Item uC_ItemDichVu = new UC_Item(service.ServiceID, service.ServiceName, service.Cost, service.Unit);
-                    uC_ItemDichVu.checkBox.Checked = true;
-                    panelDichVu.Controls.Add(uC_ItemDichVu);
+                    foreach (Service service in listService)
+                    {
+                        UC_Item uC_ItemDichVu = new UC_Item(service.ServiceID, service.ServiceName, service.Cost, service.Unit);
+                        uC_ItemDichVu.checkBox.Checked = true;
+                        uC_ItemDichVu.checkBox.Enabled = false;
+                        panelDichVu.Controls.Add(uC_ItemDichVu);
+                    }
+                }
+                else
+                {
+                    UC_Item uC_Item = new UC_Item("TV", "Tư vấn", 0, "Lần");
+                    uC_Item.checkBox.Checked = true;
+                    uC_Item.checkBox.Enabled = false;
+                    panelDichVu.Controls.Add(uC_Item);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                UC_Item uC_Item = new UC_Item("TV", "Tư vấn", 0, "Lần");
-                uC_Item.checkBox.Checked = true;
-                uC_Item.checkBox.Checked = false;
-                panelDichVu.Controls.Add(uC_Item);
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            if (txtCCCD.Text.ToString()=="" || patientsID == "" || cbTime.Text.ToString()=="")
+            try
             {
-                MessageBox.Show("Chưa đủ dữ liệu!", "Add Appointment", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            themLichHen();
-            themLichHenDichVu();
+                if (txtCCCD.Text.ToString() == "" || patientsID == "" || cbTime.Text.ToString() == "")
+                {
+                    MessageBox.Show("Chưa đủ dữ liệu!", "Add Appointment", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                themLichHen();
+                themLichHenDichVu();
 
-            // Sau khi thêm lịch hẹn, gọi phương thức UpdateCalendar trên form UC_LichHenTest
-            uc_LichHenTest.UpdateCalendar();
-            this.Close();
+                // Sau khi thêm lịch hẹn, gọi phương thức UpdateCalendar trên form UC_LichHenTest
+                uc_LichHenTest.UpdateCalendar();
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void themLichHenDichVu()
         {
-            foreach (Service service in listService)
+            try
             {
-                SqlCommand command = new SqlCommand("INSERT INTO Appointment_Service (appointmentID, serviceID) VALUES(@appointmentID, @serviceID)", mydb.getConnection);
-                command.Parameters.Add("@appointmentID", SqlDbType.VarChar).Value = appointmentID;
-                command.Parameters.Add("@serviceID", SqlDbType.VarChar).Value = service.ServiceID;
-                mydb.openConnection();
-                command.ExecuteNonQuery();
-                mydb.closeConnection();
+                foreach (Service service in listService)
+                {
+                    SqlCommand command = new SqlCommand("INSERT INTO Appointment_Service (appointmentID, serviceID) VALUES(@appointmentID, @serviceID)", mydb.getConnection);
+                    command.Parameters.Add("@appointmentID", SqlDbType.VarChar).Value = appointmentID;
+                    command.Parameters.Add("@serviceID", SqlDbType.VarChar).Value = service.ServiceID;
+                    mydb.openConnection();
+                    command.ExecuteNonQuery();
+                    mydb.closeConnection();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void themLichHen()

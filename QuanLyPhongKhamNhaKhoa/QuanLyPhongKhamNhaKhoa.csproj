@@ -97,6 +97,11 @@
     <Compile Include="Dao\ServiceDao.cs" />
     <Compile Include="Dao\TreatmentDao.cs" />
     <Compile Include="Dao\UserDao.cs" />
+    <Compile Include="DentalClinicDataSetBenhNhan.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DentalClinicDataSetBenhNhan.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DentalClinicDataSetDSNV.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -144,6 +149,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QLNhaKhoaDataSetNhanVien.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QLNhaKhoaDataSetNhanVien.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Report\UC_BaoCaoTheoNam.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -162,6 +172,12 @@
     <Compile Include="Report\UC_BaoCao_.designer.cs">
       <DependentUpon>UC_BaoCao_.cs</DependentUpon>
     </Compile>
+    <Compile Include="Report_File\ReportFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report_File\ReportFile.Designer.cs">
+      <DependentUpon>ReportFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="SQLConnectionData.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="DieuTri\UC_ItemSelected.cs">
@@ -169,12 +185,6 @@
     </Compile>
     <Compile Include="DieuTri\UC_ItemSelected.Designer.cs">
       <DependentUpon>UC_ItemSelected.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Test.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Test.Designer.cs">
-      <DependentUpon>Test.cs</DependentUpon>
     </Compile>
     <Compile Include="User Control\UC_BenhNhan.cs">
       <SubType>UserControl</SubType>
@@ -200,12 +210,6 @@
     <Compile Include="User Control\UC_LichHen.Designer.cs">
       <DependentUpon>UC_LichHen.cs</DependentUpon>
     </Compile>
-    <Compile Include="User Control\UC_LichHenTest.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="User Control\UC_LichHenTest.Designer.cs">
-      <DependentUpon>UC_LichHenTest.cs</DependentUpon>
-    </Compile>
     <Compile Include="User Control\UC_NhanVien.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -218,17 +222,17 @@
     <Compile Include="User Control\UC_PatientAppointment.Designer.cs">
       <DependentUpon>UC_PatientAppointment.cs</DependentUpon>
     </Compile>
-    <Compile Include="User Control\UC_ServiceAppointment.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="User Control\UC_ServiceAppointment.Designer.cs">
-      <DependentUpon>UC_ServiceAppointment.cs</DependentUpon>
-    </Compile>
     <Compile Include="Account\UC_TuyChonTaiKhoan.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Account\UC_TuyChonTaiKhoan.Designer.cs">
       <DependentUpon>UC_TuyChonTaiKhoan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User Control\UC_QuanLy.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="User Control\UC_QuanLy.Designer.cs">
+      <DependentUpon>UC_QuanLy.cs</DependentUpon>
     </Compile>
     <Compile Include="Validation\Validation.cs" />
     <EmbeddedResource Include="Account\AccountInfoForm.resx">
@@ -277,8 +281,12 @@
     <EmbeddedResource Include="DieuTri\UC_ItemSelected.resx">
       <DependentUpon>UC_ItemSelected.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Test.resx">
-      <DependentUpon>Test.cs</DependentUpon>
+    <EmbeddedResource Include="Report_File\ReportFile.resx">
+      <DependentUpon>ReportFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report_File\Report_BenhNhan.rdlc" />
+    <EmbeddedResource Include="Report_File\Report_NhanVien.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="User Control\UC_BenhNhan.resx">
       <DependentUpon>UC_BenhNhan.cs</DependentUpon>
@@ -292,21 +300,29 @@
     <EmbeddedResource Include="User Control\UC_LichHen.resx">
       <DependentUpon>UC_LichHen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User Control\UC_LichHenTest.resx">
-      <DependentUpon>UC_LichHenTest.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="User Control\UC_NhanVien.resx">
       <DependentUpon>UC_NhanVien.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User Control\UC_PatientAppointment.resx">
       <DependentUpon>UC_PatientAppointment.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User Control\UC_ServiceAppointment.resx">
-      <DependentUpon>UC_ServiceAppointment.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Account\UC_TuyChonTaiKhoan.resx">
       <DependentUpon>UC_TuyChonTaiKhoan.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="User Control\UC_QuanLy.resx">
+      <DependentUpon>UC_QuanLy.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="DentalClinicDataSetBenhNhan.xsc">
+      <DependentUpon>DentalClinicDataSetBenhNhan.xsd</DependentUpon>
+    </None>
+    <None Include="DentalClinicDataSetBenhNhan.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DentalClinicDataSetBenhNhan.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DentalClinicDataSetBenhNhan.xss">
+      <DependentUpon>DentalClinicDataSetBenhNhan.xsd</DependentUpon>
+    </None>
     <None Include="DentalClinicDataSetDSNV.xsc">
       <DependentUpon>DentalClinicDataSetDSNV.xsd</DependentUpon>
     </None>
@@ -351,6 +367,17 @@
     <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="QLNhaKhoaDataSetNhanVien.xsc">
+      <DependentUpon>QLNhaKhoaDataSetNhanVien.xsd</DependentUpon>
+    </None>
+    <None Include="QLNhaKhoaDataSetNhanVien.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>QLNhaKhoaDataSetNhanVien.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="QLNhaKhoaDataSetNhanVien.xss">
+      <DependentUpon>QLNhaKhoaDataSetNhanVien.xsd</DependentUpon>
+    </None>
     <None Include="Resources\image.png" />
     <None Include="image\xoa.png" />
     <None Include="Resources\refresh1.png" />

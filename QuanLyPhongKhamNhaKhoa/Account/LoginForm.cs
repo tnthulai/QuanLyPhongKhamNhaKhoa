@@ -28,21 +28,28 @@ namespace QuanLyPhongKhamNhaKhoa
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SqlCommand command = new SqlCommand("SELECT * FROM Users WHERE userID = @User AND password = @Pass AND isRole != 'PAUSED'");
-            command.Parameters.Add("@User", SqlDbType.VarChar).Value = txtTenDangNhap.Text.Trim();
-            command.Parameters.Add("@Pass", SqlDbType.VarChar).Value = txtMatKhau.Text.Trim();
+            try
+            {
+                SqlCommand command = new SqlCommand("SELECT * FROM Users WHERE userID = @User AND password = @Pass AND isRole != 'PAUSED'");
+                command.Parameters.Add("@User", SqlDbType.VarChar).Value = txtTenDangNhap.Text.Trim();
+                command.Parameters.Add("@Pass", SqlDbType.VarChar).Value = txtMatKhau.Text.Trim();
 
-            User user = userDao.getUser(command);
-            if (user != null)
-            {
-                CurrentUser.currentUser = user; // Lưu thông tin người dùng vào UserManager
-                MainForm mainForm = new MainForm();
-                this.Hide();
-                mainForm.ShowDialog();
+                User user = userDao.getUser(command);
+                if (user != null)
+                {
+                    CurrentUser.currentUser = user; // Lưu thông tin người dùng vào UserManager
+                    MainForm mainForm = new MainForm();
+                    this.Hide();
+                    mainForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Tên người dùng hoặc mật khẩu sai.", "Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Tên người dùng hoặc mật khẩu sai.", "Login Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

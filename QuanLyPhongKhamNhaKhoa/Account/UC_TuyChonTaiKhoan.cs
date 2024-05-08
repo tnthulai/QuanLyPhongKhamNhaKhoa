@@ -28,11 +28,18 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 
         private void lblXemHoSo_Click(object sender, EventArgs e)
         {
-            AccountInfoForm accountInfoForm = new AccountInfoForm();
-            //lấy userID chuyển qua cho accountInfoForm
-            accountInfoForm.userID = CurrentUser.currentUser.UserID;
-            this.Visible = false;
-            accountInfoForm.ShowDialog();
+            try
+            {
+                AccountInfoForm accountInfoForm = new AccountInfoForm();
+                //lấy userID chuyển qua cho accountInfoForm
+                accountInfoForm.userID = CurrentUser.currentUser.UserID;
+                this.Visible = false;
+                accountInfoForm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void guna2Shapes1_Click(object sender, EventArgs e)
@@ -50,11 +57,18 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
 
         private void lblDangXuat_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Bạn có muốn đăng xuất?", "Xác nhận đăng xuất", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
+            try
             {
-                // Khi người dùng chấp nhận đăng xuất, kích hoạt sự kiện DangXuatClicked
-                DangXuatClicked?.Invoke(this, EventArgs.Empty);
+                DialogResult result = MessageBox.Show("Bạn có muốn đăng xuất?", "Xác nhận đăng xuất", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    // Khi người dùng chấp nhận đăng xuất, kích hoạt sự kiện DangXuatClicked
+                    DangXuatClicked?.Invoke(this, EventArgs.Empty);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

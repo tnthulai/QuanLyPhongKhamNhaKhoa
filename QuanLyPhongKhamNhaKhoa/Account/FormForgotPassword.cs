@@ -25,51 +25,58 @@ namespace QuanLyPhongKhamNhaKhoa.Account
 
         private void btnGuiEmail_Click(object sender, EventArgs e)
         {
-            if (txtEmail.Text.ToString().Trim() == "")
-            {
-                MessageBox.Show("Vui lòng nhập địa chỉ email!", "Forgot Password", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Kiểm tra email không tồn tại
-            if (existEmail() == false)
-            {
-                MessageBox.Show("Email không tồn tại, vui lòng kiểm tra lại email", "Forgot Password", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Tạo mã ngẫu nhiên và gửi email
-            string from, pass, messageBody;
-            Random rand = new Random();
-            randomCode = (rand.Next(999999)).ToString();
-            MailMessage message = new MailMessage();
-
-            string to = txtEmail.Text.ToString().Trim();
-            from = "nguyentranthulai@gmail.com"; // Email của bạn
-            pass = "opta rrst uesb fdqc";
-
-            messageBody = "Code: " + randomCode;
-
-            message.To.Add(to);
-            message.From = new MailAddress(from);
-            message.Body = messageBody;
-            message.Subject = "Creation code successful";
-
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com");
-            smtp.EnableSsl = true;
-            smtp.Port = 587;
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.Credentials = new NetworkCredential(from, pass);
-
             try
             {
-                smtp.Send(message);
-                MessageBox.Show("Đã gửi mã thành công!", "Code Reset", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
+                if (txtEmail.Text.ToString().Trim() == "")
+                {
+                    MessageBox.Show("Vui lòng nhập địa chỉ email!", "Forgot Password", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Kiểm tra email không tồn tại
+                if (existEmail() == false)
+                {
+                    MessageBox.Show("Email không tồn tại, vui lòng kiểm tra lại email", "Forgot Password", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Tạo mã ngẫu nhiên và gửi email
+                string from, pass, messageBody;
+                Random rand = new Random();
+                randomCode = (rand.Next(999999)).ToString();
+                MailMessage message = new MailMessage();
+
+                string to = txtEmail.Text.ToString().Trim();
+                from = "nguyentranthulai@gmail.com"; // Email của bạn
+                pass = "opta rrst uesb fdqc";
+
+                messageBody = "Code: " + randomCode;
+
+                message.To.Add(to);
+                message.From = new MailAddress(from);
+                message.Body = messageBody;
+                message.Subject = "Creation code successful";
+
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com");
+                smtp.EnableSsl = true;
+                smtp.Port = 587;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Credentials = new NetworkCredential(from, pass);
+
+                try
+                {
+                    smtp.Send(message);
+                    MessageBox.Show("Đã gửi mã thành công!", "Code Reset", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("ERROR: " + ex.Message, "Forget Password", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ERROR: " +  ex.Message, "Forget Password", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private bool existEmail()

@@ -78,106 +78,111 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         {
 
             //MessageBox.Show(cbNam.SelectedItem.ToString());
-            using (SqlCommand command = new SqlCommand("CalculateRevenueByMonth", mydb.getConnection))
+            try
             {
-                
-                int month;
-                int year;
-                if (cbNam.SelectedItem != null)
+                using (SqlCommand command = new SqlCommand("CalculateRevenueByMonth", mydb.getConnection))
                 {
-                    month = Convert.ToInt32(cbThang.SelectedItem.ToString());
-                    year = Convert.ToInt32(cbNam.SelectedItem.ToString());
-                }
-                else
-                {
-                    return;
-                }
-                //Hiển thị label tổng doanh thu
-                double tongDoanhThu = billDao.CalculateMonthlyRevenue(month, year);
-                lblTongDoanhThu.Text = "Tổng doanh thu: " + string.Format("{0:N0}", tongDoanhThu) + "VND";
 
-
-                command.CommandType = CommandType.StoredProcedure;
-                mydb.openConnection();
-                command.Parameters.Add("@Month", SqlDbType.Int).Value = month;
-                command.Parameters.Add("@Year", SqlDbType.Int).Value = year;
-
-                // Tạo một SqlDataAdapter để lấy dữ liệu từ store procedure
-                using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-                {
-                    DataTable dataTable = new DataTable();
-                    adapter.Fill(dataTable);
-
-                    // Thiết lập dữ liệu cho biểu đồ
-                    chartDoanhThuThang.Series.Clear();
-                    chartDoanhThuThang.Series.Add("Doanh thu");
-                    chartDoanhThuThang.Series["Doanh thu"].ChartType = SeriesChartType.Line;
-                    chartDoanhThuThang.ChartAreas[0].AxisX.Title = "Ngày";
-                    chartDoanhThuThang.ChartAreas[0].AxisY.Title = "Doanh thu";
-
-                    // Lặp qua tất cả các ngày trong tháng và thêm dữ liệu tương ứng
-                    DateTime firstDayOfMonth = new DateTime(year, month, 1);
-                    DateTime lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
-                    while (firstDayOfMonth <= lastDayOfMonth)
+                    int month;
+                    int year;
+                    if (cbNam.SelectedItem != null)
                     {
-                        // Kiểm tra xem có dữ liệu cho ngày hiện tại không
-                        DataRow[] rows = dataTable.Select("Date = '" + firstDayOfMonth.ToString("yyyy-MM-dd") + "'");
-                        if (rows.Length > 0)
+                        month = Convert.ToInt32(cbThang.SelectedItem.ToString());
+                        year = Convert.ToInt32(cbNam.SelectedItem.ToString());
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    //Hiển thị label tổng doanh thu
+                    double tongDoanhThu = billDao.CalculateMonthlyRevenue(month, year);
+                    lblTongDoanhThu.Text = "Tổng doanh thu: " + string.Format("{0:N0}", tongDoanhThu) + "VND";
+
+
+                    command.CommandType = CommandType.StoredProcedure;
+                    mydb.openConnection();
+                    command.Parameters.Add("@Month", SqlDbType.Int).Value = month;
+                    command.Parameters.Add("@Year", SqlDbType.Int).Value = year;
+
+                    // Tạo một SqlDataAdapter để lấy dữ liệu từ store procedure
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    {
+                        DataTable dataTable = new DataTable();
+                        adapter.Fill(dataTable);
+
+                        // Thiết lập dữ liệu cho biểu đồ
+                        chartDoanhThuThang.Series.Clear();
+                        chartDoanhThuThang.Series.Add("Doanh thu");
+                        chartDoanhThuThang.Series["Doanh thu"].ChartType = SeriesChartType.Line;
+                        chartDoanhThuThang.ChartAreas[0].AxisX.Title = "Ngày";
+                        chartDoanhThuThang.ChartAreas[0].AxisY.Title = "Doanh thu";
+
+                        // Lặp qua tất cả các ngày trong tháng và thêm dữ liệu tương ứng
+                        DateTime firstDayOfMonth = new DateTime(year, month, 1);
+                        DateTime lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+                        while (firstDayOfMonth <= lastDayOfMonth)
                         {
-                            double revenue = Convert.ToDouble(rows[0]["Revenue"]);
-
-                            // Thêm điểm vào biểu đồ với giá trị tiền làm tròn
-                            chartDoanhThuThang.Series["Doanh thu"].Points.AddXY(firstDayOfMonth.ToString("dd/MM"), revenue);
-
-                            // Thiết lập nhãn cho trục hoành của điểm
-                            chartDoanhThuThang.Series["Doanh thu"].Points.Last().AxisLabel = firstDayOfMonth.ToString("dd/MM");
-
-                            // Thêm nhãn cho điểm
-                            chartDoanhThuThang.Series["Doanh thu"].Points.Last().Label = string.Format("{0:N0}", revenue);
-                            chartDoanhThuThang.MouseMove += (sender1, ev) =>
+                            // Kiểm tra xem có dữ liệu cho ngày hiện tại không
+                            DataRow[] rows = dataTable.Select("Date = '" + firstDayOfMonth.ToString("yyyy-MM-dd") + "'");
+                            if (rows.Length > 0)
                             {
-                                var chart = (Chart)sender1;
-                                var result = chart.HitTest(ev.X, ev.Y);
+                                double revenue = Convert.ToDouble(rows[0]["Revenue"]);
 
-                                // Kiểm tra xem điểm nào được di chuột vào
-                                if (result.ChartElementType == ChartElementType.DataPoint)
-                                {
-                                    var dataPoint = chart.Series["Doanh thu"].Points[result.PointIndex];
+                                // Thêm điểm vào biểu đồ với giá trị tiền làm tròn
+                                chartDoanhThuThang.Series["Doanh thu"].Points.AddXY(firstDayOfMonth.ToString("dd/MM"), revenue);
 
-                                    // Thiết lập kích thước font size lớn hơn khi di chuột vào
-                                    dataPoint.Font = new System.Drawing.Font("Arial", 11);
-                                }
-                                else
+                                // Thiết lập nhãn cho trục hoành của điểm
+                                chartDoanhThuThang.Series["Doanh thu"].Points.Last().AxisLabel = firstDayOfMonth.ToString("dd/MM");
+
+                                // Thêm nhãn cho điểm
+                                chartDoanhThuThang.Series["Doanh thu"].Points.Last().Label = string.Format("{0:N0}", revenue);
+                                chartDoanhThuThang.MouseMove += (sender1, ev) =>
                                 {
-                                    // Thiết lập kích thước font size nhỏ hơn khi di chuột ra khỏi điểm
-                                    foreach (var point in chart.Series["Doanh thu"].Points)
+                                    var chart = (Chart)sender1;
+                                    var result = chart.HitTest(ev.X, ev.Y);
+
+                                    // Kiểm tra xem điểm nào được di chuột vào
+                                    if (result.ChartElementType == ChartElementType.DataPoint)
                                     {
-                                        point.Font = new System.Drawing.Font("Arial", 7);
+                                        var dataPoint = chart.Series["Doanh thu"].Points[result.PointIndex];
+
+                                        // Thiết lập kích thước font size lớn hơn khi di chuột vào
+                                        dataPoint.Font = new System.Drawing.Font("Arial", 11);
                                     }
-                                }
-                            };
+                                    else
+                                    {
+                                        // Thiết lập kích thước font size nhỏ hơn khi di chuột ra khỏi điểm
+                                        foreach (var point in chart.Series["Doanh thu"].Points)
+                                        {
+                                            point.Font = new System.Drawing.Font("Arial", 7);
+                                        }
+                                    }
+                                };
 
+                            }
+                            else
+                            {
+                                // Nếu không có dữ liệu, thêm một điểm với giá trị 0
+                                chartDoanhThuThang.Series["Doanh thu"].Points.AddXY(firstDayOfMonth.ToString("dd/MM"), 0);
+
+                                // Thiết lập nhãn cho trục hoành của điểm
+                                chartDoanhThuThang.Series["Doanh thu"].Points.Last().AxisLabel = firstDayOfMonth.ToString("dd/MM");
+
+                                // Thêm nhãn cho điểm
+                                //chartDoanhThuThang.Series["Doanh thu"].Points.Last().Label = "0"; // Số tiền doanh thu
+                            }
+
+                            // Chuyển sang ngày tiếp theo trong tháng
+                            firstDayOfMonth = firstDayOfMonth.AddDays(1);
                         }
-                        else
-                        {
-                            // Nếu không có dữ liệu, thêm một điểm với giá trị 0
-                            chartDoanhThuThang.Series["Doanh thu"].Points.AddXY(firstDayOfMonth.ToString("dd/MM"), 0);
-
-                            // Thiết lập nhãn cho trục hoành của điểm
-                            chartDoanhThuThang.Series["Doanh thu"].Points.Last().AxisLabel = firstDayOfMonth.ToString("dd/MM");
-
-                            // Thêm nhãn cho điểm
-                            //chartDoanhThuThang.Series["Doanh thu"].Points.Last().Label = "0"; // Số tiền doanh thu
-                        }
-
-                        // Chuyển sang ngày tiếp theo trong tháng
-                        firstDayOfMonth = firstDayOfMonth.AddDays(1);
                     }
                 }
+                mydb.closeConnection();
             }
-
-            
-            mydb.closeConnection();
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         
