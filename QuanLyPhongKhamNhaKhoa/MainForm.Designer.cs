@@ -50,15 +50,15 @@ namespace QuanLyPhongKhamNhaKhoa
             this.guna2Shapes3 = new Guna.UI2.WinForms.Guna2Shapes();
             this.picBoxNen = new Guna.UI2.WinForms.Guna2PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.uC_QuanLy1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_QuanLy();
             this.uC_BaoCao_1 = new QuanLyPhongKhamNhaKhoa.Report.UC_BaoCao_();
-            this.uC_LichHenTest1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_LichHenTest();
+            this.uC_LichHenTest1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_LichHen();
             this.uC_DieuTri_New1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_DieuTri();
             this.uC_TuyChonTaiKhoan1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_TuyChonTaiKhoan();
             this.uC_LichHen1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_LichHen();
             this.uC_BenhNhan1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_BenhNhan();
             this.uC_NhanVien2 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_NhanVien();
             this.uC_NhanVien1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_NhanVien();
-            this.uC_QuanLy1 = new QuanLyPhongKhamNhaKhoa.User_Control.UC_QuanLy();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.guna2PictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxNen)).BeginInit();
@@ -119,7 +119,7 @@ namespace QuanLyPhongKhamNhaKhoa
             // 
             // btnQuanLy
             // 
-            this.btnQuanLy.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.btnQuanLy.BackColor = System.Drawing.Color.DarkCyan;
             this.btnQuanLy.BorderColor = System.Drawing.Color.White;
             this.btnQuanLy.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnQuanLy.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
@@ -131,7 +131,7 @@ namespace QuanLyPhongKhamNhaKhoa
             this.btnQuanLy.Image = ((System.Drawing.Image)(resources.GetObject("btnQuanLy.Image")));
             this.btnQuanLy.ImageOffset = new System.Drawing.Point(20, -13);
             this.btnQuanLy.ImageSize = new System.Drawing.Size(37, 37);
-            this.btnQuanLy.Location = new System.Drawing.Point(915, -2);
+            this.btnQuanLy.Location = new System.Drawing.Point(756, -1);
             this.btnQuanLy.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnQuanLy.Name = "btnQuanLy";
             this.btnQuanLy.Size = new System.Drawing.Size(160, 89);
@@ -142,7 +142,7 @@ namespace QuanLyPhongKhamNhaKhoa
             // 
             // btnBaoCao
             // 
-            this.btnBaoCao.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.btnBaoCao.BackColor = System.Drawing.Color.DarkCyan;
             this.btnBaoCao.BorderColor = System.Drawing.Color.White;
             this.btnBaoCao.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnBaoCao.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
@@ -154,7 +154,7 @@ namespace QuanLyPhongKhamNhaKhoa
             this.btnBaoCao.Image = ((System.Drawing.Image)(resources.GetObject("btnBaoCao.Image")));
             this.btnBaoCao.ImageOffset = new System.Drawing.Point(20, -13);
             this.btnBaoCao.ImageSize = new System.Drawing.Size(37, 37);
-            this.btnBaoCao.Location = new System.Drawing.Point(752, -2);
+            this.btnBaoCao.Location = new System.Drawing.Point(596, -1);
             this.btnBaoCao.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBaoCao.Name = "btnBaoCao";
             this.btnBaoCao.Size = new System.Drawing.Size(160, 89);
@@ -165,7 +165,7 @@ namespace QuanLyPhongKhamNhaKhoa
             // 
             // btnDieuTri
             // 
-            this.btnDieuTri.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.btnDieuTri.BackColor = System.Drawing.Color.DarkCyan;
             this.btnDieuTri.BorderColor = System.Drawing.Color.White;
             this.btnDieuTri.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnDieuTri.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
@@ -177,7 +177,7 @@ namespace QuanLyPhongKhamNhaKhoa
             this.btnDieuTri.Image = ((System.Drawing.Image)(resources.GetObject("btnDieuTri.Image")));
             this.btnDieuTri.ImageOffset = new System.Drawing.Point(19, -13);
             this.btnDieuTri.ImageSize = new System.Drawing.Size(37, 37);
-            this.btnDieuTri.Location = new System.Drawing.Point(589, -2);
+            this.btnDieuTri.Location = new System.Drawing.Point(436, -1);
             this.btnDieuTri.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDieuTri.Name = "btnDieuTri";
             this.btnDieuTri.Size = new System.Drawing.Size(160, 89);
@@ -188,7 +188,7 @@ namespace QuanLyPhongKhamNhaKhoa
             // 
             // btnLichHen
             // 
-            this.btnLichHen.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.btnLichHen.BackColor = System.Drawing.Color.DarkCyan;
             this.btnLichHen.BorderColor = System.Drawing.Color.White;
             this.btnLichHen.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnLichHen.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
@@ -200,7 +200,7 @@ namespace QuanLyPhongKhamNhaKhoa
             this.btnLichHen.Image = ((System.Drawing.Image)(resources.GetObject("btnLichHen.Image")));
             this.btnLichHen.ImageOffset = new System.Drawing.Point(20, -13);
             this.btnLichHen.ImageSize = new System.Drawing.Size(37, 37);
-            this.btnLichHen.Location = new System.Drawing.Point(427, -2);
+            this.btnLichHen.Location = new System.Drawing.Point(276, -1);
             this.btnLichHen.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLichHen.Name = "btnLichHen";
             this.btnLichHen.Size = new System.Drawing.Size(160, 89);
@@ -211,7 +211,7 @@ namespace QuanLyPhongKhamNhaKhoa
             // 
             // btnBenhNhan
             // 
-            this.btnBenhNhan.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.btnBenhNhan.BackColor = System.Drawing.Color.DarkCyan;
             this.btnBenhNhan.BorderColor = System.Drawing.Color.White;
             this.btnBenhNhan.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.btnBenhNhan.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
@@ -223,7 +223,7 @@ namespace QuanLyPhongKhamNhaKhoa
             this.btnBenhNhan.Image = ((System.Drawing.Image)(resources.GetObject("btnBenhNhan.Image")));
             this.btnBenhNhan.ImageOffset = new System.Drawing.Point(25, -13);
             this.btnBenhNhan.ImageSize = new System.Drawing.Size(37, 37);
-            this.btnBenhNhan.Location = new System.Drawing.Point(263, -2);
+            this.btnBenhNhan.Location = new System.Drawing.Point(116, -1);
             this.btnBenhNhan.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnBenhNhan.Name = "btnBenhNhan";
             this.btnBenhNhan.Size = new System.Drawing.Size(160, 89);
@@ -234,7 +234,7 @@ namespace QuanLyPhongKhamNhaKhoa
             // 
             // btnNhanVien
             // 
-            this.btnNhanVien.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.btnNhanVien.BackColor = System.Drawing.Color.DarkCyan;
             this.btnNhanVien.BorderColor = System.Drawing.Color.White;
             this.btnNhanVien.BorderStyle = System.Drawing.Drawing2D.DashStyle.DashDotDot;
             this.btnNhanVien.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
@@ -247,7 +247,7 @@ namespace QuanLyPhongKhamNhaKhoa
             this.btnNhanVien.Image = ((System.Drawing.Image)(resources.GetObject("btnNhanVien.Image")));
             this.btnNhanVien.ImageOffset = new System.Drawing.Point(25, -13);
             this.btnNhanVien.ImageSize = new System.Drawing.Size(37, 37);
-            this.btnNhanVien.Location = new System.Drawing.Point(100, -2);
+            this.btnNhanVien.Location = new System.Drawing.Point(436, -1);
             this.btnNhanVien.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnNhanVien.Name = "btnNhanVien";
             this.btnNhanVien.Size = new System.Drawing.Size(160, 89);
@@ -280,9 +280,9 @@ namespace QuanLyPhongKhamNhaKhoa
             this.label1.ForeColor = System.Drawing.Color.Gold;
             this.label1.Location = new System.Drawing.Point(12, 7);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(328, 32);
+            this.label1.Size = new System.Drawing.Size(228, 32);
             this.label1.TabIndex = 3;
-            this.label1.Text = "DENTAL CLINIC NAME";
+            this.label1.Text = "DENTAL SMILE";
             // 
             // guna2Shapes1
             // 
@@ -376,6 +376,14 @@ namespace QuanLyPhongKhamNhaKhoa
             this.panel3.TabIndex = 1;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
+            // uC_QuanLy1
+            // 
+            this.uC_QuanLy1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.uC_QuanLy1.Location = new System.Drawing.Point(0, 0);
+            this.uC_QuanLy1.Name = "uC_QuanLy1";
+            this.uC_QuanLy1.Size = new System.Drawing.Size(1936, 812);
+            this.uC_QuanLy1.TabIndex = 8;
+            // 
             // uC_BaoCao_1
             // 
             this.uC_BaoCao_1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -453,14 +461,6 @@ namespace QuanLyPhongKhamNhaKhoa
             this.uC_NhanVien1.TabIndex = 0;
             this.uC_NhanVien1.Visible = false;
             // 
-            // uC_QuanLy1
-            // 
-            this.uC_QuanLy1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.uC_QuanLy1.Location = new System.Drawing.Point(0, 0);
-            this.uC_QuanLy1.Name = "uC_QuanLy1";
-            this.uC_QuanLy1.Size = new System.Drawing.Size(1936, 812);
-            this.uC_QuanLy1.TabIndex = 8;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -518,7 +518,7 @@ namespace QuanLyPhongKhamNhaKhoa
         private User_Control.UC_NhanVien uC_NhanVien1;
         private User_Control.UC_TuyChonTaiKhoan uC_TuyChonTaiKhoan1;
         private User_Control.UC_DieuTri uC_DieuTri_New1;
-        private User_Control.UC_LichHenTest uC_LichHenTest1;
+        private User_Control.UC_LichHen uC_LichHenTest1;
         private Report.UC_BaoCao_ uC_BaoCao_1;
         private User_Control.UC_QuanLy uC_QuanLy1;
     }

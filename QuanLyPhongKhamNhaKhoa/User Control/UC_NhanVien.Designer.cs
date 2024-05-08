@@ -59,7 +59,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnChonAnh = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnXoaNV = new System.Windows.Forms.PictureBox();
             this.btnTimKiem = new System.Windows.Forms.PictureBox();
             this.btnSuaNV = new System.Windows.Forms.PictureBox();
@@ -68,7 +67,6 @@
             this.picBoxImage = new System.Windows.Forms.PictureBox();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataUser)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnXoaNV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnTimKiem)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSuaNV)).BeginInit();
@@ -395,24 +393,13 @@
             this.btnChonAnh.BackColor = System.Drawing.Color.SteelBlue;
             this.btnChonAnh.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnChonAnh.ForeColor = System.Drawing.Color.White;
-            this.btnChonAnh.Location = new System.Drawing.Point(1302, 231);
+            this.btnChonAnh.Location = new System.Drawing.Point(1022, 233);
             this.btnChonAnh.Name = "btnChonAnh";
             this.btnChonAnh.Size = new System.Drawing.Size(188, 38);
             this.btnChonAnh.TabIndex = 73;
             this.btnChonAnh.Text = "Chọn Ảnh";
             this.btnChonAnh.UseVisualStyleBackColor = false;
             this.btnChonAnh.Click += new System.EventHandler(this.btnChonAnh_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::QuanLyPhongKhamNhaKhoa.Properties.Resources.image;
-            this.pictureBox1.Location = new System.Drawing.Point(1022, 236);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(188, 32);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 75;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.btnChonAnh_Click);
             // 
             // btnXoaNV
             // 
@@ -484,7 +471,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnXoaNV);
             this.Controls.Add(this.btnTimKiem);
             this.Controls.Add(this.btnSuaNV);
@@ -523,7 +509,6 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataUser)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnXoaNV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnTimKiem)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSuaNV)).EndInit();
@@ -579,6 +564,5 @@
         private System.Windows.Forms.PictureBox btnThemNV;
         private System.Windows.Forms.PictureBox btnXoaNV;
         private System.Windows.Forms.PictureBox btnTimKiem;
-        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

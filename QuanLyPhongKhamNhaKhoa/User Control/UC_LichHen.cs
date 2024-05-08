@@ -1,5 +1,6 @@
 ﻿using QuanLyPhongKhamNhaKhoa.Dao;
 using QuanLyPhongKhamNhaKhoa.Entity;
+using QuanLyPhongKhamNhaKhoa.FormXuLyLichHen;
 using QuanLyPhongKhamNhaKhoa.Validation;
 using System;
 using System.Collections.Generic;
@@ -7,375 +8,342 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
+
 
 namespace QuanLyPhongKhamNhaKhoa.User_Control
 {
     public partial class UC_LichHen : UserControl
     {
-
-        PatientsDao patientsDao = new PatientsDao();
+        AppointmentDao app = new AppointmentDao();
         UserDao usersDao = new UserDao();
-        AppointmentDao appDao = new AppointmentDao();
-        public UC_LichHen()
-        {
-            InitializeComponent();
-        }
-        private void UC_LichHen_Load(object sender, EventArgs e)
-        {
-            load();
-            comboBoxTrangThai.Items.Add("Đặt lịch");
-            comboBoxTrangThai.Items.Add("Huỷ lịch");
-            comboBoxTrangThai.SelectedItem = "Đặt lịch";
-            comboBoxTrangThai.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBoxBacSi.DropDownStyle = ComboBoxStyle.DropDownList;
-        }
-        private void txtCCCD_TextChanged(object sender, EventArgs e)
-        {
-            SqlCommand command = new SqlCommand("SELECT patientsID, fullName, birthDate, gender, phoneNumber, address " +
-                "FROM Patients WHERE persionalID LIKE @persionalID");
-            command.Parameters.Add("@persionalID", SqlDbType.VarChar).Value = "%" + txtCCCDBN.Text.Trim() + "%";
+        string appointmentID;
+        int startHourDelete;
+        string selectedUserID;
 
-            DataTable table = patientsDao.getPatients(command);
-            if (table.Rows.Count > 0)
+
+        private TableLayoutPanel tableLayoutPanel;
+        private Label[] timeLabels;
+        private Label[] dayLabels = new Label[7];
+        private Panel[,] schedulePanels;
+        private DateTime currentDate = DateTime.Today;
+
+        private static UC_LichHen _instance;
+        public static UC_LichHen Instance
+        {
+            get
             {
-                txtMaBN.Text = table.Rows[0]["patientsID"].ToString().Trim();
-                txtTenBN.Text = table.Rows[0]["fullName"].ToString().Trim();
-                dateTimePickerNgaySinh.Value = (DateTime)table.Rows[0]["birthDate"];
-                radioButtonFemale.Checked = true;
-                if (table.Rows[0]["gender"].ToString().Trim().Equals("Nam"))
-                {
-                    radioButtonMale.Checked = true;
-                }
-                txtSoDTBN.Text = table.Rows[0]["phoneNumber"].ToString().Trim();
-                txtDiaChiBN.Text = table.Rows[0]["address"].ToString().Trim();
+                if (_instance == null)
+                    _instance = new UC_LichHen();
+                return _instance;
             }
-            else
-            {
-                txtMaBN.Text = "";
-                dateTimePickerNgaySinh.Value = DateTime.Now;
-                radioButtonMale.Checked = true;
-                txtTenBN.Text = "";
-                txtSoDTBN.Text = "";
-                txtDiaChiBN.Text = "";
-            }
+        }
+        public void UC_LichHenTest_Load(object sender, EventArgs e)
+        {
+            cbNhaSi.DropDownStyle = ComboBoxStyle.DropDownList;
+            load();
+            hienThiLichHen();
+            
+            InitializeCalendar();
         }
         public void load()
         {
             try
             {
+                cbNhaSi.Items.Clear();
                 DataTable table = usersDao.getAllDentist();
                 if (table.Rows.Count > 0)
                 {
-                    //gán cho combobox bác sĩ
-                    table.Columns.Add("FullNameWithID", typeof(string), "userID + ' - ' + fullName");
-                    comboBoxBacSi.DisplayMember = "FullNameWithID";
-                    comboBoxBacSi.DataSource = table;
+                    cbNhaSi.DisplayMember = "Text";
+                    cbNhaSi.ValueMember = "Value";
 
-                    //gán giá trị cho gridview
-                    hienThiGridView();
-                    hienThiThongTinBacSi();
+                    foreach (DataRow row in table.Rows)
+                    {
+                        string fullName = row["fullName"].ToString().Trim();
+                        string usersID = row["userID"].ToString().Trim();
+                        cbNhaSi.Items.Add(new { Text = fullName, Value = usersID });
+                    }
                 }
                 else
                 {
-                    comboBoxBacSi.Items.Add("Không tìm thấy");
-                    comboBoxBacSi.SelectedIndex = 0;
+                    cbNhaSi.Items.Add("Không tìm thấy");
+                    cbNhaSi.SelectedIndex = 0;
                 }
-            }catch(Exception ex)
-            {
-                MessageBox.Show("ERROR: " + ex.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        public void hienThiThongTinLichHen(string maLichHen)
-        {
-            try
-            {
-                SqlCommand command = new SqlCommand("SELECT * FROM Appointment WHERE appointmentID=@appointmentID");
-                command.Parameters.Add("@appointmentID", SqlDbType.VarChar).Value = maLichHen.Trim();
-                DataTable table = appDao.getAppointment(command);
-                if (table.Rows.Count > 0)
-                {
-                    txtMaLichHen.Text = table.Rows[0]["appointmentID"].ToString().Trim();
-                    dateTimePickerNgayHen.Value = (DateTime)table.Rows[0]["appointmentDate"];
-
-                    TimeSpan startTime = (TimeSpan)table.Rows[0]["startTime"];
-                    TimeSpan endTime = (TimeSpan)table.Rows[0]["endTime"];
-
-                    pickTimeStart.Value = DateTime.Today.Add(startTime);
-                    pickTimeEnd.Value = DateTime.Today.Add(endTime);
-
-                    comboBoxTrangThai.Text = table.Rows[0]["status"].ToString().Trim();
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("ERROR: " + ex.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        public void hienThiThongTinBenhNhan(string CCCD)
-        {
-            try
-            {
-                SqlCommand command = new SqlCommand("SELECT * FROM Patients WHERE persionalID=@persionalID");
-                command.Parameters.Add("@persionalID", SqlDbType.VarChar).Value = CCCD.Trim();
-                DataTable table = appDao.getAppointment(command);
-                if (table.Rows.Count > 0)
-                {
-                    txtCCCDBN.Text = table.Rows[0]["persionalID"].ToString().Trim();
-                    txtTenBN.Text = table.Rows[0]["fullName"].ToString().Trim();
-                    dateTimePickerNgaySinh.Value = (DateTime)table.Rows[0]["birthDate"];
-                    radioButtonFemale.Checked = true;
-                    if(table.Rows[0]["gender"].ToString().Trim().Equals("Nam"))
-                        radioButtonMale.Checked = true;
-                    txtSoDTBN.Text = table.Rows[0]["phoneNumber"].ToString().Trim();
-                    txtDiaChiBN.Text = table.Rows[0]["address"].ToString().Trim();
-                    txtMaBN.Text = table.Rows[0]["patientsID"].ToString().Trim();
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show("ERROR: " + ex.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void dataLichHen_Click(object sender, EventArgs e)
-        {
-            string maLichHen = dataLichHen.CurrentRow.Cells["appointmentID"].Value.ToString();
-            hienThiThongTinLichHen(maLichHen);
-            string cccd = dataLichHen.CurrentRow.Cells["persionalID"].Value.ToString();
-            hienThiThongTinBenhNhan(cccd);
-        }
-        public void hienThiThongTinBacSi()
-        {
-            string[] parts = comboBoxBacSi.Text.Split(new[] { " - " }, StringSplitOptions.None);
-            string userID = parts[0];
-            string fullName = parts[1];
-
-            SqlCommand command = new SqlCommand("SELECT phoneNumber, email FROM Users WHERE userID=@userID");
-            command.Parameters.Add("@userID", SqlDbType.VarChar).Value = userID;
-            DataTable table = usersDao.getUsers(command);
-            if (table.Rows.Count > 0)
-            {
-                txtMaBS.Text = userID.Trim();
-                txtTenBS.Text = fullName.Trim();
-                txtSoDTBS.Text = table.Rows[0]["phoneNumber"].ToString().Trim();
-                txtEmailBS.Text = table.Rows[0]["email"].ToString().Trim();
-            }
-        }
-        public void hienThiGridView()
-        {
-            try
-            {
-                string[] parts = comboBoxBacSi.Text.Split(new[] { " - " }, StringSplitOptions.None);
-                string userId = parts[0];
-                string fullName = parts[1];
-
-                string fullNameBS = comboBoxBacSi.Text.Trim();
-                SqlCommand command = new SqlCommand("SELECT a.appointmentID, u.fullName, p.fullName, p.persionalID, a.appointmentDate, a.startTime, a.endTime, a.status\r\n" +
-                    "FROM (Appointment a LEFT JOIN Users u ON a.userID = u.userID) LEFT JOIN Patients p ON a.patientsID = p.patientsID\r\n" +
-                    "WHERE u.userID = a.userID AND u.userID=@userID AND u.isRole='DENTIST'");
-                command.Parameters.Add("@userID", SqlDbType.VarChar).Value = userId;
-                fillGrid(command);
-            }catch(Exception ex)
-            {
-                MessageBox.Show("ERROR: " + ex.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void fillGrid(SqlCommand command)
-        {
-            try
-            {
-                dataLichHen.ReadOnly = true;
-                dataLichHen.DataSource = usersDao.getUsers(command);
-                dataLichHen.AllowUserToAddRows = false;
-                dataLichHen.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-                // đổi tên cột
-                dataLichHen.Columns["appointmentID"].HeaderText = "Mã cuộc hẹn";
-                dataLichHen.Columns[1].HeaderText = "Tên nha sĩ";
-                dataLichHen.Columns[2].HeaderText = "Tên bệnh nhân";
-                dataLichHen.Columns["persionalID"].HeaderText = "CCCD bệnh nhân";
-                dataLichHen.Columns["appointmentDate"].HeaderText = "Ngày hẹn";
-                dataLichHen.Columns["startTime"].HeaderText = "Thời gian bắt đầu";
-                dataLichHen.Columns["endTime"].HeaderText = "Thời gian kết thúc";
-                dataLichHen.Columns["status"].HeaderText = "Trạng thái";
-
-
+                cbNhaSi.SelectedIndex = 0;
+                selectedUserID = cbNhaSi.SelectedItem.ToString();
+                hienThiLichHen();
+                
             }
             catch (Exception ex)
             {
                 MessageBox.Show("ERROR: " + ex.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public void themBenhNhan()
+
+        public UC_LichHen()
+        {
+            InitializeComponent();
+        }
+        public void hienThiLichHen()
         {
             try
             {
-                if (verifBenhNhan())
-                {
-                    throw new InvalidData();
-                }
-                string patientId = txtMaBN.Text.Trim();
-                if (patientsDao.existPatients(patientId))
-                {
-                    throw new InvalidExistPatients();
-                }
-                string fullName = txtTenBN.Text.Trim();
-                string persionalID = txtCCCDBN.Text.Trim();
-                string phone = txtSoDTBN.Text.Trim();
+                DateTime startDate = currentDate.AddDays(-(int)currentDate.DayOfWeek + 1);
+                DateTime endDate = startDate.AddDays(6);
 
-                string address = txtDiaChiBN.Text.Trim();
-                if (!Regex.IsMatch(fullName, @"^[\p{L}\s]+$"))
-                {
-                    throw new InvalidName();
-                }
-                if (!Regex.IsMatch(persionalID, @"^\d{12}$"))
-                {
-                    throw new InvalidPersionalID();
-                }
-                if (patientsDao.existPersionalIDPatients(persionalID))
-                {
-                    throw new InvalidPersionalID(persionalID);
-                }
-                if (!Regex.IsMatch(phone, @"^0\d{9}$"))
-                {
-                    throw new InvalidSDT();
-                }
-                int born_year = dateTimePickerNgaySinh.Value.Year;
-                int this_year = DateTime.Now.Year;
-                if (((this_year - born_year) < 3))
-                {
-                    throw new InvalidBirthdate(3);
-                }
-                DateTime birthDate = dateTimePickerNgaySinh.Value;
+                SqlCommand command = new SqlCommand("SELECT appointmentID, status, fullName, startTime, endTime, appointmentDate FROM Appointment a  join Patients p on a.patientsID = p.patientsID WHERE userID=@userID AND appointmentDate BETWEEN @startDate AND @endDate");
+                command.Parameters.Add("@userID", SqlDbType.VarChar).Value = selectedUserID.Trim();
+                command.Parameters.Add("@startDate", SqlDbType.DateTime).Value = startDate;
+                command.Parameters.Add("@endDate", SqlDbType.DateTime).Value = endDate;
 
-                string gender = "Nam";
-                if (radioButtonFemale.Checked)
-                {
-                    gender = "Nữ";
-                }
+                DataTable table = app.getAppointment(command);
 
-                //do bên đặt lịch hẹn ko có ảnh người dùng nên gắn ảnh tạm
-                MemoryStream pic = new MemoryStream();
-                Image image = Image.FromFile(@"..\..\image\user.jpg");
-                image.Save(pic, image.RawFormat);
-
-                //tạo mã user tự động
-                string patientsID = patientsDao.taoMaPatients();
-
-                Patients patients = new Patients(patientsID, fullName, gender, birthDate, persionalID, phone, address, pic);
-                if (patientsDao.insertPatients(patients))
+                foreach (DataRow row in table.Rows)
                 {
-                    MessageBox.Show("Thêm bệnh nhân thành công!", "Add Patients", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    throw new InvalidExistPatients("Thêm bệnh nhân thất bại!");
+                    TimeSpan startTime = (TimeSpan)row["startTime"];
+                    TimeSpan endTime = (TimeSpan)row["endTime"];
+                    DateTime appointmentDate = (DateTime)row["appointmentDate"];
+                    string fullName = (string)row["fullName"];
+
+                    int startHour = startTime.Hours;
+                    int endHour = endTime.Hours;
+
+                    int dayIndex = (int)appointmentDate.DayOfWeek - 1; // 0 for Monday, 1 for Tuesday, etc.
+                    if (dayIndex == -1) dayIndex = 6; // Adjust for Sunday
+
+                    for (int hour = startHour; hour < endHour; hour++)
+                    {
+                        // Kiểm tra xem hour có nằm trong khoảng 8 đến 16 không
+                        if (hour >= 8 && hour <= 16)
+                        {
+                            UC_PatientAppointment uC_Patient = new UC_PatientAppointment();
+                            string timeText = startTime.ToString(@"hh\:mm") + " - " + endTime.ToString(@"hh\:mm");
+                            uC_Patient.TextFullName = fullName;
+                            uC_Patient.TextTime = timeText;
+                            uC_Patient.AppointmentID = row["appointmentID"].ToString(); // Set appointmentID
+                            uC_Patient.Status = row["status"].ToString();
+                            uC_Patient.PicDelete_Click += UC_Patient_PicDelete_Click;
+                            schedulePanels[dayIndex, hour - 8].Controls.Add(uC_Patient);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ERROR: " + ex.Message, "Add Patients", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        bool verifAppointment()
+
+
+        private void UC_Patient_PicDelete_Click(object sender, EventArgs e)
         {
-            if ((dateTimePickerNgayHen.Text.Trim() == "")
-                        || (pickTimeStart.Text == "")
-                        || (pickTimeEnd.Text == "")
-                        || (comboBoxTrangThai.Text.Trim() == ""))
+            try
             {
-                return true;
+                UC_PatientAppointment uC_Patient = (UC_PatientAppointment)sender;
+                string timeText = uC_Patient.TextTime;
+                string[] times = timeText.Split(new string[] { " - " }, StringSplitOptions.None);
+                TimeSpan startTime = TimeSpan.Parse(times[0]);
+                int startHour = startTime.Hours;
+                string startHourDelete = startHour.ToString();
+
+                SQLConnectionData mydb = new SQLConnectionData();
+                SqlCommand command = new SqlCommand("DELETE FROM Appointment WHERE appointmentID=@appointmentID AND DATEPART(HOUR, startTime) = @startHourDelete", mydb.getConnection);
+                command.Parameters.Add("@appointmentID", SqlDbType.VarChar).Value = uC_Patient.AppointmentID.Trim(); // Use appointmentID from UC_PatientAppointment
+                command.Parameters.Add("@startHourDelete", SqlDbType.Int).Value = int.Parse(startHourDelete);
+                mydb.openConnection();
+                if (MessageBox.Show("Bạn có chắc chắn muốn xoá lịch hẹn không?", "Delete Appointment", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    command.ExecuteNonQuery();
+                }
+                UpdateCalendar();
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                MessageBox.Show(ex.Message);
             }
         }
-        bool verifBenhNhan()
+        public void InitializeCalendar()
         {
-            if ((txtTenBN.Text.Trim() == "")
-                        || (dateTimePickerNgaySinh.Text.Trim() == "")
-                        || (txtCCCDBN.Text.Trim() == "")
-                        || (txtSoDTBN.Text.Trim() == "")
-                        || (txtDiaChiBN.Text.Trim() == ""))
+            try
             {
-                return true;
+                tableLayoutPanel = new TableLayoutPanel();
+                tableLayoutPanel.Dock = DockStyle.Fill;
+                tableLayoutPanel.AutoScroll = true;
+
+                // Thiết lập cột cho TableLayoutPanel
+                tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100)); // Cột cho thời gian
+                for (int i = 0; i < 7; i++)
+                {
+                    tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / 7));
+                }
+
+                // Thiết lập dòng cho TableLayoutPanel
+                tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30)); // Dòng cố định cho thứ
+                for (int i = 0; i < 10; i++) // 9 dòng cho khoảng thời gian từ 8h đến 16h
+                {
+                    if (i != 4)
+                    {
+                        tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.AutoSize)); // Dòng cho thời gian
+                    }
+                }
+
+                // Thêm thời gian vào TableLayoutPanel
+                timeLabels = new Label[10];
+                for (int hour = 7; hour <= 16; hour++)
+                {
+                    if (hour != 12)
+                    {
+                        Label timeLabel = new Label
+                        {
+                            Text = $"{hour}:00",
+                            TextAlign = ContentAlignment.MiddleCenter,
+                            Dock = DockStyle.Fill,
+                            ForeColor = Color.Blue
+                        };
+                        tableLayoutPanel.Controls.Add(timeLabel, 0, hour - 7);
+                        timeLabels[hour - 7] = timeLabel;
+                    }
+                }
+
+                // Thêm các ngày vào TableLayoutPanel
+                dayLabels = new Label[7];
+                DateTime startDate = currentDate.AddDays(-(int)currentDate.DayOfWeek + (int)DayOfWeek.Monday);
+                for (int i = 0; i < 7; i++)
+                {
+                    string dayName = startDate.AddDays(i).ToString("ddd d/M");
+                    dayLabels[i] = new Label
+                    {
+                        Text = dayName,
+                        TextAlign = ContentAlignment.MiddleCenter,
+                        Dock = DockStyle.Fill
+                    };
+                    tableLayoutPanel.Controls.Add(dayLabels[i], i + 1, 0);
+                }
+
+                // Thêm các Panel cho việc lên lịch
+                schedulePanels = new Panel[7, 9];
+                for (int i = 0; i < 7; i++)
+                {
+                    for (int j = 0; j < 9; j++)
+                    {
+                        schedulePanels[i, j] = new Panel();
+                        if (j != 4)
+                        {
+                            schedulePanels[i, j].BorderStyle = BorderStyle.FixedSingle;
+                        }
+                        schedulePanels[i, j].Dock = DockStyle.Fill;
+                        tableLayoutPanel.Controls.Add(schedulePanels[i, j], i + 1, j + 1);
+                    }
+                }
+
+                // Thêm TableLayoutPanel vào Panel đã thiết kế
+                Panel panel = this.Controls["panelDate"] as Panel;
+                if (panel != null)
+                {
+                    panel.Controls.Add(tableLayoutPanel);
+                }
+
+                UpdateCalendar();
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+        public void UpdateCalendar()
+        {
+            try
+            {
+                DateTime now = DateTime.Now;
+
+                if (dayLabels != null && tableLayoutPanel != null)
+                {
+                    for (int i = 0; i < 7; i++)
+                    {
+                        DateTime day = currentDate.AddDays(-(int)currentDate.DayOfWeek + (int)DayOfWeek.Monday + i);
+                        string dayName = day.ToString("ddd d");
+                        if (dayLabels[i] != null)
+                        {
+                            dayLabels[i].Text = dayName;
+                            if (day.Date == DateTime.Today)
+                            {
+                                dayLabels[i].BackColor = Color.LightGray;
+                            }
+                            else
+                            {
+                                dayLabels[i].BackColor = Color.Transparent;
+                            }
+                        }
+
+                        for (int hour = 8; hour <= 16; hour++)
+                        {
+                            if (hour != 12 && schedulePanels[i, hour - 8] != null)
+                            {
+                                schedulePanels[i, hour - 8].BackColor = Color.Transparent;
+                                schedulePanels[i, hour - 8].Controls.Clear();
+                            }
+                        }
+                    }
+
+                    tableLayoutPanel.Controls.Remove(dayLabels[0]);
+                    tableLayoutPanel.Controls.Add(dayLabels[0], 1, 0);
+                    tableLayoutPanel.Controls.SetChildIndex(dayLabels[0], 8);
+
+                    Label monthYearLabel = tableLayoutPanel.Controls[0] as Label;
+                    if (monthYearLabel != null)
+                    {
+                        monthYearLabel.Text = currentDate.ToString("MMMM yyyy");
+                    }
+                    hienThiLichHen();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void comboBoxBacSi_SelectedValueChanged(object sender, EventArgs e)
+        private void dtpkDate_ValueChanged(object sender, EventArgs e)
         {
-            hienThiGridView();
-            hienThiThongTinBacSi();
+            currentDate = dtpkDate.Value;
+            UpdateCalendar();
+        }
+
+        private void cbNhaSi_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (cbNhaSi.SelectedItem != null)
+            {
+                var selectedUser = (dynamic)cbNhaSi.SelectedItem;
+                selectedUserID = selectedUser.Value.ToString();
+                UpdateCalendar();
+            }
         }
 
         private void btnDatLich_Click(object sender, EventArgs e)
         {
             try
             {
-                string patientsID = txtMaBN.Text.Trim();
-                //thêm bệnh nhân nếu chưa được đăng kí
-                // mốt có xác nhận bằng khuôn mặt
-                if (!patientsDao.existPatients(patientsID))
-                {
-                    themBenhNhan();
-
-                    //sau khi thêm xong thì cập nhật lại mã bệnh nhân lên text
-                    SqlCommand command = new SqlCommand("SELECT patientsID FROM Patients WHERE persionalID=@persionalID");
-                    command.Parameters.Add("@persionalID", SqlDbType.VarChar).Value = txtCCCDBN.Text.Trim();
-                    DataTable table = patientsDao.getPatients(command);
-                    if (table.Rows.Count > 0)
-                    {
-                        patientsID = table.Rows[0]["patientsID"].ToString().Trim();
-                        txtMaBN.Text = patientsID;
-                    }
-                }
-
-                if (verifAppointment())
-                {
-                    throw new InvalidData();
-                }
-
-                string appointmentID = appDao.taoMaAppointment();
-                if (appDao.existAppointment(appointmentID))
-                    throw new InvalidExistAppointment();
-
-                string userID = txtMaBS.Text.Trim();
-
-                DateTime ngayHen = dateTimePickerNgayHen.Value;
-                string trangThai = comboBoxTrangThai.Text.Trim();
-
-                DateTime timeStart = pickTimeStart.Value;
-                DateTime timeEnd = pickTimeEnd.Value;
-
-                string timestart = timeStart.ToString("HH:mm:ss").Trim();
-                string timeend = timeEnd.ToString("HH:mm:ss").Trim();
-
-                if (appDao.insertAppointment(appointmentID, patientsID, userID, ngayHen, timestart, timeend, trangThai))
-                {
-                    MessageBox.Show("Thêm cuộc hẹn thành công!", "Add Appointment", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    hienThiGridView();
-                }
-                else
-                {
-                    throw new InvalidExistAppointment("Thêm cuộc hẹn thất bại!");
-                }
+                FormThemLichHen themLichHen = new FormThemLichHen(this);
+                themLichHen.fullNameNS = cbNhaSi.Text.Trim();
+                var selectedUser = (dynamic)cbNhaSi.SelectedItem;
+                selectedUserID = selectedUser.Value.ToString();
+                themLichHen.userIDNS = selectedUserID;
+                themLichHen.ShowDialog();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ERROR: " + ex.Message, "Add Appointment", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        
+        private void btnRefesh_Click(object sender, EventArgs e)
+        {
+            load();
+            hienThiLichHen();
+        }
     }
 }

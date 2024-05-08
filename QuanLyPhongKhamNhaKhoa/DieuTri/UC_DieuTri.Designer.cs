@@ -68,6 +68,7 @@
             this.lblTotalCost = new System.Windows.Forms.Label();
             this.pbSearch = new System.Windows.Forms.PictureBox();
             this.dateTPDate = new System.Windows.Forms.DateTimePicker();
+            this.bbtnRefesh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pBThemDichVu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBThemThuoc)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -89,10 +90,10 @@
             this.btnLuu.BackColor = System.Drawing.Color.SteelBlue;
             this.btnLuu.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLuu.ForeColor = System.Drawing.Color.White;
-            this.btnLuu.Location = new System.Drawing.Point(325, 737);
+            this.btnLuu.Location = new System.Drawing.Point(224, 737);
             this.btnLuu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLuu.Name = "btnLuu";
-            this.btnLuu.Size = new System.Drawing.Size(145, 38);
+            this.btnLuu.Size = new System.Drawing.Size(119, 38);
             this.btnLuu.TabIndex = 107;
             this.btnLuu.Text = "Lưu";
             this.btnLuu.UseVisualStyleBackColor = false;
@@ -106,10 +107,11 @@
             this.btnXuatHoaDon.Location = new System.Drawing.Point(95, 737);
             this.btnXuatHoaDon.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnXuatHoaDon.Name = "btnXuatHoaDon";
-            this.btnXuatHoaDon.Size = new System.Drawing.Size(145, 38);
+            this.btnXuatHoaDon.Size = new System.Drawing.Size(119, 38);
             this.btnXuatHoaDon.TabIndex = 106;
             this.btnXuatHoaDon.Text = "Xuất hóa đơn";
             this.btnXuatHoaDon.UseVisualStyleBackColor = false;
+            this.btnXuatHoaDon.Click += new System.EventHandler(this.btnXuatHoaDon_Click);
             // 
             // txtDetail
             // 
@@ -350,7 +352,7 @@
             this.comboBoxLichHen.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxLichHen.FormattingEnabled = true;
             this.comboBoxLichHen.Location = new System.Drawing.Point(1528, 25);
-            this.comboBoxLichHen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxLichHen.Margin = new System.Windows.Forms.Padding(4);
             this.comboBoxLichHen.Name = "comboBoxLichHen";
             this.comboBoxLichHen.Size = new System.Drawing.Size(252, 33);
             this.comboBoxLichHen.TabIndex = 116;
@@ -511,11 +513,26 @@
             this.dateTPDate.TabIndex = 120;
             this.dateTPDate.ValueChanged += new System.EventHandler(this.dateTPDate_ValueChanged);
             // 
+            // bbtnRefesh
+            // 
+            this.bbtnRefesh.BackColor = System.Drawing.Color.SteelBlue;
+            this.bbtnRefesh.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bbtnRefesh.ForeColor = System.Drawing.Color.White;
+            this.bbtnRefesh.Location = new System.Drawing.Point(353, 737);
+            this.bbtnRefesh.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.bbtnRefesh.Name = "bbtnRefesh";
+            this.bbtnRefesh.Size = new System.Drawing.Size(119, 38);
+            this.bbtnRefesh.TabIndex = 121;
+            this.bbtnRefesh.Text = "Refesh";
+            this.bbtnRefesh.UseVisualStyleBackColor = false;
+            this.bbtnRefesh.Click += new System.EventHandler(this.bbtnRefesh_Click);
+            // 
             // UC_DieuTri
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.bbtnRefesh);
             this.Controls.Add(this.dateTPDate);
             this.Controls.Add(this.pbSearch);
             this.Controls.Add(this.guna2Panel1);
@@ -608,5 +625,6 @@
         private System.Windows.Forms.Label lblTotalCost;
         private System.Windows.Forms.PictureBox pbSearch;
         private System.Windows.Forms.DateTimePicker dateTPDate;
+        private System.Windows.Forms.Button bbtnRefesh;
     }
 }

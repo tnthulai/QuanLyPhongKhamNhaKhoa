@@ -25,22 +25,29 @@ namespace QuanLyPhongKhamNhaKhoa.Report
         }
         private void loadData()
         {
-            reset();
-            DateTime selectedDate = pkdateTime.Value.Date;
+            try
+            {
+                reset();
+                DateTime selectedDate = pkdateTime.Value.Date;
 
-            SqlCommand cmd = new SqlCommand(@"SELECT ROW_NUMBER() OVER (ORDER BY exportBillDate) AS [STT], p.fullName AS [Bệnh nhân], u.fullName AS [Bác sĩ], totalCost AS [DoanhThu]
+                SqlCommand cmd = new SqlCommand(@"SELECT ROW_NUMBER() OVER (ORDER BY exportBillDate) AS [STT], p.fullName AS [Bệnh nhân], u.fullName AS [Bác sĩ], totalCost AS [DoanhThu]
                                             FROM Treatment t join Users u ON t.userID = u.userID 
                                                                 join Patients p ON t.patientsID = p.patientsID 
                                                                 join Bill b ON t.treatmentID = b.treatmentID
                                             WHERE CONVERT(date, b.exportBillDate) = @SelectedDate");
-            cmd.Parameters.AddWithValue("@SelectedDate", selectedDate);
-            dataDanhSachHoaDon.ReadOnly = true;
-            dataDanhSachHoaDon.DataSource = billDao.getBill(cmd);
-            lblSLDieuTri.Text = dataDanhSachHoaDon.Rows.Count.ToString();
+                cmd.Parameters.AddWithValue("@SelectedDate", selectedDate);
+                dataDanhSachHoaDon.ReadOnly = true;
+                dataDanhSachHoaDon.DataSource = billDao.getBill(cmd);
+                lblSLDieuTri.Text = dataDanhSachHoaDon.Rows.Count.ToString();
 
-            // Tính toán và gán doanh thu vào lblDoanhThu
-            double doanhThu = billDao.CalculateDailyRevenue(selectedDate);
-            lblDoanhThu.Text = string.Format("{0:N0}", doanhThu) + "VND";
+                // Tính toán và gán doanh thu vào lblDoanhThu
+                double doanhThu = billDao.CalculateDailyRevenue(selectedDate);
+                lblDoanhThu.Text = string.Format("{0:N0}", doanhThu) + "VND";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void reset()
         {
@@ -62,6 +69,11 @@ namespace QuanLyPhongKhamNhaKhoa.Report
         {
             reset();
             uC_BaoCaoTheoNam1.Visible = true;
+        }
+
+        private void pkdateTime_ValueChanged(object sender, EventArgs e)
+        {
+            loadData();
         }
     }
 }

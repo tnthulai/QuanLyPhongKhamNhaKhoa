@@ -29,77 +29,81 @@ namespace QuanLyPhongKhamNhaKhoa.Report
         
         private void loadRevenueByYear()
         {
-            using (SqlCommand command = new SqlCommand("CalculateRevenueByYear", mydb.getConnection))
+            try
             {
-                int year;
-                if (cbNam.SelectedItem != null)
+                using (SqlCommand command = new SqlCommand("CalculateRevenueByYear", mydb.getConnection))
                 {
-                    year = Convert.ToInt32(cbNam.SelectedItem.ToString());
-                }
-                else
-                {
-                    return;
-                }
-                //Hiển thị label tổng doanh thu
-                double tongDoanhThu = billDao.CalculateYearlyRevenue(year);
-                lblTongDoanhThu.Text = "Tổng doanh thu: " + string.Format("{0:N0}", tongDoanhThu) + "VND";
-
-                command.CommandType = CommandType.StoredProcedure;
-                mydb.openConnection();
-                command.Parameters.Add("@Year", SqlDbType.Int).Value = year;
-
-                using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-                {
-                    DataTable dataTable = new DataTable();
-                    adapter.Fill(dataTable);
-
-                    // Thiết lập dữ liệu cho biểu đồ
-                    chartDoanhThuNam.Series.Clear();
-                    chartDoanhThuNam.Series.Add("Doanh thu");
-                    chartDoanhThuNam.Series["Doanh thu"].ChartType = SeriesChartType.Column;
-                    chartDoanhThuNam.ChartAreas[0].AxisX.Title = "Tháng";
-                    chartDoanhThuNam.ChartAreas[0].AxisY.Title = "Doanh thu";
-
-                    // Lặp qua tất cả các tháng trong năm và thêm dữ liệu tương ứng
-                    for (int month = 1; month <= 12; month++)
+                    int year;
+                    if (cbNam.SelectedItem != null)
                     {
-                        DataRow[] rows = dataTable.Select("Month = " + month.ToString());
-                        double revenue = rows.Length > 0 ? Convert.ToDouble(rows[0]["Revenue"]) : 0;
+                        year = Convert.ToInt32(cbNam.SelectedItem.ToString());
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    //Hiển thị label tổng doanh thu
+                    double tongDoanhThu = billDao.CalculateYearlyRevenue(year);
+                    lblTongDoanhThu.Text = "Tổng doanh thu: " + string.Format("{0:N0}", tongDoanhThu) + "VND";
 
-                        // Thêm điểm vào biểu đồ với giá trị tiền làm tròn
-                        chartDoanhThuNam.Series["Doanh thu"].Points.AddXY(month.ToString(), revenue);
+                    command.CommandType = CommandType.StoredProcedure;
+                    mydb.openConnection();
+                    command.Parameters.Add("@Year", SqlDbType.Int).Value = year;
 
-                        // Thêm nhãn cho điểm
-                        chartDoanhThuNam.Series["Doanh thu"].Points.Last().Label = string.Format("{0:N0}", revenue);
-                        chartDoanhThuNam.MouseMove += (sender1, ev) =>
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                    {
+                        DataTable dataTable = new DataTable();
+                        adapter.Fill(dataTable);
+
+                        // Thiết lập dữ liệu cho biểu đồ
+                        chartDoanhThuNam.Series.Clear();
+                        chartDoanhThuNam.Series.Add("Doanh thu");
+                        chartDoanhThuNam.Series["Doanh thu"].ChartType = SeriesChartType.Column;
+                        chartDoanhThuNam.ChartAreas[0].AxisX.Title = "Tháng";
+                        chartDoanhThuNam.ChartAreas[0].AxisY.Title = "Doanh thu";
+
+                        // Lặp qua tất cả các tháng trong năm và thêm dữ liệu tương ứng
+                        for (int month = 1; month <= 12; month++)
                         {
-                            var chart = (Chart)sender1;
-                            var result = chart.HitTest(ev.X, ev.Y);
+                            DataRow[] rows = dataTable.Select("Month = " + month.ToString());
+                            double revenue = rows.Length > 0 ? Convert.ToDouble(rows[0]["Revenue"]) : 0;
 
-                            // Kiểm tra xem điểm nào được di chuột vào
-                            if (result.ChartElementType == ChartElementType.DataPoint)
-                            {
-                                var dataPoint = chart.Series["Doanh thu"].Points[result.PointIndex];
+                            // Thêm điểm vào biểu đồ với giá trị tiền làm tròn
+                            chartDoanhThuNam.Series["Doanh thu"].Points.AddXY(month.ToString(), revenue);
 
-                                // Thiết lập kích thước font size lớn hơn khi di chuột vào
-                                dataPoint.Font = new System.Drawing.Font("Arial", 11);
-                            }
-                            else
+                            // Thêm nhãn cho điểm
+                            chartDoanhThuNam.Series["Doanh thu"].Points.Last().Label = string.Format("{0:N0}", revenue);
+                            chartDoanhThuNam.MouseMove += (sender1, ev) =>
                             {
-                                // Thiết lập kích thước font size nhỏ hơn khi di chuột ra khỏi điểm
-                                foreach (var point in chart.Series["Doanh thu"].Points)
+                                var chart = (Chart)sender1;
+                                var result = chart.HitTest(ev.X, ev.Y);
+
+                                // Kiểm tra xem điểm nào được di chuột vào
+                                if (result.ChartElementType == ChartElementType.DataPoint)
                                 {
-                                    point.Font = new System.Drawing.Font("Arial", 7);
+                                    var dataPoint = chart.Series["Doanh thu"].Points[result.PointIndex];
+
+                                    // Thiết lập kích thước font size lớn hơn khi di chuột vào
+                                    dataPoint.Font = new System.Drawing.Font("Arial", 11);
                                 }
-                            }
-                        };
+                                else
+                                {
+                                    // Thiết lập kích thước font size nhỏ hơn khi di chuột ra khỏi điểm
+                                    foreach (var point in chart.Series["Doanh thu"].Points)
+                                    {
+                                        point.Font = new System.Drawing.Font("Arial", 7);
+                                    }
+                                }
+                            };
+                        }
                     }
                 }
+                mydb.closeConnection();
             }
-
-
-            mydb.closeConnection();
-
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
         private void loadComboBox()

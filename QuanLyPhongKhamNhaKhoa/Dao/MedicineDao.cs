@@ -12,6 +12,18 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
     internal class MedicineDao
     {
         SQLConnectionData mydb = new SQLConnectionData();
+
+
+        public DataTable getMedicine(SqlCommand command)
+        {
+            command.Connection = mydb.getConnection;
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+            return table;
+        }
+
+        
         private Random random = new Random();
 
         public string taoMaMedicine()
@@ -47,41 +59,7 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
             }
         }
 
-        public DataTable getMedicine(SqlCommand command)
-        {
-            command.Connection = mydb.getConnection;
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            DataTable table = new DataTable();
-            adapter.Fill(table);
-            return table;
-        }
-
-        public DataTable getMedicineList()
-        {
-            SqlCommand command = new SqlCommand("SELECT * FROM Medicine", mydb.getConnection);
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            DataTable table = new DataTable();
-            adapter.Fill(table);
-            return table;
-        }
-
-        public bool deleteMedicine(Medicine medicine)
-        {
-            SqlCommand command = new SqlCommand("DELETE FROM Medicine WHERE medicineID=@medicineID", mydb.getConnection);
-            command.Parameters.Add("@medicineID", SqlDbType.VarChar).Value = medicine.MedicineID;
-            mydb.openConnection();
-            if ((command.ExecuteNonQuery() == 1))
-            {
-                mydb.closeConnection();
-                return true;
-            }
-            else
-            {
-                mydb.closeConnection();
-                return false;
-            }
-        }
-
+        
         public bool updateMedicine(Medicine medicine)
         {
             SqlCommand command = new SqlCommand("UPDATE Medicine SET medicineName=@medicineName, cost=@cost, unit=@unit " +
@@ -111,6 +89,7 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
                 " VALUES (@medicineID,@medicineName, @cost, @unit)", mydb.getConnection);
             command.Parameters.Add("@medicineID", SqlDbType.VarChar).Value = medicine.MedicineID;
             command.Parameters.Add("@medicineName", SqlDbType.NVarChar).Value = medicine.MedicineName;
+
             command.Parameters.Add("@cost", SqlDbType.Float).Value = medicine.Cost;
             command.Parameters.Add("@unit", SqlDbType.NVarChar).Value = medicine.Unit;
 

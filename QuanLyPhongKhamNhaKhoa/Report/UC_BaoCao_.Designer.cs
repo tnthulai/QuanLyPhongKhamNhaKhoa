@@ -105,6 +105,7 @@
             this.pkdateTime.Name = "pkdateTime";
             this.pkdateTime.Size = new System.Drawing.Size(315, 34);
             this.pkdateTime.TabIndex = 10;
+            this.pkdateTime.ValueChanged += new System.EventHandler(this.pkdateTime_ValueChanged);
             // 
             // dataDanhSachHoaDon
             // 

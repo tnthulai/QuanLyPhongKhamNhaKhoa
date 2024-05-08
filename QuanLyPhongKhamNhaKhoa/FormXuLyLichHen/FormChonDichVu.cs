@@ -44,58 +44,72 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
 
         private void LoadListDichVu(string service)
         {
-            SqlCommand cmd = new SqlCommand();
-            if (appointment == "")
+            try
             {
-                cmd = new SqlCommand(@"SELECT serviceID, serviceName, cost, unit
+                SqlCommand cmd = new SqlCommand();
+                if (appointment == "")
+                {
+                    cmd = new SqlCommand(@"SELECT serviceID, serviceName, cost, unit
                                       FROM Service
                                       where serviceName like @serviceName", mydb.getConnection);
-                cmd.Parameters.Add("@serviceName", SqlDbType.NVarChar).Value = "%" + service + "%";
+                    cmd.Parameters.Add("@serviceName", SqlDbType.NVarChar).Value = "%" + service + "%";
 
-            }
-            else
-            {
-                cmd = new SqlCommand(@"SELECT s.serviceID, s.serviceName, s.cost, s.unit
+                }
+                else
+                {
+                    cmd = new SqlCommand(@"SELECT s.serviceID, s.serviceName, s.cost, s.unit
                                         FROM Service s
                                         WHERE  s.serviceName like @serviceName AND s.serviceID NOT IN (
                                             SELECT a.serviceID
                                             FROM dbo.Appointment_Service a
                                             WHERE a.appointmentID = @appointmentID 
                                         );", mydb.getConnection);
-                cmd.Parameters.Add("@serviceName", SqlDbType.NVarChar).Value = "%" + service + "%";
-                cmd.Parameters.Add("@appointmentID", SqlDbType.NVarChar).Value =appointment;
-            }
-
-            DataTable dtService = serviceDao.getService(cmd);
-
-            panelDichVu.Controls.Clear();
-            foreach (DataRow row in dtService.Rows)
-            {
-                string serviceName = row["serviceName"].ToString();
-                string unit = row["unit"].ToString();
-                string id = row["serviceID"].ToString();
-                float cost;
-
-                if (float.TryParse(row["cost"].ToString(), out cost))
-                {
-                    UC_Item uC_itemDichVu = new UC_Item(id, serviceName, cost, unit);
-                    uC_itemDichVu.CheckBoxCheckedChanged += UC_ItemDichVu_CheckBoxCheckedChanged;
-
-                    panelDichVu.Controls.Add(uC_itemDichVu);
+                    cmd.Parameters.Add("@serviceName", SqlDbType.NVarChar).Value = "%" + service + "%";
+                    cmd.Parameters.Add("@appointmentID", SqlDbType.NVarChar).Value = appointment;
                 }
+
+                DataTable dtService = serviceDao.getService(cmd);
+
+                panelDichVu.Controls.Clear();
+                foreach (DataRow row in dtService.Rows)
+                {
+                    string serviceName = row["serviceName"].ToString();
+                    string unit = row["unit"].ToString();
+                    string id = row["serviceID"].ToString();
+                    float cost;
+
+                    if (float.TryParse(row["cost"].ToString(), out cost))
+                    {
+                        UC_Item uC_itemDichVu = new UC_Item(id, serviceName, cost, unit);
+                        uC_itemDichVu.CheckBoxCheckedChanged += UC_ItemDichVu_CheckBoxCheckedChanged;
+
+                        panelDichVu.Controls.Add(uC_itemDichVu);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void UC_ItemDichVu_CheckBoxCheckedChanged(object sender, EventArgs e)
         {
-            UC_Item selectedDichVu = sender as UC_Item;
-            if (selectedDichVu.checkBox.Checked)
+            try
             {
-                Service service = new Service(selectedDichVu.ServiceId, selectedDichVu.ServiceName, selectedDichVu.ServiceCost, selectedDichVu.ServiceUnit);
-                listService.Add(service);
+                UC_Item selectedDichVu = sender as UC_Item;
+                if (selectedDichVu.checkBox.Checked)
+                {
+                    Service service = new Service(selectedDichVu.ServiceId, selectedDichVu.ServiceName, selectedDichVu.ServiceCost, selectedDichVu.ServiceUnit);
+                    listService.Add(service);
+                }
+                else
+                {
+                    listService.RemoveAll(service => service.ServiceID == selectedDichVu.ServiceId);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                listService.RemoveAll(service => service.ServiceID == selectedDichVu.ServiceId);
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -106,12 +120,19 @@ namespace QuanLyPhongKhamNhaKhoa.FormXuLyLichHen
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
-            if(listService.Count == 0)
+            try
             {
-                listService.Add(new Service("TV", "Tư vấn", 0, "Lần"));
+                if (listService.Count == 0)
+                {
+                    listService.Add(new Service("TV", "Tư vấn", 0, "Lần"));
+                }
+                this.listDichVuSelected(listService);
+                this.Close();
             }
-            this.listDichVuSelected(listService);
-            this.Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void pBExit_Click(object sender, EventArgs e)

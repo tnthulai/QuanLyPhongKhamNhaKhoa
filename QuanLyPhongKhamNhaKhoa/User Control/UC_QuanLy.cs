@@ -39,7 +39,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Medicine");
+                SqlCommand cmd = new SqlCommand("SELECT medicineID, medicineName, unit, cost FROM Medicine");
                 fillGrid(cmd);
             }
             catch (Exception ex)
@@ -52,7 +52,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Service");
+                SqlCommand cmd = new SqlCommand("SELECT serviceID, serviceName, unit, cost FROM Service");
                 fillGrid(cmd);
             }
             catch (Exception ex)

@@ -42,9 +42,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dataGVThongTin = new System.Windows.Forms.DataGridView();
-            this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.btnThem = new System.Windows.Forms.Button();
             this.btnSua = new System.Windows.Forms.Button();
+            this.guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGVThongTin)).BeginInit();
             this.SuspendLayout();
@@ -196,10 +196,6 @@
             this.dataGVThongTin.TabIndex = 56;
             this.dataGVThongTin.Click += new System.EventHandler(this.dataGVThongTin_Click);
             // 
-            // guna2Elipse1
-            // 
-            this.guna2Elipse1.TargetControl = this;
-            // 
             // btnThem
             // 
             this.btnThem.BackColor = System.Drawing.Color.SteelBlue;
@@ -227,6 +223,10 @@
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = false;
             this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
+            // 
+            // guna2Elipse1
+            // 
+            this.guna2Elipse1.TargetControl = this;
             // 
             // UC_QuanLy
             // 
@@ -265,8 +265,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView dataGVThongTin;
-        private Guna.UI2.WinForms.Guna2Elipse guna2Elipse1;
         private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Button btnThem;
+        private Guna.UI2.WinForms.Guna2Elipse guna2Elipse1;
     }
 }

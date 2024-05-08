@@ -47,26 +47,33 @@ namespace QuanLyPhongKhamNhaKhoa.Account
 
         private void btnDoiMatKhau_Click(object sender, EventArgs e)
         {
-            if(txtMKHienTai.Text == CurrentUser.currentUser.Password)
+            try
             {
-                if(txtMKMoi.Text == txtNhapLaiMK.Text)
+                if (txtMKHienTai.Text == CurrentUser.currentUser.Password)
                 {
-                    CurrentUser.currentUser.Password = txtMKMoi.Text.Trim();
-                    
-                    if(userDao.changePassWord(CurrentUser.currentUser))
+                    if (txtMKMoi.Text == txtNhapLaiMK.Text)
                     {
-                        MessageBox.Show("Đổi mật khẩu thành công.", "Change Password Successfully", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Close();
+                        CurrentUser.currentUser.Password = txtMKMoi.Text.Trim();
+
+                        if (userDao.changePassWord(CurrentUser.currentUser))
+                        {
+                            MessageBox.Show("Đổi mật khẩu thành công.", "Change Password Successfully", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Mật khẩu không hợp lệ.", "Change Password Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Mật khẩu không hợp lệ.", "Change Password Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Sai mật khẩu hiện tại.", "Change Password Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Sai mật khẩu hiện tại.", "Change Password Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

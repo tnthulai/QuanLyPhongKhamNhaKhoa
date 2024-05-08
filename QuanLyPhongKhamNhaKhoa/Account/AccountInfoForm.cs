@@ -168,41 +168,54 @@ namespace QuanLyPhongKhamNhaKhoa
 
         private void layDuLieu()
         {
-            SqlCommand command = new SqlCommand("SELECT * FROM Users WHERE userID = @User");
-            command.Parameters.Add("@User", SqlDbType.VarChar).Value = userID.Trim();
-            user = userDao.getUser(command);
-            if (user == null)
+            try
             {
-                throw new InvalidExistAppointment("Lỗi hiển thị thông tin");
+                SqlCommand command = new SqlCommand("SELECT * FROM Users WHERE userID = @User");
+                command.Parameters.Add("@User", SqlDbType.VarChar).Value = userID.Trim();
+                user = userDao.getUser(command);
+                if (user == null)
+                {
+                    throw new InvalidExistAppointment("Lỗi hiển thị thông tin");
+                }
+                loadDuLieu(user);
+            } catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            loadDuLieu(user);
         }
 
         private void loadDuLieu(User user)
         {
-            lblMaNV.Text = user.UserID;
-            lblChucvu.Text = user.IsRole;
-            txtHoTen.Text = user.FullName;
-            txtCCCD.Text = user.PersionalID;
-            txtDiaChi.Text = user.Address;
-            txtEmail.Text = user.Email;
-            txtSDT.Text = user.PhoneNumber;
-            rbMale.Checked = true;
-            dateTimePickerNgSinh.Value = user.BirthDate;
-            if (user.Gender.Equals("Nữ"))
+            try
             {
-                rbFemale.Checked = true;
-            }
+                lblMaNV.Text = user.UserID;
+                lblChucvu.Text = user.IsRole;
+                txtHoTen.Text = user.FullName;
+                txtCCCD.Text = user.PersionalID;
+                txtDiaChi.Text = user.Address;
+                txtEmail.Text = user.Email;
+                txtSDT.Text = user.PhoneNumber;
+                rbMale.Checked = true;
+                dateTimePickerNgSinh.Value = user.BirthDate;
+                if (user.Gender.Equals("Nữ"))
+                {
+                    rbFemale.Checked = true;
+                }
 
-            MemoryStream picture = user.Image;
-            if (picture != null && picture.Length > 0)
-            {
-                byte[] pic = picture.ToArray();
-                picBoxImage.Image = Image.FromStream(new MemoryStream(pic));
+                MemoryStream picture = user.Image;
+                if (picture != null && picture.Length > 0)
+                {
+                    byte[] pic = picture.ToArray();
+                    picBoxImage.Image = Image.FromStream(new MemoryStream(pic));
+                }
+                else
+                {
+                    picBoxImage.Image = Image.FromFile(@"..\..\image\user.jpg");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                picBoxImage.Image = Image.FromFile(@"..\..\image\user.jpg");
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -213,11 +226,18 @@ namespace QuanLyPhongKhamNhaKhoa
 
         private void btnChonAnh_Click(object sender, EventArgs e)
         {
-            OpenFileDialog opf = new OpenFileDialog();
-            opf.Filter = "Select Image(*.jpg;*.png;*.gif)|*.jpg;*.png;*.gif";
-            if ((opf.ShowDialog() == DialogResult.OK))
+            try
             {
-                picBoxImage.Image = Image.FromFile(opf.FileName);
+                OpenFileDialog opf = new OpenFileDialog();
+                opf.Filter = "Select Image(*.jpg;*.png;*.gif)|*.jpg;*.png;*.gif";
+                if ((opf.ShowDialog() == DialogResult.OK))
+                {
+                    picBoxImage.Image = Image.FromFile(opf.FileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

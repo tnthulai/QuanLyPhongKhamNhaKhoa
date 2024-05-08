@@ -217,6 +217,7 @@
             this.Controls.Add(this.guna2ShadowPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ChangePasswordForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ChangePasswordForm";
             this.Load += new System.EventHandler(this.ChangePasswordForm_Load);
             this.guna2ShadowPanel1.ResumeLayout(false);

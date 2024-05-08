@@ -13,40 +13,6 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
     {
         SQLConnectionData mydb = new SQLConnectionData();
         Service service = new Service();
-        private Random random = new Random();
-
-        public string taoMaService()
-        {
-            const string chars = "0123456789";
-            string result;
-            do
-            {
-                string randomPart = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
-                result = $"SERV{randomPart}";
-            } while (existService(result));
-            return result;
-        }
-        public bool existService(string id)
-        {
-            try
-            {
-                mydb.openConnection();
-                SqlCommand command = new SqlCommand("SELECT * FROM Service WHERE serviceID = @serviceID", mydb.getConnection);
-                command.Parameters.Add("@serviceID", SqlDbType.VarChar).Value = id;
-                var result = command.ExecuteReader();
-                if (result.HasRows)
-                {
-                    mydb.closeConnection();
-                    return true;
-                }
-                mydb.closeConnection();
-                return false;
-            }
-            catch
-            {
-                return true;
-            }
-        }
 
         public DataTable getService(SqlCommand command)
         {
@@ -99,5 +65,40 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
                 return false;
             }
         }
+        private Random random = new Random();
+
+        public string taoMaService()
+        {
+            const string chars = "0123456789";
+            string result;
+            do
+            {
+                string randomPart = new string(Enumerable.Repeat(chars, 6).Select(s => s[random.Next(s.Length)]).ToArray());
+                result = $"SERV{randomPart}";
+            } while (existService(result));
+            return result;
+        }
+        public bool existService(string id)
+        {
+            try
+            {
+                mydb.openConnection();
+                SqlCommand command = new SqlCommand("SELECT * FROM Service WHERE serviceID = @serviceID", mydb.getConnection);
+                command.Parameters.Add("@serviceID", SqlDbType.VarChar).Value = id;
+                var result = command.ExecuteReader();
+                if (result.HasRows)
+                {
+                    mydb.closeConnection();
+                    return true;
+                }
+                mydb.closeConnection();
+                return false;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+
     }
 }

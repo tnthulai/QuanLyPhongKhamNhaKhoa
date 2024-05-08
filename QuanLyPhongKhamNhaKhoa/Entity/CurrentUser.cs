@@ -12,10 +12,11 @@ namespace QuanLyPhongKhamNhaKhoa.Entity
         public static User currentUser { get; set; }
         static CurrentUser()
         {
-            string imagePath = "../../image/visible.png";
+            string imagePath = "E:/SPKT/NAM3_HK2/WinForm/Lù/image/visible.png";
             byte[] pic = File.ReadAllBytes(imagePath);
             MemoryStream picture;
             picture = new MemoryStream(pic);
+
             // Khởi tạo một đối tượng User mặc định
             currentUser = new User
             {
@@ -31,8 +32,6 @@ namespace QuanLyPhongKhamNhaKhoa.Entity
                 Password = "password",
                 Image = picture
             };
-
-
         }
     }
 }

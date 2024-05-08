@@ -102,7 +102,24 @@ namespace QuanLyPhongKhamNhaKhoa.Dao
                 return false;
             }
         }
+        public bool updateStatusAppointment(string appointmentID, string status)
+        {
+            SqlCommand command = new SqlCommand("UPDATE Appointment SET status=@status WHERE appointmentID=@appointmentID", mydb.getConnection);
+            command.Parameters.Add("@status", SqlDbType.NVarChar).Value = status;
+            command.Parameters.Add("@appointmentID", SqlDbType.VarChar).Value = appointmentID;
+            mydb.openConnection();
 
+            if (command.ExecuteNonQuery() == 1)
+            {
+                mydb.closeConnection();
+                return true;
+            }
+            else
+            {
+                mydb.closeConnection();
+                return false;
+            }
+        }
         public bool updateAppointment(Appointment appointment)
         {
             SqlCommand command = new SqlCommand("UPDATE Appointment SET patientsID=@patientsID, userID=@userID, appointmentDate=@appointmentDate," +

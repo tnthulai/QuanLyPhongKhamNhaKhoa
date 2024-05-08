@@ -1,5 +1,6 @@
 ﻿using QuanLyPhongKhamNhaKhoa.Dao;
 using QuanLyPhongKhamNhaKhoa.Entity;
+using QuanLyPhongKhamNhaKhoa.Report_File;
 using QuanLyPhongKhamNhaKhoa.Validation;
 using System;
 using System.Data;
@@ -239,9 +240,7 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
             }
         }
 
-        private void btnXoaBN_Click(object sender, EventArgs e)
-        {
-            try
+        /*try
             {
                 string patientsID = txtMaBN.Text.Trim();
                 if (!patientsDao.existPatients(patientsID))
@@ -267,16 +266,21 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
             catch (Exception ex)
             {
                 MessageBox.Show("ERROR: " + ex.Message, "Delete Patient", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
+            }*/
         private void btnChonAnh_Click(object sender, EventArgs e)
         {
-            OpenFileDialog opf = new OpenFileDialog();
-            opf.Filter = "Select Image(*.jpg;*.png;*.gif)|*.jpg;*.png;*.gif";
-            if ((opf.ShowDialog() == DialogResult.OK))
+            try
             {
-                picBoxImage.Image = Image.FromFile(opf.FileName);
+                OpenFileDialog opf = new OpenFileDialog();
+                opf.Filter = "Select Image(*.jpg;*.png;*.gif)|*.jpg;*.png;*.gif";
+                if ((opf.ShowDialog() == DialogResult.OK))
+                {
+                    picBoxImage.Image = Image.FromFile(opf.FileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -286,14 +290,35 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
         }
         public void timKiem()
         {
-            SqlCommand command = new SqlCommand("SELECT * FROM Patients WHERE patientsID LIKE @timKiem OR fullName LIKE @timKiem OR persionalID LIKE @timKiem OR " +
+            try
+            {
+                SqlCommand command = new SqlCommand("SELECT * FROM Patients WHERE patientsID LIKE @timKiem OR fullName LIKE @timKiem OR persionalID LIKE @timKiem OR " +
                 "phoneNumber LIKE @timKiem ");
-            command.Parameters.Add("@timKiem", SqlDbType.NVarChar).Value = "%" + txtTimKiem.Text.Trim() + "%";
-            fillGrid(command);
+                command.Parameters.Add("@timKiem", SqlDbType.NVarChar).Value = "%" + txtTimKiem.Text.Trim() + "%";
+                fillGrid(command);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void btnXuatDuLieu_Click(object sender, EventArgs e)
         {
+            SQLConnectionData mydb = new SQLConnectionData();
+            ReportFile report = new ReportFile();
+            report.reportpath = "E:\\SPKT\\NAM3_HK2\\WinForm\\Lù\\FinalProject\\QuanLyPhongKhamNhaKhoa\\Report_File\\ReportBenhNhan.rdlc";
+            report.dataset = "DataSetBenhNhan";
 
+            SqlCommand command = new SqlCommand();
+            command.Connection = mydb.getConnection;
+
+            command.CommandText = "SELECT patientsID, fullName, gender, birthDate, persionalID, phoneNumber, address  FROM Patients";
+            command.Connection = mydb.getConnection;
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+            report.dataTable = table;
+            report.ShowDialog();
         }
 
         private void UC_BenhNhan_Load(object sender, EventArgs e)
@@ -365,11 +390,6 @@ namespace QuanLyPhongKhamNhaKhoa.User_Control
             {
                 e.Handled = true;
             }
-        }
-
-        private void btnCamera_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

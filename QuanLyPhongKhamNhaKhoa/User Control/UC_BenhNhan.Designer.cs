@@ -52,21 +52,16 @@
             this.dataPatient = new System.Windows.Forms.DataGridView();
             this.label10 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnXoaNV = new System.Windows.Forms.PictureBox();
             this.btnSuaNV = new System.Windows.Forms.PictureBox();
             this.btnThemNV = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.picBoxCapture = new System.Windows.Forms.PictureBox();
-            this.btnCamera = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataPatient)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnXoaNV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSuaNV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnThemNV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxCapture)).BeginInit();
             this.SuspendLayout();
             // 
             // guna2Elipse1
@@ -81,7 +76,7 @@
             this.btnChonAnh.Location = new System.Drawing.Point(1052, 240);
             this.btnChonAnh.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnChonAnh.Name = "btnChonAnh";
-            this.btnChonAnh.Size = new System.Drawing.Size(94, 38);
+            this.btnChonAnh.Size = new System.Drawing.Size(188, 38);
             this.btnChonAnh.TabIndex = 62;
             this.btnChonAnh.Text = "Chọn Ảnh";
             this.btnChonAnh.UseVisualStyleBackColor = false;
@@ -333,17 +328,6 @@
             this.label1.TabIndex = 36;
             this.label1.Text = "Bệnh Nhân";
             // 
-            // btnXoaNV
-            // 
-            this.btnXoaNV.Image = global::QuanLyPhongKhamNhaKhoa.Properties.Resources.xoa;
-            this.btnXoaNV.Location = new System.Drawing.Point(361, 292);
-            this.btnXoaNV.Name = "btnXoaNV";
-            this.btnXoaNV.Size = new System.Drawing.Size(38, 37);
-            this.btnXoaNV.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.btnXoaNV.TabIndex = 75;
-            this.btnXoaNV.TabStop = false;
-            this.btnXoaNV.Click += new System.EventHandler(this.btnXoaBN_Click);
-            // 
             // btnSuaNV
             // 
             this.btnSuaNV.Image = global::QuanLyPhongKhamNhaKhoa.Properties.Resources.save;
@@ -389,39 +373,11 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.btnTimKiem_Click);
             // 
-            // picBoxCapture
-            // 
-            this.picBoxCapture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picBoxCapture.Location = new System.Drawing.Point(1247, 62);
-            this.picBoxCapture.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.picBoxCapture.Name = "picBoxCapture";
-            this.picBoxCapture.Size = new System.Drawing.Size(189, 172);
-            this.picBoxCapture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBoxCapture.TabIndex = 80;
-            this.picBoxCapture.TabStop = false;
-            // 
-            // btnCamera
-            // 
-            this.btnCamera.BackColor = System.Drawing.Color.SteelBlue;
-            this.btnCamera.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCamera.ForeColor = System.Drawing.Color.White;
-            this.btnCamera.Location = new System.Drawing.Point(1147, 240);
-            this.btnCamera.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btnCamera.Name = "btnCamera";
-            this.btnCamera.Size = new System.Drawing.Size(94, 38);
-            this.btnCamera.TabIndex = 81;
-            this.btnCamera.Text = "Camera";
-            this.btnCamera.UseVisualStyleBackColor = false;
-            this.btnCamera.Click += new System.EventHandler(this.btnCamera_Click);
-            // 
             // UC_BenhNhan
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnCamera);
-            this.Controls.Add(this.picBoxCapture);
             this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.btnXoaNV);
             this.Controls.Add(this.btnSuaNV);
             this.Controls.Add(this.btnThemNV);
             this.Controls.Add(this.pictureBox1);
@@ -453,12 +409,10 @@
             this.Load += new System.EventHandler(this.UC_BenhNhan_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picBoxImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataPatient)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnXoaNV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSuaNV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnThemNV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxCapture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -488,12 +442,9 @@
         private System.Windows.Forms.DataGridView dataPatient;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox btnXoaNV;
         private System.Windows.Forms.PictureBox btnSuaNV;
         private System.Windows.Forms.PictureBox btnThemNV;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Button btnCamera;
-        private System.Windows.Forms.PictureBox picBoxCapture;
     }
 }
